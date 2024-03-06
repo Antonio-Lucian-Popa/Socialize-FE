@@ -23,8 +23,8 @@
     <swiper-container [config]="swiperConfig">
       <!-- Directly iterate over images with swiper-slide -->
       <swiper-slide *ngFor="let image of post.images">
-        <div class="flex justify-center items-center h-64 bg-gray-200">
-          <img [src]="image" [alt]="post.description" class="max-h-full max-w-full object-cover">
+        <div class="flex justify-center items-center w-full h-64 overflow-hidden bg-gray-200">
+          <img [src]="image" [alt]="post.description" class="max-w-full max-h-full object-cover">
         </div>
       </swiper-slide>
     </swiper-container>
@@ -32,24 +32,21 @@
 
 
   <div class="px-4 py-2">
-    <div class="flex items-center">
+    <div class="flex items-center action-user">
       <button type="button" class="margin-right-heart-btn">
         <!-- Insert heart icon here -->
-        <mat-icon class="material-symbols-outlined">
-          favorite
-        </mat-icon>
+        <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost(post)"></i>
+        <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost(post)"></i>
       </button>
       <button type="button">
         <!-- Insert comment icon here -->
-        <mat-icon class="material-symbols-outlined">
-          chat
-        </mat-icon>
+        <i class="fa-regular fa-comment"></i>
       </button>
       <!-- <button type="button" class="ml-auto"> -->
       <!-- Insert share icon here -->
       <!-- </button> -->
     </div>
-    <div class="mt-2">
+    <div class="mt-2 likes-dialog-btn" (click)="openLikesDialog(post)">
       <span class="font-semibold">Liked by {{post.likes[0].user.firstName}} and {{post.likes.length}} others</span>
     </div>
     <div class="mt-2 text-sm text-gray-700">

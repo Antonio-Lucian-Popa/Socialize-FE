@@ -1,0 +1,39 @@
+<div class="likes-dialog p-4 max-w-md mx-auto relative">
+  <div class="flex justify-between items-center">
+    <!-- Dialog Title -->
+    <div class="text-lg font-semibold text-gray-900">
+      Likes
+    </div>
+    <!-- Close Button -->
+    <button class="inline-flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full hover:bg-gray-300" (click)="closeDialog()">
+      <mat-icon class="text-gray-800">close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Line Divider -->
+  <div class="my-4 border-b border-gray-200"></div>
+
+  <!-- Likes List -->
+  <div class="flex flex-col space-y-2 overflow-y-auto" style="max-height: 300px;">
+    <div *ngFor="let like of displayedLikes" class="flex items-center justify-between">
+      <!-- User Info and Avatar -->
+      <div class="flex items-center space-x-3">
+        <img src="{{ like.user.image }}" alt="{{ like.user.firstName }}'s Avatar" class="w-10 h-10 rounded-full object-cover">
+        <div class="text-sm font-medium">
+          {{ like.user.firstName }} {{ like.user.lastName }}
+        </div>
+      </div>
+      <!-- Follow/Unfollow Button -->
+      <button (click)="toggleFollow(like.user)" class="px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full hover:bg-blue-600">
+        {{ like.user.isFollowing ? 'Unfollow' : 'Follow' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Load More Button -->
+  <div class="text-center mt-4" *ngIf="displayedLikes.length < likes.length">
+    <span (click)="loadMoreLikes()" class="mt-4 cursor-pointer text-blue-600 hover:text-blue-800 hover:underline">
+      Load More
+    </span>
+  </div>
+</div>

@@ -8,11 +8,14 @@ import { PostListComponent } from './post-list/post-list.component';
 import { PostComponent } from './post-list/post/post.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import { LikePostModalComponent } from './like-post-modal/like-post-modal.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 const NB_MODULES: any[] = [
   MatCardModule,
   MatIconModule,
-  MatMenuModule
+  MatMenuModule,
+  MatDialogModule
 ];
 
 const COMPONENTS: any[] = [
@@ -25,6 +28,7 @@ const COMPONENTS: any[] = [
 @NgModule({
   declarations: [
     ...COMPONENTS,
+    LikePostModalComponent,
   ],
   imports: [
     CommonModule,
