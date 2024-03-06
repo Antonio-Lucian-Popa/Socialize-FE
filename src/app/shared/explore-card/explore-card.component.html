@@ -1,0 +1,23 @@
+<div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white mt-5">
+  <div class="px-6 py-4">
+    <div class="flex justify-between items-center">
+      <div class="font-bold text-xl mb-2">Explore</div>
+      <div class="text-right text-indigo-600 cursor-pointer">See all</div>
+    </div>
+    <div class="flex mb-4">
+      <!-- Active tab has bg-indigo-600 text-white, inactive has text-gray-600 -->
+      <div class="bg-indigo-600 text-white py-1 px-3 rounded-l-lg cursor-pointer">Product</div>
+      <div class="text-gray-600 py-1 px-3 cursor-pointer">Website</div>
+      <div class="text-gray-600 py-1 px-3 rounded-r-lg cursor-pointer">Illustration</div>
+    </div>
+  </div>
+  <div class="px-4 pb-4">
+    <div class="grid grid-cols-2 gap-2" *ngIf="exploreImages">
+      <!-- Use 'object-cover' to ensure images maintain their aspect ratio and cover the container -->
+      <div class="bg-gray-300 h-20 rounded-lg overflow-hidden" *ngFor="let image of exploreImages">
+        <img class="w-full h-full object-cover" [src]="image.image" [alt]="image.description">
+      </div>
+    </div>
+
+  </div>
+</div>
