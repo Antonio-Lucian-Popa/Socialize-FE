@@ -1,0 +1,27 @@
+<!-- comments-dialog.component.html -->
+<div class="comments-dialog p-4 max-w-md mx-auto relative" style="height: 80vh;">
+  <div class="flex justify-between items-center">
+    <h3 class="text-lg font-semibold">Comments</h3>
+    <button class="inline-flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full hover:bg-gray-300" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="my-4 border-b border-gray-200"></div>
+
+  <!-- Lista dei commenti con spazio per l'input fisso in basso -->
+  <div class="overflow-y-auto pt-2" style="height: calc(80vh - 176px);">
+    <!-- Utilizzo del componente CommentItem per ogni commento -->
+    <div *ngFor="let comment of comments" class="pt-2">
+      <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)"></app-comment-item>
+    </div>
+  </div>
+
+  <!-- Input commento fissato in basso -->
+  <div class="absolute bottom-0 left-0 w-full px-4 py-2 bg-white border-t border-gray-200">
+    <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="flex items-center">
+      <input type="text" formControlName="commentText" class="flex-1 rounded-full border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Add a comment..." required>
+      <button type="submit" class="ml-4 text-blue-500">Post</button>
+    </form>
+  </div>
+</div>

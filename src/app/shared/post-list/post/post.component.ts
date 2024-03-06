@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LikePostModalComponent } from '../../like-post-modal/like-post-modal.component';
+import { CommentPostModalComponent } from '../../comment-post-modal/comment-post-modal.component';
 
 
 @Component({
@@ -32,6 +33,13 @@ export class PostComponent implements OnInit {
     this.dialog.open(LikePostModalComponent, {
       width: '500px',
       data: {likes: post.likes}
+    });
+  }
+
+  openCommentDialog(post: any): void {
+    this.dialog.open(CommentPostModalComponent, {
+      width: '500px',
+      data: {post: post}
     });
   }
 

@@ -1,0 +1,15 @@
+<!-- comment-item.component.html -->
+<div>
+  <div class="flex items-start space-x-3 mb-2">
+      <img [src]="comment.user.image" alt="{{ comment.user.firstName }}'s Avatar" class="w-8 h-8 rounded-full object-cover">
+      <div class="flex-1">
+          <h4 class="font-semibold text-sm">{{ comment.user.firstName }} {{ comment.user.lastName }}</h4>
+          <p class="text-sm">{{ comment.value }}</p>
+          <button class="text-xs text-gray-500 mt-2" (click)="reply.emit(comment)">Reply</button>
+      </div>
+  </div>
+  <!-- Modifica qui: Passa un valore fisso per depth ai subcommenti per evitare ulteriore indentazione -->
+  <div *ngFor="let subcomment of comment.subcomments" [ngClass]="{'ml-6': depth === 0, 'ml-0': depth > 0}">
+      <app-comment-item [comment]="subcomment" [depth]="depth + 1" (reply)="reply.emit($event)"></app-comment-item>
+  </div>
+</div>

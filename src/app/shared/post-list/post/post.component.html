@@ -38,7 +38,7 @@
         <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost(post)"></i>
         <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost(post)"></i>
       </button>
-      <button type="button">
+      <button type="button" (click)="openCommentDialog(post)">
         <!-- Insert comment icon here -->
         <i class="fa-regular fa-comment"></i>
       </button>
