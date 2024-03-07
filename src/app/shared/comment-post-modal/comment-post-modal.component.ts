@@ -93,6 +93,7 @@ export class CommentPostModalComponent implements OnInit {
 
   closeDialog(): void {
     // Close the dialog. Implement dialog close logic here, likely using MatDialogRef
+    this.dialogRef.close();
   }
 
   prepareReply(comment: any): void {

@@ -13,6 +13,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { CommentPostModalComponent } from './comment-post-modal/comment-post-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommentItemComponent } from './comment-post-modal/comment-item/comment-item.component';
+import { StoryListComponent } from './story-list/story-list.component';
+import { PostInputComponent } from './post-input/post-input.component';
+import { CreatePostModalComponent } from './post-input/create-post-modal/create-post-modal.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -26,7 +29,9 @@ const COMPONENTS: any[] = [
   ActivityCardComponent,
   ExploreCardComponent,
   PostListComponent,
-  PostComponent
+  PostComponent,
+  StoryListComponent,
+  PostInputComponent
 ];
 
 @NgModule({
@@ -35,6 +40,7 @@ const COMPONENTS: any[] = [
     LikePostModalComponent,
     CommentPostModalComponent,
     CommentItemComponent,
+    CreatePostModalComponent,
   ],
   imports: [
     CommonModule,

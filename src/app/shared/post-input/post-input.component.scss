@@ -1,0 +1,43 @@
+/* create-post.component.scss */
+.create-post-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  width: 50%;
+}
+
+.user-avatar {
+  width: 40px; /* Or your desired size */
+  height: 40px; /* Or your desired size */
+  border-radius: 50%; /* Makes the image round */
+  object-fit: cover;
+}
+
+.post-textarea {
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #ccd0d5;
+  border-radius: 16px;
+  resize: vertical; /* Allows the user to resize the textarea vertically */
+  width: 80%;
+}
+
+.submit-post-btn {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: darken(#4267B2, 10%);
+  }
+}
+
+.post-textarea {
+  outline: none;
+}
