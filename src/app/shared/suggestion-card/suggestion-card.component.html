@@ -1,0 +1,22 @@
+<div class="suggested-card bg-white rounded-lg p-4 shadow w-80">
+  <div class="header flex justify-between items-center mb-4">
+    <h3 class="text-lg font-semibold text-gray-900">Suggested For You</h3>
+    <button class="see-all-btn text-indigo-500 text-sm">See all</button>
+  </div>
+
+  <div class="suggestions">
+    <!-- This will be repeated for each suggested user -->
+    <div class="suggestion flex items-center justify-between mb-3" *ngFor="let user of suggestedUsers">
+      <div class="user-info flex items-center">
+        <img src="{{user.image}}" alt="{{user.firstName}}" class="avatar rounded-full mr-3">
+        <div>
+          <p class="username font-semibold mb-o">{{user.firstName}} {{user.lastName}}</p>
+          <p class="recommendation text-sm text-gray-500 mb-o">{{user.recommendation}}</p>
+        </div>
+      </div>
+      <button class="follow-btn text-indigo-500">
+        <i class="fa-solid fa-user-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>
