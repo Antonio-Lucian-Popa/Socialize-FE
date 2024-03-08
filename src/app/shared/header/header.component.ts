@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { debounceTime, filter } from 'rxjs';
 
 @Component({
@@ -15,7 +16,9 @@ export class HeaderComponent implements OnInit {
 
   showDropdownUser: boolean = false;
 
-  constructor() { }
+  isNotificationCardOpened: boolean = false;
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.searchControl.valueChanges
@@ -36,6 +39,20 @@ export class HeaderComponent implements OnInit {
 
   toggleDropdown(): void {
     this.showDropdownUser = !this.showDropdownUser;
+  }
+
+  toggleNotificationCard(): void {
+    this.isNotificationCardOpened = !this.isNotificationCardOpened;
+  }
+
+  openUserProfile(): void {
+    console.log('Opening user profile...');
+    // TODOO: retreive from auth service the user id from token
+    this.router.navigate(['/user-profile', '123']);
+  }
+
+  goToHomePage(): void {
+    this.router.navigate(['/home']);
   }
 
 }

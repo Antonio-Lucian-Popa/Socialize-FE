@@ -1,0 +1,121 @@
+/* user-profile-card.component.scss */
+.profile-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 19rem;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+ // margin: -50px auto 0;
+  border: 3px solid #fff;
+ // position: relative;
+ // top: -50px;
+}
+
+.profile-name {
+  margin-top: 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.profile-username {
+  color: #666;
+  font-size: 1rem;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-value {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .stat-key {
+    font-size: 0.78rem;
+    color: #666;
+  }
+}
+
+
+/* user-info-card.component.scss */
+.user-info-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: Arial, sans-serif; // Use your desired font
+  width: 19rem;
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .icon {
+      margin-right: 0.5rem;
+      // Style your icons here
+    }
+
+    .label {
+      font-weight: bold;
+      margin-right: 0.25rem;
+    }
+
+    .value {
+      // Style for the value text
+    }
+  }
+
+  .divider {
+    border-top: 1px solid #555; // Lighter line for the divider
+  }
+
+  .interests {
+    display: flex;
+    flex-wrap: wrap;
+
+    .interest {
+      background: #4267B2; // Slightly lighter background for tags
+      color: #fff;
+      padding: 0.25rem 0.5rem;
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+      border-radius: 4px;
+    }
+  }
+}
+
+.center{
+  overflow-x: hidden;
+}
+
+.left {
+  overflow: hidden;
+}
+
+
+.left, .right {
+  position: sticky;
+  top: 64px; /* Adjust this value based on your header's height */
+  align-self: flex-start; /* Align to the top of the container */
+  height: 100vh;
+ // overflow-y: auto; /* Allows scrolling within the column */
+}
+
+.center {
+  flex: 1;
+  min-width: 0; /* Prevent flex items from overflowing */
+}

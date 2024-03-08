@@ -1,0 +1,17 @@
+<!-- who-to-follow-card.component.html -->
+<div class="who-to-follow-card bg-white rounded-lg p-4 shadow">
+  <h3 class="text-lg font-semibold mb-4">Who to follow</h3>
+  <ul class="follow-list">
+    <li class="follow-item flex items-center justify-between mb-3" *ngFor="let person of peopleToFollow">
+      <div class="user-info flex items-center">
+        <img [src]="person.image" alt="{{ person.firstName }}" class="user-avatar mr-3">
+        <div>
+          <h4 class="user-name mb-0">{{ person.firstName }} {{ person.lastName }}</h4>
+          <!-- <p class="user-handle mb-0">@{{ person.handle }}</p> -->
+        </div>
+      </div>
+      <button class="follow-btn" (click)="followPerson(person)">Follow</button>
+    </li>
+  </ul>
+  <button class="view-more-btn mt-4">View more</button>
+</div>

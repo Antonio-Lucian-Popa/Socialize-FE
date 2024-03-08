@@ -11,13 +11,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
+import { UserProfileComponent } from './features/user-profile/user-profile.component';
 // register Swiper custom elements
 register();
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

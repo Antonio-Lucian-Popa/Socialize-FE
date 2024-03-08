@@ -1,0 +1,62 @@
+<div class="d-flex align-items-start justify-between pt-5 pb-5 mb-5">
+  <div class="left">
+    <!-- user-profile-card.component.html -->
+    <div class="profile-card bg-white rounded-lg p-4 text-center shadow">
+      <img src="{{ user.image }}" alt="{{ user.firstName }}" class="profile-avatar mx-auto">
+      <h3 class="profile-name">{{ user.firstName }} {{ user.lastName }}</h3>
+      <!-- <p class="profile-username">@{{ user.username }}</p> -->
+      <div class="profile-stats mt-4 flex justify-center space-x-6">
+        <div class="stat">
+          <span class="stat-value">{{ user.followers }}</span>
+          <span class="stat-key">Followers</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ user.following }}</span>
+          <span class="stat-key">Following</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ user.posts }}</span>
+          <span class="stat-key">Posts</span>
+        </div>
+      </div>
+      <div class="container-user-actions d-flex align-items-center justify-center mt-2" *ngIf="!isMyProfile">
+        <button class="btn btn-primary mr-2">Follow</button>
+        <button class="btn btn-secondary">Message</button>
+      </div>
+    </div>
+
+    <!-- user-info-card.component.html -->
+    <div class="user-info-card bg-white rounded-lg shadow p-4 mt-4">
+      <div class="info-item mb-3">
+        <i class="fa fa-user icon"></i>
+        <span class="label">Lives in</span>
+        <span class="value">{{ user.location }}</span>
+      </div>
+
+      <div class="info-item mb-3">
+        <i class="fa fa-align-left icon"></i>
+        <span class="value">{{ user.bio }}</span>
+      </div>
+
+      <!-- Add more info items as needed -->
+      <!-- ... -->
+
+      <hr class="divider my-3">
+
+      <div class="info-label mb-2">Interests</div>
+      <div class="interests">
+        <!-- List user interests -->
+        <span class="interest" *ngFor="let interest of user.interests">{{ interest }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="center">
+    <app-post-input class="d-flex align-items-center justify-content-center" *ngIf="isMyProfile"></app-post-input>
+    <app-post-list></app-post-list>
+  </div>
+  <div class="right">
+    <app-who-follow-card></app-who-follow-card>
+  </div>
+</div>

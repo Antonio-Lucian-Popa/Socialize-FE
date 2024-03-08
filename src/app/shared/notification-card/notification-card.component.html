@@ -1,0 +1,33 @@
+<!-- notifications-card.component.html -->
+<div class="notifications-card bg-white rounded-lg p-4 shadow-lg">
+  <div class="card-header flex justify-between items-center mb-4">
+    <h3 class="text-lg font-semibold">Notifications</h3>
+    <button class="close-btn">✖️</button>
+  </div>
+
+  <div class="tabs flex justify-between mb-3">
+    <span class="tab">All {{notifications.length}}</span>
+    <span class="tab">Following 5</span>
+    <span class="tab">Archive 12</span>
+  </div>
+
+  <div class="notifications-list pt-3">
+    <!-- Repeat for each notification -->
+    <div class="notification flex items-center justify-between mb-3" *ngFor="let notification of notifications">
+      <div class="flex items-center">
+        <img [src]="notification.user.image" alt="User Avatar" class="user-avatar mr-3">
+        <div>
+          <p class="notification-message font-semibold mb-0">{{notification.user.firstName}} {{notification.user.lastName}} {{notification.message}}</p>
+          <p class="notification-date text-gray-600 mb-0">{{notification.date}}</p>
+        </div>
+      </div>
+      <span class="notification-indicator bg-red-500 rounded-full"></span>
+    </div>
+    <!-- Repeat other notifications -->
+  </div>
+
+  <div class="card-footer flex justify-between items-center mt-4">
+    <button class="mark-read-btn">Mark all as read</button>
+    <button class="view-all-btn">View all notifications</button>
+  </div>
+</div>

@@ -17,6 +17,8 @@ import { StoryListComponent } from './story-list/story-list.component';
 import { PostInputComponent } from './post-input/post-input.component';
 import { CreatePostModalComponent } from './post-input/create-post-modal/create-post-modal.component';
 import { SuggestionCardComponent } from './suggestion-card/suggestion-card.component';
+import { WhoFollowCardComponent } from './who-follow-card/who-follow-card.component';
+import { NotificationCardComponent } from './notification-card/notification-card.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -33,7 +35,9 @@ const COMPONENTS: any[] = [
   PostComponent,
   StoryListComponent,
   PostInputComponent,
-  SuggestionCardComponent
+  SuggestionCardComponent,
+  WhoFollowCardComponent,
+  NotificationCardComponent
 ];
 
 @NgModule({
