@@ -42,7 +42,8 @@ export class PostListComponent implements OnInit {
           }
         }
       ],
-      numberOfComments: 12, // TODO: Fetch comments from API when user clicks on comments
+      numberOfComments: 12, // TODO: Fetch comments from API when user clicks on comments,
+      createdAt: new Date()
     },
     {
       id: 32,
@@ -78,7 +79,8 @@ export class PostListComponent implements OnInit {
           }
         }
       ],
-      numberOfComments: 30, // TODO: Fetch comments from API when user clicks on comments
+      numberOfComments: 30, // TODO: Fetch comments from API when user clicks on comments,
+      createdAt: new Date()
     },
     {
       id: 32,
@@ -110,7 +112,8 @@ export class PostListComponent implements OnInit {
           }
         }
       ],
-      numberOfComments: 30, // TODO: Fetch comments from API when user clicks on comments
+      numberOfComments: 30, // TODO: Fetch comments from API when user clicks on comments,
+      createdAt: new Date()
     }
   ];
 

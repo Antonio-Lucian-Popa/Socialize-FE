@@ -2,7 +2,12 @@
   <div class="px-4 py-2">
     <div class="flex items-center">
       <img class="h-8 w-8 rounded-full object-cover mr-2" [src]="post.user.image" [alt]="post.user.firstName">
-      <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
+      <div class="d-flex flex-column align-items-start justify-contemt-start">
+        <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
+        <div class="post-footer text-gray-600 text-sm flex justify-between">
+          <span>{{ post.createdAt | date: 'medium' }}</span>
+        </div>
+      </div>
       <!-- <div class="text-xs text-gray-500 ml-auto">New York City, NY</div> -->
       <div class="ml-auto text-sm text-gray-600">
         <button mat-button [matMenuTriggerFor]="menu">
@@ -19,15 +24,15 @@
   </div>
   <!-- <img class="w-full" [src]="post.image" [alt]="post.description"> -->
 
-    <!-- Swiper Container -->
-    <swiper-container [config]="swiperConfig">
-      <!-- Directly iterate over images with swiper-slide -->
-      <swiper-slide *ngFor="let image of post.images">
-        <div class="flex justify-center items-center w-full h-64 overflow-hidden bg-gray-200">
-          <img [src]="image" [alt]="post.description" class="max-w-full max-h-full object-cover">
-        </div>
-      </swiper-slide>
-    </swiper-container>
+  <!-- Swiper Container -->
+  <swiper-container [config]="swiperConfig">
+    <!-- Directly iterate over images with swiper-slide -->
+    <swiper-slide *ngFor="let image of post.images">
+      <div class="flex justify-center items-center w-full h-64 overflow-hidden bg-gray-200">
+        <img [src]="image" [alt]="post.description" class="max-w-full max-h-full object-cover">
+      </div>
+    </swiper-slide>
+  </swiper-container>
 
 
 
@@ -58,12 +63,18 @@
 </div>
 
 <!-- text-post.component.html -->
-<div class="max-w-md mx-auto overflow-hidden text-post bg-white rounded-lg p-4 shadow-md mb-4 mt-5" *ngIf="post.images.length === 0">
+<div class="max-w-md mx-auto overflow-hidden text-post bg-white rounded-lg p-4 shadow-md mb-4 mt-5"
+  *ngIf="post.images.length === 0">
   <div class="post-header flex items-center mb-3">
     <!-- User Avatar -->
     <img [src]="post.user.image" alt="{{ post.user.firstName }}" class="h-8 w-8 rounded-full object-cover mr-2">
     <div class="flex items-center justify-between w-100">
-      <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
+      <div class="d-flex flex-column align-items-start justify-contemt-start">
+        <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
+        <div class="post-footer text-gray-600 text-sm flex justify-between">
+          <span>{{ post.createdAt | date: 'medium' }}</span>
+        </div>
+      </div>
       <div class="ml-auto text-sm text-gray-600">
         <button mat-button [matMenuTriggerFor]="menu">
           <mat-icon class="material-symbols-outlined">
@@ -82,6 +93,7 @@
   <div class="post-body">
     <p class="post-content">{{ post.description }}</p>
   </div>
+
 
   <div class="">
     <div class="flex items-center action-user">
