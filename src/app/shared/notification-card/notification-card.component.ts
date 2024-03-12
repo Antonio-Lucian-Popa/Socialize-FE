@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-notification-card',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notification-card.component.scss']
 })
 export class NotificationCardComponent implements OnInit {
+
+  @Output() isClosed = new EventEmitter<boolean>();
 
   notifications = [
     {
@@ -24,6 +26,10 @@ export class NotificationCardComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO: Fetch notifications from a service
+  }
+
+  closeNotificationCard(): void {
+    this.isClosed.emit(true);
   }
 
 }

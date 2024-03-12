@@ -1,4 +1,4 @@
-<div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-5">
+<div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-5" *ngIf="post.images.length > 0">
   <div class="px-4 py-2">
     <div class="flex items-center">
       <img class="h-8 w-8 rounded-full object-cover mr-2" [src]="post.user.image" [alt]="post.user.firstName">
@@ -52,6 +52,54 @@
     <div class="mt-2 text-sm text-gray-700">
       <span class="font-semibold">{{post.user.firstName}} {{post.user.lastName}} </span>
       {{post.description}}
+    </div>
+    <!-- Additional post content goes here -->
+  </div>
+</div>
+
+<!-- text-post.component.html -->
+<div class="max-w-md mx-auto overflow-hidden text-post bg-white rounded-lg p-4 shadow-md mb-4 mt-5" *ngIf="post.images.length === 0">
+  <div class="post-header flex items-center mb-3">
+    <!-- User Avatar -->
+    <img [src]="post.user.image" alt="{{ post.user.firstName }}" class="h-8 w-8 rounded-full object-cover mr-2">
+    <div class="flex items-center justify-between w-100">
+      <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
+      <div class="ml-auto text-sm text-gray-600">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon class="material-symbols-outlined">
+            more_horiz
+          </mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+      </div>
+      <!-- <p class="user-handle text-gray-500 mb-0">@{{ post.user.handle }}</p> -->
+    </div>
+  </div>
+
+  <div class="post-body">
+    <p class="post-content">{{ post.description }}</p>
+  </div>
+
+  <div class="">
+    <div class="flex items-center action-user">
+      <button type="button" class="margin-right-heart-btn">
+        <!-- Insert heart icon here -->
+        <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost(post)"></i>
+        <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost(post)"></i>
+      </button>
+      <button type="button" (click)="openCommentDialog(post)">
+        <!-- Insert comment icon here -->
+        <i class="fa-regular fa-comment"></i>
+      </button>
+      <!-- <button type="button" class="ml-auto"> -->
+      <!-- Insert share icon here -->
+      <!-- </button> -->
+    </div>
+    <div class="mt-2 likes-dialog-btn" (click)="openLikesDialog(post)">
+      <span class="font-semibold">Liked by {{post.likes[0].user.firstName}} and {{post.likes.length}} others</span>
     </div>
     <!-- Additional post content goes here -->
   </div>

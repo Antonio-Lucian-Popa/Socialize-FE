@@ -11,3 +11,50 @@
     font-size: 1.2rem;
   }
 }
+
+
+
+//// post without images /////
+/// /* text-post.component.scss */
+.text-post {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  font-family: Arial, sans-serif;
+
+  .post-header {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 0.75rem;
+    }
+
+    .user-name {
+      font-weight: bold;
+    }
+
+    .user-handle {
+      color: #536471;
+      font-size: 0.875rem;
+    }
+  }
+
+  .post-content {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .post-footer {
+    color: #536471;
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: space-between;
+  }
+}

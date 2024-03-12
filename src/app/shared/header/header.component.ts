@@ -55,4 +55,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  checkNotificationOpeningStatus(event: any): void {
+    if (this.isNotificationCardOpened) {
+      this.isNotificationCardOpened = false;
+    }
+  }
 }
