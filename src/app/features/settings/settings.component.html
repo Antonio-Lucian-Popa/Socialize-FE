@@ -2,12 +2,8 @@
 <div class="settings-container">
   <aside class="settings-sidebar">
     <ul class="settings-menu">
-      <li (click)="showGeneralSettings()" class="active">General Settings</li>
-      <li>Security & Login</li>
-      <li>Language & Region</li>
-      <li>Notifications</li>
-      <li>Connected Apps</li>
-      <!-- More menu items -->
+      <li (click)="showGeneralSettings()" [class]="isGeneralSettings ? 'active' : ''">General Settings</li>
+      <li (click)="showEditProfile()" [class]="isEditProfile ? 'active' : ''">Edit Profile</li>
     </ul>
   </aside>
 
@@ -18,7 +14,42 @@
       <p>Username: {{ user.firstName }} {{user.lastName}}</p>
       <p>Email: {{ user.email }}</p>
       <p>Password: ********</p>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" (click)="showChangePassword()">Change Password</button>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" (click)="showChangePassword()">Change
+        Password</button>
+    </div>
+    <!-- More settings -->
+  </section>
+
+  <section class="settings-content" *ngIf="isEditProfile">
+    <h1>Edit Profile</h1>
+    <div class="settings-section">
+      <h2>Account</h2>
+      <form [formGroup]="userProfile" (ngSubmit)="onEditProfile()"
+        class="d-flex flex-column align-items-center justify-content-center w-80">
+
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" formControlName="firstName" placeholder="Enter first name">
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" formControlName="lastName" placeholder="Enter last name">
+        </div>
+
+        <div class="form-group">
+          <label for="biography">Biography</label>
+          <textarea id="biography" formControlName="biography" placeholder="What's on your mind?" class="post-textarea"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" placeholder="Enter email">
+        </div>
+
+
+      </form>
+      <button type="submit" class="update-btn w-80">Update</button>
     </div>
     <!-- More settings -->
   </section>

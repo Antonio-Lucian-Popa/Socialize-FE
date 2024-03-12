@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -12,7 +12,12 @@ export class ChangePasswordDialogComponent implements OnInit {
   changePasswordForm!: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<ChangePasswordDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
+      this.changePasswordForm = this.fb.group({
+        currentPassword: [''],
+        newPassword: [''],
+      });
+     }
 
   ngOnInit(): void {
   }
@@ -20,5 +25,10 @@ export class ChangePasswordDialogComponent implements OnInit {
   onChangePassword(): void {
     // change password
     console.log(this.changePasswordForm.value);
+    // TODO: call API to change password
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 }

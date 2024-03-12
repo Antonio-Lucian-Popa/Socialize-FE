@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from 'src/app/shared/change-password-dialog/change-password-dialog.component';
 
@@ -10,21 +11,31 @@ import { ChangePasswordDialogComponent } from 'src/app/shared/change-password-di
 export class SettingsComponent implements OnInit {
 
   isGeneralSettings = true;
+  isEditProfile = false;
 
   user = {
     firstName: 'John',
     lastName: 'Doe',
     email: 'john@gmail.com',
     password: '123456',
+    biography: 'Love to learn new things.'
   };
 
-  constructor(public dialog: MatDialog) { }
+  userProfile = this.fb.group({
+    firstName: [this.user.firstName],
+    lastName: [this.user.lastName],
+    biography: [this.user.biography],
+    email: [this.user.email],
+  });
+
+  constructor(public dialog: MatDialog, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
   showGeneralSettings(): void {
     this.isGeneralSettings = true;
+    this.isEditProfile = false;
   }
 
   showChangePassword(): void {
@@ -39,6 +50,16 @@ export class SettingsComponent implements OnInit {
       // gestisci qui il risultato se necessario
     });
 
+  }
+
+  onEditProfile(): void {
+    // TODO: call API to update user profile
+    console.log(this.userProfile.value);
+  }
+
+  showEditProfile(): void {
+    this.isEditProfile = true;
+    this.isGeneralSettings = false;
   }
 
 }
