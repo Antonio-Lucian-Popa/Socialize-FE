@@ -5,7 +5,7 @@
       <div class="d-flex flex-column align-items-start justify-contemt-start">
         <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
         <div class="post-footer text-gray-600 text-sm flex justify-between">
-          <span>{{ post.createdAt | date: 'medium' }}</span>
+          <span>{{ post.createdAt | timeAgo }}</span>
         </div>
       </div>
       <!-- <div class="text-xs text-gray-500 ml-auto">New York City, NY</div> -->
@@ -72,7 +72,7 @@
       <div class="d-flex flex-column align-items-start justify-contemt-start">
         <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
         <div class="post-footer text-gray-600 text-sm flex justify-between">
-          <span>{{ post.createdAt | date: 'medium' }}</span>
+          <span>{{ post.createdAt | timeAgo }}</span>
         </div>
       </div>
       <div class="ml-auto text-sm text-gray-600">

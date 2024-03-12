@@ -19,6 +19,7 @@ import { CreatePostModalComponent } from './post-input/create-post-modal/create-
 import { SuggestionCardComponent } from './suggestion-card/suggestion-card.component';
 import { WhoFollowCardComponent } from './who-follow-card/who-follow-card.component';
 import { NotificationCardComponent } from './notification-card/notification-card.component';
+import { TimeAgoPipe } from './pipe/time-ago.pipe';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -47,6 +48,7 @@ const COMPONENTS: any[] = [
     CommentPostModalComponent,
     CommentItemComponent,
     CreatePostModalComponent,
+    TimeAgoPipe,
   ],
   imports: [
     CommonModule,
