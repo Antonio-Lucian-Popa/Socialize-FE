@@ -77,12 +77,12 @@
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                 <!-- Active: "bg-gray-100", Not Active: "" -->
-                <a (click)="openUserProfile()" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                <a (click)="openUserProfile()" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
                   id="user-menu-item-0">Your Profile</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                  id="user-menu-item-1">Settings</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                  id="user-menu-item-2">Sign out</a>
+                <a routerLink="/settings" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
+                  id="user-menu-item-1" (click)="closeDropDownUser()">Settings</a>
+                <a routerLink="/sign-out" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
+                  id="user-menu-item-2" (click)="closeDropDownUser()">Sign out</a>
               </div>
             </div>
           </div>

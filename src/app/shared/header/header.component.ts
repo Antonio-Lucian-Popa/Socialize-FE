@@ -48,7 +48,12 @@ export class HeaderComponent implements OnInit {
   openUserProfile(): void {
     console.log('Opening user profile...');
     // TODOO: retreive from auth service the user id from token
+    this.closeDropDownUser();
     this.router.navigate(['/user-profile', '123']);
+  }
+
+  closeDropDownUser(): void {
+    this.showDropdownUser = false;
   }
 
   goToHomePage(): void {

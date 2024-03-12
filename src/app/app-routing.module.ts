@@ -9,6 +9,7 @@ const routerOptions: ExtraOptions = {
 const routes: Routes = [
   { path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },
   { path: 'user-profile/:id', loadChildren: () => import('./features/user-profile/user-profile.module').then(m => m.UserProfileModule) },
+  { path: 'settings', loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule) },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

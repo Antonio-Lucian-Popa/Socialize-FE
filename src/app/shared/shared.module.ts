@@ -20,6 +20,7 @@ import { SuggestionCardComponent } from './suggestion-card/suggestion-card.compo
 import { WhoFollowCardComponent } from './who-follow-card/who-follow-card.component';
 import { NotificationCardComponent } from './notification-card/notification-card.component';
 import { TimeAgoPipe } from './pipe/time-ago.pipe';
+import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -49,6 +50,7 @@ const COMPONENTS: any[] = [
     CommentItemComponent,
     CreatePostModalComponent,
     TimeAgoPipe,
+    ChangePasswordDialogComponent,
   ],
   imports: [
     CommonModule,
