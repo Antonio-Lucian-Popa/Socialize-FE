@@ -11,20 +11,18 @@ export class AppComponent implements OnInit {
   title = 'socialize-fe';
 
   isLoggedIn: boolean = true;
+  isRegister: boolean = true;
 
   private routerSubscription!: Subscription;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.checkLoginRoute();
+        this.isLoggedIn = !event.url.endsWith('/log-in');
+        this.isRegister = !event.url.endsWith('/sign-up');
+        console.log(this.isRegister, this.isLoggedIn);
       }
     });
-  }
-
-  private checkLoginRoute() {
-    const url = this.router.url;
-    this.isLoggedIn = !url.endsWith('/log-in');
   }
 
   ngOnDestroy() {

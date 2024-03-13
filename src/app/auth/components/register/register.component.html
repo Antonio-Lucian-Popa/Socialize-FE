@@ -1,0 +1,131 @@
+<div class="container-register d-flex justify-content-around h-100">
+  <div class="left d-flex flex-column align-items-center justify-content-center">
+    <div class="container-images">
+      <img src="./assets/img/auth-image.png" alt="auth image">
+    </div>
+    <div class="container-description">
+      <h3>Find new friends<br /> with Socialize!</h3>
+      <p>We connect people around the
+        world</p>
+    </div>
+  </div>
+
+  <div class="container-card h-100 d-flex align-items-center">
+    <mat-card>
+      <mat-card-content>
+        <form class="form-container" [formGroup]="form" (ngSubmit)="submit()">
+          <div class="d-flex flex-column">
+            <div class="flex flex-col justify-between align-middle sm:flex-row md:flex-row lg:flex-row">
+
+              <div class="mb-3">
+                <div class="relative">
+                  <input formControlName="firstName" type="text" id="outlined_firstName_error"
+                    aria-describedby="outlined_error_firstName_help"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+                    [ngClass]="checkRequiredField('firstName') ? 'dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:border-red-600 ' : ''"
+                    placeholder=" " />
+                  <label for="outlined_firstName_error"
+                    class="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    [ngClass]="checkRequiredField('firstName') ? 'text-red-600 dark:text-red-500' : ''">First
+                    Name</label>
+                </div>
+                <p *ngIf="checkRequiredField('firstName')" id="outlined_error_firstName_help"
+                  class="mt-2 text-xs text-red-600 dark:text-red-400">Please compile the required input.</p>
+              </div>
+
+              <div class="mb-3">
+                <div class="relative">
+                  <input formControlName="lastName" type="text" id="outlined_error_lastName"
+                    aria-describedby="outlined_error_lastName_help"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+                    [ngClass]="checkRequiredField('lastName') ? 'dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:border-red-600 ' : ''"
+                    placeholder=" " />
+                  <label for="outlined_error_lastName"
+                    class="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    [ngClass]="checkRequiredField('lastName') ? 'text-red-600 dark:text-red-500' : ''">Last
+                    Name</label>
+                </div>
+                <p *ngIf="checkRequiredField('lastName')" id="outlined_error_lastName_help"
+                  class="mt-2 text-xs text-red-600 dark:text-red-400">Please compile the required input.</p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="relative">
+              <input formControlName="email" type="email" id="outlined_email_error"
+                aria-describedby="outlined_error_email_help"
+                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+                [ngClass]="checkRequiredField('email') ? 'dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:border-red-600 ' : ''"
+                placeholder=" " />
+              <label for="outlined_email_error"
+                class="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                [ngClass]="checkRequiredField('email') ? 'text-red-600 dark:text-red-500' : ''">Email</label>
+            </div>
+            <p *ngIf="checkRequiredField('email')" id="outlined_error_email_help"
+              class="mt-2 text-xs text-red-600 dark:text-red-400">Please compile the required input.</p>
+          </div>
+
+          <div class="mb-3">
+            <div class="relative">
+              <input formControlName="password" type="password" id="outlined_password_error"
+                aria-describedby="outlined_error_password_help"
+                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+                [ngClass]="checkRequiredField('password') ? 'dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:border-red-600 ' : ''"
+                placeholder=" " />
+              <label for="outlined_password_error"
+                class="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                [ngClass]="checkRequiredField('password') ? 'text-red-600 dark:text-red-500' : ''">Password</label>
+            </div>
+            <p *ngIf="checkRequiredField('password')" id="outlined_error_password_help"
+              class="mt-2 text-xs text-red-600 dark:text-red-400">Please compile the required input.</p>
+          </div>
+
+          <div class="d-flex flex-column  mb-3">
+            <div class="d-flex justify-content-between">
+
+              <div>
+                <div class="relative">
+                  <input formControlName="birthday" type="date" id="outlined_date_error"
+                    aria-describedby="outlined_error_date_help"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+                    [ngClass]="checkRequiredField('birthday') ? 'dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:border-red-600 ' : ''"
+                    placeholder=" " />
+                  <label for="outlined_date_error"
+                    class="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                    [ngClass]="checkRequiredField('birthday') ? 'text-red-600 dark:text-red-500' : ''">Birthday</label>
+                </div>
+                <p *ngIf="checkRequiredField('birthday')" id="outlined_error_date_help"
+                  class="mt-2 text-xs text-red-600 dark:text-red-400">Please compile the required input.</p>
+              </div>
+
+
+              <div class="flex flex-col justify-content-center">
+                <select id="gender" formControlName="gender"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <option selected>Gender</option>
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                </select>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="user-message mb-3">
+            <p>By clicking Sign Up, you agree to our <a href="#">Terms</a>. Learn how we collect, use and share your
+              data in our
+              Privacy
+              Policy and how we use cookies and similar technology in our Cookies Policy. You may receive SMS
+              Notifications from us and can opt out any time.</p>
+          </div>
+          <div class="container-btn d-flex align-items-center justify-content-end">
+            <button type="submit" [disabled]="form.invalid" [ngClass]="form.invalid ? 'cursor-not-allowed' : ''" class="w-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign Up</button>
+            <!-- <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button> -->
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

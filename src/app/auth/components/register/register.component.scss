@@ -1,4 +1,4 @@
-.container-login {
+.container-register {
   background: linear-gradient(to bottom, #414171, #0F0F11);
 
   .left {
@@ -29,31 +29,6 @@
     max-width: min(30rem);
     margin-left: 2rem;
     margin-right: 2rem;
-
-    mat-card {
-      min-height: 20rem;
-      min-width: 20rem;
-
-      mat-card-content {
-        height: 100%!important;
-
-        .form-container {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-
-          .forgot-pass-msg {
-            font-size: 0.9rem;
-          }
-        }
-
-        .btn-new-account {
-          background-color: #6A7EFC;
-          color: #ffff;
-        }
-      }
-    }
   }
 
 
@@ -64,20 +39,20 @@
   }
 }
 
-input.ng-invalid.ng-touched {
-  border: red 1px solid;
-}
-
 .container-description h3 {
   line-height: 2.5rem;
 }
 
+input.ng-invalid.ng-touched {
+  border: red 1px solid;
+}
+
 @media only screen and (max-width: 900px) {
-  .container-login {
+  .container-register {
     flex-direction: column;
     align-items: center;
     justify-content: start!important;
-    //height: auto!important;
+    height: auto!important;
 
     .left {
       padding-bottom: 3rem;
