@@ -21,13 +21,15 @@ import { WhoFollowCardComponent } from './who-follow-card/who-follow-card.compon
 import { NotificationCardComponent } from './notification-card/notification-card.component';
 import { TimeAgoPipe } from './pipe/time-ago.pipe';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
+import {MatDividerModule} from '@angular/material/divider';
 
 const NB_MODULES: any[] = [
   MatCardModule,
   MatIconModule,
   MatMenuModule,
   MatDialogModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  MatDividerModule
 ];
 
 const COMPONENTS: any[] = [

@@ -78,6 +78,10 @@ export class SettingsComponent implements OnInit {
       //   formData.append('profileImage', this.userAvatar, this.userAvatar.name);
       // }
       // Call the UserService to handle the form submission
+      if(this.avatarUrl) {
+        const blob = this.dataURLtoBlob(this.avatarUrl.toString());
+        formData.append('file', blob, `file.${this.getFileExtension(blob.type)}`);
+      }
       this.userService.updateProfile(formData);
 
       // TODO: check if the avatar is updated and if is the case emit an event to update the avatar in the header
@@ -87,6 +91,31 @@ export class SettingsComponent implements OnInit {
   showEditProfile(): void {
     this.isEditProfile = true;
     this.isGeneralSettings = false;
+  }
+
+  private dataURLtoBlob(dataurl: string): Blob {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)![1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new Blob([u8arr], {type: mime});
+  }
+
+  private getFileExtension(mimeType: string): string {
+    switch (mimeType) {
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      default:
+        return 'dat';
+    }
   }
 
 }

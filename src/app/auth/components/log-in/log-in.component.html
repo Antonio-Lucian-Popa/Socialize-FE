@@ -1,0 +1,62 @@
+<div class="container-login d-flex justify-content-around sm:h-auto md:h-full lg:h-full">
+  <div class="left d-flex flex-column align-items-center justify-content-center">
+    <div class="container-images">
+      <img src="./assets/img/auth-image.png" alt="auth image">
+    </div>
+    <div class="container-description">
+      <h3>Find new friends<br /> with Socialize!</h3>
+      <p>We connect people around the
+        world</p>
+    </div>
+  </div>
+
+  <div class="container-card h-100 d-flex align-items-center">
+    <mat-card>
+      <mat-card-content>
+        <form class="form-container" [formGroup]="form" (ngSubmit)="submit()">
+          <div class="mb-3">
+            <div class="relative">
+              <input formControlName="email" type="email" id="outlined_email_error"
+                aria-describedby="outlined_error_email_help"
+                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+                [ngClass]="checkRequiredField('email') ? 'dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:border-red-600 ' : ''"
+                placeholder=" " />
+              <label for="outlined_email_error"
+                class="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                [ngClass]="checkRequiredField('email') ? 'text-red-600 dark:text-red-500' : ''">Email</label>
+            </div>
+            <p *ngIf="checkRequiredField('email')" id="outlined_error_email_help"
+              class="mt-2 text-xs text-red-600 dark:text-red-400">Please compile the required input.</p>
+          </div>
+
+          <div class="mb-3">
+            <div class="relative">
+              <input formControlName="password" type="password" id="outlined_password_error"
+                aria-describedby="outlined_error_password_help"
+                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+                [ngClass]="checkRequiredField('password') ? 'dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:border-red-600 ' : ''"
+                placeholder=" " />
+              <label for="outlined_password_error"
+                class="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                [ngClass]="checkRequiredField('password') ? 'text-red-600 dark:text-red-500' : ''">Password</label>
+            </div>
+            <p *ngIf="checkRequiredField('password')" id="outlined_error_password_help"
+              class="mt-2 text-xs text-red-600 dark:text-red-400">Please compile the required input.</p>
+          </div>
+
+          <div class="container-btn d-flex align-items-center justify-content-end">
+            <button type="submit" [disabled]="form.invalid" [ngClass]="form.invalid ? 'cursor-not-allowed' : ''" class="w-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Log In</button>
+            <!-- <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button> -->
+          </div>
+
+          <a href="#" class="forgot-pass-msg mt-2">Forgot password?</a>
+        </form>
+
+        <mat-divider class="mt-3 mb-3"></mat-divider>
+        <div class="container-btn d-flex align-items-center justify-content-center">
+          <button class="btn btn-lg btn-new-account" type="button" routerLink="/register">Create new account</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
