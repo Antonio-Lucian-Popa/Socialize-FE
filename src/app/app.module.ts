@@ -12,6 +12,7 @@ import { SharedModule } from './shared/shared.module';
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
+import { HttpClientModule } from '@angular/common/http';
 // register Swiper custom elements
 register();
 
@@ -28,7 +29,8 @@ register();
     BrowserAnimationsModule,
     HomeModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

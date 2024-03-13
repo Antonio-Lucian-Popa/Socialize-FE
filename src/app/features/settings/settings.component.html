@@ -22,34 +22,40 @@
 
   <section class="settings-content" *ngIf="isEditProfile">
     <h1>Edit Profile</h1>
-    <div class="settings-section">
+    <div class="settings-section d-flex flex-column align-items-center">
       <h2>Account</h2>
       <form [formGroup]="userProfile" (ngSubmit)="onEditProfile()"
         class="d-flex flex-column align-items-center justify-content-center w-80">
 
-        <div class="form-group">
+        <!-- Avatar Image -->
+        <!-- Circular Avatar -->
+        <div class="avatar-container" (click)="avatarInput.click()">
+          <img *ngIf="avatarUrl" [src]="avatarUrl" class="circular-avatar">
+          <input type="file" id="avatarInput" (change)="onAvatarChange($event)" hidden #avatarInput>
+        </div>
+
+        <div class="form-group w-100">
           <label for="firstName">First Name</label>
           <input type="text" id="firstName" formControlName="firstName" placeholder="Enter first name">
         </div>
 
-        <div class="form-group">
+        <div class="form-group w-100">
           <label for="lastName">Last Name</label>
           <input type="text" id="lastName" formControlName="lastName" placeholder="Enter last name">
         </div>
 
-        <div class="form-group">
+        <div class="form-group w-100">
           <label for="biography">Biography</label>
-          <textarea id="biography" formControlName="biography" placeholder="What's on your mind?" class="post-textarea"></textarea>
+          <textarea id="biography" formControlName="biography" placeholder="What's on your mind?"
+            class="post-textarea"></textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group w-100">
           <label for="email">Email</label>
           <input type="email" id="email" formControlName="email" placeholder="Enter email">
         </div>
-
-
       </form>
-      <button type="submit" class="update-btn w-80">Update</button>
+      <button type="submit" class="update-btn mt-4 w-80">Update</button>
     </div>
     <!-- More settings -->
   </section>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from 'src/app/shared/change-password-dialog/change-password-dialog.component';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -28,7 +29,9 @@ export class SettingsComponent implements OnInit {
     email: [this.user.email],
   });
 
-  constructor(public dialog: MatDialog, private fb: FormBuilder) { }
+  avatarUrl: string | ArrayBuffer | null = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
+
+  constructor(public dialog: MatDialog, private fb: FormBuilder, private userService: UserService) { }
 
   ngOnInit(): void {
   }
@@ -52,9 +55,33 @@ export class SettingsComponent implements OnInit {
 
   }
 
-  onEditProfile(): void {
-    // TODO: call API to update user profile
-    console.log(this.userProfile.value);
+  onAvatarChange(event: Event) {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+      this.readAvatar(file);
+    }
+  }
+
+  readAvatar(file: File) {
+    const reader = new FileReader();
+    reader.onload = e => this.avatarUrl = e.target!.result;
+    reader.readAsDataURL(file);
+  }
+
+  onEditProfile() {
+    if (this.userProfile.valid) {
+      const formData = new FormData();
+      formData.append('userProfile', new Blob([JSON.stringify(this.userProfile.value)], { type: 'application/json' }));
+      // if (this.userAvatar) {
+      //   formData.append('profileImage', this.userAvatar, this.userAvatar.name);
+      // }
+      // Call the UserService to handle the form submission
+      this.userService.updateProfile(formData);
+
+      // TODO: check if the avatar is updated and if is the case emit an event to update the avatar in the header
+    }
   }
 
   showEditProfile(): void {

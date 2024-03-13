@@ -101,3 +101,25 @@ textarea {
   resize: vertical; /* Allows the user to resize the textarea vertically */
   width: 100%;
 }
+
+
+/* ... existing styles ... */
+
+.avatar-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid #ccc; /* Optional: for border */
+}
+
+.circular-avatar {
+  width: 100%;
+  height: auto;
+}
+
+/* ... additional styles ... */
