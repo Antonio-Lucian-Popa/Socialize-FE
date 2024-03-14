@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-log-in',
@@ -16,7 +17,7 @@ export class LogInComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-  //  private authService: AuthService,
+    private authService: AuthService,
     private router: Router,
    // private alertService: AlertService
     ) { }
@@ -29,13 +30,21 @@ export class LogInComponent implements OnInit {
   }
 
   submit(): void {
+    console.log(this.form.valid)
     if(this.form.valid) {
-      // this.authService.login(this.form.getRawValue()).subscribe(res => {
-      //   this.authService.setAccessToken(res.access_token);
-      //   this.router.navigate(['/']);
-      // }, err => {
-      //   // show alert error
-      // });
+      const { email, password } = this.form.value;
+      // made a login request
+      if(email && password) {
+        const payload = {
+          email, password
+        }
+        this.authService.login(payload).subscribe(res => {
+          this.router.navigate(['/']);
+        }, err => {
+          // show alert error
+          console.error('Login failed:', err);
+        });
+      }
     }
   }
 

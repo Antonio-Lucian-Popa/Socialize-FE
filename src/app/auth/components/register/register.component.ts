@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
 
       this.authService.register(payload).subscribe(res => {
         // this.alertService.showAlertOnLoginSuccess = true;
-        this.router.navigate(['/login']);
+        this.router.navigate(['/log-in']);
         console.log(res)
       }, err => {
         console.log(err);

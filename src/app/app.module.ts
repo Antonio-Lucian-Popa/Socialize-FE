@@ -12,7 +12,8 @@ import { SharedModule } from './shared/shared.module';
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from './auth/token.interceptor';
 // register Swiper custom elements
 register();
 
@@ -32,7 +33,9 @@ register();
     SharedModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

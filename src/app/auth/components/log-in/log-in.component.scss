@@ -72,6 +72,10 @@ input.ng-invalid.ng-touched {
   line-height: 2.5rem;
 }
 
+input {
+  color: #3C3D3D!important;
+}
+
 @media only screen and (max-width: 900px) {
   .container-login {
     flex-direction: column;

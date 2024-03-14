@@ -1,11 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, catchError, of, tap, throwError } from 'rxjs';
 import { CreateUser } from '../interfaces/createUser';
 
-interface LoginResponse {
-  token: string;
+export interface Token {
+  access_token: string;
+  refresh_token: string;
 }
 
 @Injectable({
@@ -13,16 +14,16 @@ interface LoginResponse {
 })
 export class AuthService {
 
-  URL_LINK = 'http://localhost:8080/api/auth';
+  URL_LINK = 'http://localhost:8081/api/v1/auth';
 
   private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<LoginResponse | null> {
-    return this.http.post<LoginResponse>(`${this.URL_LINK}/authenticate`, { username, password }).pipe(
+  login(payload: any): Observable<Token | null> {
+    return this.http.post<Token>(`${this.URL_LINK}/authenticate`, payload).pipe(
       tap(response => {
-        localStorage.setItem('jwt', response.token); // Store JWT token
+        localStorage.setItem('jwt', response.access_token); // Store JWT token
       }),
       catchError(error => {
         console.error('Login failed:', error);
@@ -31,12 +32,21 @@ export class AuthService {
     );
   }
 
-  register(userData: CreateUser): Observable<any> {
-    return this.http.post(`${this.URL_LINK}/register`, userData).pipe(
-      catchError(error => {
-        console.error('Registration failed:', error);
-        return of(null); // Return null in case of error
-      })
+  register(userData: CreateUser, file?: File): Observable<any> {
+    const formData = new FormData();
+
+    // Append user data with explicit Content-Type for the JSON part
+    // Note: Adding a filename for the JSON blob part ("request.json") might help.
+    const userBlob = new Blob([JSON.stringify(userData)], { type: 'application/json' });
+    formData.append('request', userBlob); // Notice the 'request.json' filename
+
+    // Append file if present
+    if (file) {
+      formData.append('file', file, file.name);
+    }
+
+    return this.http.post(`${this.URL_LINK}/register`, formData).pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -48,6 +58,10 @@ export class AuthService {
     const token = this.getToken();
     // Check if the token is not expired
     return token != null && !this.jwtHelper.isTokenExpired(token);
+  }
+
+  isTokenExpired(token: string): boolean {
+    return token != null && this.jwtHelper.isTokenExpired(token);
   }
 
   logout(): void {
@@ -62,5 +76,10 @@ export class AuthService {
       return decodedToken.user_id;
     }
     return null;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    // Handle the error according to your application's needs
+    return throwError(error.message || 'Server error');
   }
 }
