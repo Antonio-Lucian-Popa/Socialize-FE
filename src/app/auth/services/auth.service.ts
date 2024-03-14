@@ -73,9 +73,16 @@ export class AuthService {
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       const decodedToken = this.jwtHelper.decodeToken(token);
       // Assuming 'user_id' is the key in the payload that holds the user ID
-      return decodedToken.user_id;
+      return decodedToken.userId;
     }
     return null;
+  }
+
+  getUserInfo(userId: string): Observable<any> {
+    const URL_LINK = 'http://localhost:8081/api/v1/users';
+    return this.http.get<any>(`${URL_LINK}/${userId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

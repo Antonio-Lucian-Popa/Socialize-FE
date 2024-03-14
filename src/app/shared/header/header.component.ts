@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, filter } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -18,9 +19,25 @@ export class HeaderComponent implements OnInit {
 
   isNotificationCardOpened: boolean = false;
 
-  constructor(private router: Router) { }
+  userInfo: any;
+
+
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+
+    const userId = this.authService.getUserIdFromToken();
+    console.log('User id:', userId)
+
+    if(userId) {
+      this.authService.getUserInfo(userId).subscribe((res: any) => {
+        this.userInfo = res;
+        console.log('User info:', this.userInfo);
+      }, (err: any) => {
+        console.error('Error fetching user info:', err);
+      });
+    }
+
     this.searchControl.valueChanges
       .pipe(
         debounceTime(300), // Wait for 300ms pause in events
