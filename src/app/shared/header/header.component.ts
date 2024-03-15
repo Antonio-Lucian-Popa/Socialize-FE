@@ -21,6 +21,8 @@ export class HeaderComponent implements OnInit {
 
   userInfo: any;
 
+  isMenuOpened = false;
+
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -56,6 +58,10 @@ export class HeaderComponent implements OnInit {
 
   toggleDropdown(): void {
     this.showDropdownUser = !this.showDropdownUser;
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpened = !this.isMenuOpened;
   }
 
   toggleNotificationCard(): void {

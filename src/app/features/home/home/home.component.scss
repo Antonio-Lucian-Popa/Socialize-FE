@@ -19,3 +19,16 @@
   flex: 1;
   min-width: 0; /* Prevent flex items from overflowing */
 }
+
+
+@media only screen and (max-width: 1140px) {
+  .right {
+    display: none!important;
+  }
+}
+
+@media only screen and (max-width: 815px) {
+  .left {
+    display: none!important;
+  }
+}
