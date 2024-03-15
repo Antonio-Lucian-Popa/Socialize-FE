@@ -39,6 +39,10 @@ $socialize-fe-theme: mat.define-light-theme((color: (primary: $socialize-fe-prim
 
 @import 'swiper/swiper-bundle.min.css';
 
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 
 html,
 body {
@@ -145,4 +149,14 @@ swiper-container {
 
 .mat-divider-horizontal {
   position: relative!important;
+}
+
+
+.logo-app {
+  font-family: "Grand Hotel", cursive!important;
+  font-weight: 400!important;
+  font-style: normal!important;
+  color: #ffff;
+  margin: 0!important;
+  font-size: 2rem!important;
 }

@@ -22,6 +22,7 @@ import { NotificationCardComponent } from './notification-card/notification-card
 import { TimeAgoPipe } from './pipe/time-ago.pipe';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 import {MatDividerModule} from '@angular/material/divider';
+import { ImageViewDialogComponent } from '../features/discovery/image-view-dialog/image-view-dialog.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -41,7 +42,8 @@ const COMPONENTS: any[] = [
   PostInputComponent,
   SuggestionCardComponent,
   WhoFollowCardComponent,
-  NotificationCardComponent
+  NotificationCardComponent,
+  ImageViewDialogComponent
 ];
 
 @NgModule({

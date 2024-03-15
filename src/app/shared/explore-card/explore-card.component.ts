@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-explore-card',
@@ -54,10 +55,14 @@ export class ExploreCardComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     // TODO: Fetch data from API
+  }
+
+  openDiscovery(): void {
+   this.router.navigate(['/discovery']);
   }
 
 }

@@ -1,0 +1,3 @@
+<div class="d-flex">
+  <div class="cover-image" (click)="openImageDialog(popularImage.id)" [style.background-image]="'url(' + popularImage.image + ')'" *ngFor="let popularImage of popularImages"></div>
+</div>

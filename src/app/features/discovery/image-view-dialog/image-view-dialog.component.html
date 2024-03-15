@@ -1,0 +1,22 @@
+<!-- my-dialog.component.html -->
+<div class="d-flex">
+  <div class="cover-image mr-4">
+    <mat-icon mat-dialog-close class="material-symbols-outlined">
+      close
+    </mat-icon>
+    <img
+      src="https://images.unsplash.com/photo-1707343843437-caacff5cfa74?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      alt="Transformation" class="transformation-image" />
+  </div>
+ <div class="d-flex flex-column">
+  <div class="user-description">
+    <h2>Clayton-le-Woods</h2>
+    <p>Your smallest self doesn’t equal your happiest ✨</p>
+  </div>
+  <div class="comments">
+    <div *ngFor="let comment of comments" class="pt-2">
+      <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)"></app-comment-item>
+    </div>
+  </div>
+ </div>
+</div>
