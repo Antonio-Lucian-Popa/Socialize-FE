@@ -165,3 +165,7 @@ swiper-container {
 mat-dialog-container {
   overflow: hidden!important;
 }
+
+.mat-dialog-container, .mat-dialog-container * {
+  outline: none !important;
+}

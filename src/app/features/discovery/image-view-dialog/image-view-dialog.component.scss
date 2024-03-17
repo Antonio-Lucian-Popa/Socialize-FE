@@ -3,7 +3,7 @@
 }
 
 .cover-image {
-  max-height: calc(95vh - 48px - 24px);
+  max-height: calc(95vh - 48px - 24px - 8px);
   // background-position: center; /* Center the image */
   // background-repeat: no-repeat; /* Do not repeat the image */
   // background-size: contain;
@@ -39,7 +39,7 @@
 .col-md-4 {
   display: flex;
   flex-direction: column;
-  height: calc(95vh - 56px);
+  height: calc(95vh - 56px - 8px);
 }
 
 /* Make the input form stick to the bottom */
@@ -54,4 +54,10 @@
 /* Make the comments and description area scrollable */
 .overflow-auto {
   overflow-y: auto;
+}
+
+.action-user {
+  i {
+    font-size: 1.2rem;
+  }
 }

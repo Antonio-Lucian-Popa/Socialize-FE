@@ -4,7 +4,7 @@
     close
   </mat-icon>
 
-  <div class="row w-100">
+  <div class="row w-100 mt-2">
     <div class="col-md-8 cover-image" [style.background-image]="'url(' + popularImagePost.image + ')'"
       style="background-size: cover; background-position: center;">
       <!-- Background image will be set here -->
@@ -22,6 +22,14 @@
             </div>
           </div>
           <p class="post-description">{{ popularImagePost.caption }}</p>
+
+          <div class="flex items-center action-user">
+            <button type="button" class="margin-right-heart-btn">
+              <!-- Insert heart icon here -->
+              <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost(popularImagePost)"></i>
+              <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost(popularImagePost)"></i>
+            </button>
+          </div>
         </div>
         <div class="comments mt-3">
           <div *ngFor="let comment of comments" class="pt-2">

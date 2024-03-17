@@ -91,6 +91,8 @@ export class ImageViewDialogComponent implements OnInit {
     commentText: new FormControl('')
   });
 
+  isPostLiked: boolean = false;
+
   replyingTo: number | null = null;
 
   constructor(public dialogRef: MatDialogRef<ImageViewDialogComponent>) { }
@@ -115,6 +117,11 @@ export class ImageViewDialogComponent implements OnInit {
     }
     this.commentForm.reset();
     this.replyingTo = null; // Reset replying state
+  }
+
+  toggleLikePost(post: any): void {
+    this.isPostLiked = !this.isPostLiked;
+    // TODO: Send a request to like/unlike the post
   }
 
   onClose(): void {
