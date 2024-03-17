@@ -1,22 +1,45 @@
 <!-- my-dialog.component.html -->
-<div class="d-flex">
-  <div class="cover-image mr-4">
-    <mat-icon mat-dialog-close class="material-symbols-outlined">
-      close
-    </mat-icon>
-    <img
-      src="https://images.unsplash.com/photo-1707343843437-caacff5cfa74?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      alt="Transformation" class="transformation-image" />
-  </div>
- <div class="d-flex flex-column">
-  <div class="user-description">
-    <h2>Clayton-le-Woods</h2>
-    <p>Your smallest self doesn’t equal your happiest ✨</p>
-  </div>
-  <div class="comments">
-    <div *ngFor="let comment of comments" class="pt-2">
-      <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)"></app-comment-item>
+<div class="d-flex flex-column align-items-end contenitor-modal">
+  <mat-icon mat-dialog-close class="material-symbols-outlined">
+    close
+  </mat-icon>
+
+  <div class="row w-100">
+    <div class="col-md-8 cover-image" [style.background-image]="'url(' + popularImagePost.image + ')'"
+      style="background-size: cover; background-position: center;">
+      <!-- Background image will be set here -->
+    </div>
+    <div class="col-md-4 d-flex flex-column">
+      <div class="flex-grow-1 overflow-auto">
+        <div class="user-description">
+          <div class="d-flex align-items-center mb-3">
+            <img
+              src="https://images.unsplash.com/photo-1682687220198-88e9bdea9931?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90oy1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="User Avatar" class="user-avatar mr-2" />
+            <div class="d-flex flex-column">
+              <span class="mb-0 pb-0">{{ popularImagePost.user.firstName }} {{ popularImagePost.user.lastName }}</span>
+              <p class="post-date">{{ popularImagePost.date | timeAgo }}</p>
+            </div>
+          </div>
+          <p class="post-description">{{ popularImagePost.caption }}</p>
+        </div>
+        <div class="comments mt-3">
+          <div *ngFor="let comment of comments" class="pt-2">
+            <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)"></app-comment-item>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fixed input form at the bottom -->
+      <div class="input-form-container bg-white border-t border-gray-200">
+        <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="flex items-center">
+          <input type="text" formControlName="commentText"
+            class="form-control rounded-full border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-blue-500"
+            placeholder="Add a comment..." required>
+          <button type="submit" class="btn ml-4 text-blue-500">Post</button>
+        </form>
+      </div>
     </div>
   </div>
- </div>
+
 </div>

@@ -1,8 +1,57 @@
-.cover-image {
-  width: 50rem;
+.contenitor-modal {
+  overflow: hidden!important;
 }
+
+.cover-image {
+  max-height: calc(95vh - 48px - 24px);
+  // background-position: center; /* Center the image */
+  // background-repeat: no-repeat; /* Do not repeat the image */
+  // background-size: contain;
+}
+
+// .overflow-auto {
+//   overflow-y: auto; /* Enables scrolling for the description and comments */
+//   position: relative;
+
+//   height: calc(95vh - 48px - 24px);
+// }
 
 .user-description {
   border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.post-date {
+  font-size: 0.7rem;
+  padding-bottom: 0!important;
+  margin-bottom: 0!important;
+}
+
+.user-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+
+/* Custom styles for the flex column */
+.col-md-4 {
+  display: flex;
+  flex-direction: column;
+  height: calc(95vh - 56px);
+}
+
+/* Make the input form stick to the bottom */
+.input-form-container {
+  padding: 0.5rem;
+  border-top: 1px solid #dee2e6;
+  background-color: #fff;
+  position: sticky;
+  bottom: 0;
+}
+
+/* Make the comments and description area scrollable */
+.overflow-auto {
+  overflow-y: auto;
 }

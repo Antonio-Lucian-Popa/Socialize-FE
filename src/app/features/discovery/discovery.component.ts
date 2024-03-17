@@ -28,7 +28,7 @@ export class DiscoveryComponent implements OnInit {
     console.log('openImageDialog', imageId);
     const dialogRef = this.dialog.open(ImageViewDialogComponent, {
       width: '80%',
-      height: 'auto'
+      height: '95vh'
     });
 
     dialogRef.afterClosed().subscribe(result => {

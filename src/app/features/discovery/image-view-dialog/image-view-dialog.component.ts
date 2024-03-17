@@ -9,6 +9,19 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class ImageViewDialogComponent implements OnInit {
 
+  popularImagePost = {
+    id: 1,
+    user: {
+      id: 45,
+      firstName: 'John',
+      lastName: 'Doe',
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    },
+    image: 'https://plus.unsplash.com/premium_photo-1710119487367-8489287f04a9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    caption: 'This is a great image!',
+    date: '2021-04-15T19:00:00.000Z'
+  };
+
   comments: any[] = [
     {
       id: 1,
