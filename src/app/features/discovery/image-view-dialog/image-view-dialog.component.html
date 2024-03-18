@@ -29,6 +29,8 @@
               <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost(popularImagePost)"></i>
               <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost(popularImagePost)"></i>
             </button>
+
+            <span class="font-semibold ml-2">{{popularImagePost.likes.length}}</span>
           </div>
         </div>
         <div class="comments mt-3">

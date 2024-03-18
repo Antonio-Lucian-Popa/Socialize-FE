@@ -1,9 +1,38 @@
+/* Existing .cover-image styles */
 .cover-image {
   width: 10rem;
   height: 10rem;
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
   margin: 3px 3px 3px 0;
   cursor: pointer;
+}
+
+/* Skeleton Loader Styles */
+.skeleton-loader {
+  width: 10rem;
+  height: 10rem;
+  margin: 3px 3px 3px 0;
+  background-color: #ddd;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-loader::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -150%;
+  top: 0;
+  height: 100%;
+  width: 150%;
+  background: linear-gradient(to right, #ddd 0%, #eee 50%, #ddd 100%);
+  animation: load 1.5s infinite;
+}
+
+@keyframes load {
+  to {
+    left: 100%;
+  }
 }
