@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePostModalComponent } from './create-post-modal/create-post-modal.component';
@@ -35,6 +35,9 @@ export class PostInputComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      if(result) {
+        // TODO: show loading bar and after show the post in the first position of the feed
+      }
       // gestisci qui il risultato se necessario
     });
   }

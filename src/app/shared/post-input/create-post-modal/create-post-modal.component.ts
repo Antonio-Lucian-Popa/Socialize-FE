@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { PostService } from '../../services/post.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-post-modal',
@@ -10,6 +13,8 @@ export class CreatePostModalComponent implements OnInit {
 
   postForm: FormGroup;
 
+  userId = '';
+
   images: string[] = []; // URLs for the preview images
   user = {
     firstName: 'Jane', // Example user data
@@ -17,25 +22,43 @@ export class CreatePostModalComponent implements OnInit {
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80' // Replace with actual path
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private postService: PostService, private auth: AuthService, private dialogRef: MatDialogRef<CreatePostModalComponent>) {
     // Inizializza il form group con un controllo per il contenuto del post
     this.postForm = this.fb.group({
-      postContent: ''
+      description: ''
     });
   }
 
   ngOnInit(): void {
+    if (this.auth.getUserIdFromToken()) {
+      this.userId = this.auth.getUserIdFromToken() ?? '';
+    } else {
+      this.userId = '';
+    }
   }
 
   removeImage(index: number): void {
     this.images.splice(index, 1);
   }
 
-  submitPost(): void {
-    // Handle post submission...
-    console.log(this.postForm.value.postContent, this.images);
-    this.postForm.reset();
-    this.images = [];
+  createPost(): void {
+    // Handle post creation...
+    console.log(this.postForm.value, this.images, this.userId);
+
+    if (this.userId && this.userId !== '') {
+      this.postService.createPost(this.userId, this.postForm.value, this.images).subscribe(
+        event => {
+          console.log(event);
+          this.postService.isPostCreated.emit(true);
+          this.dialogRef.close(true);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+      this.postForm.reset();
+      this.images = [];
+    }
   }
 
   onImageUpload(event: Event): void {

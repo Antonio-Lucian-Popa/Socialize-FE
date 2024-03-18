@@ -5,11 +5,11 @@
     <!-- User Avatar -->
     <img [src]="user.image" alt="{{ user.firstName }}'s avatar" class="user-avatar mr-3">
     <!-- Post Form -->
-    <form [formGroup]="postForm" (ngSubmit)="submitPost()" class="flex-grow">
-      <textarea formControlName="postContent" placeholder="What's on your mind, {{ user.firstName }}?" class="post-textarea w-full"></textarea>
+    <form [formGroup]="postForm" class="flex-grow">
+      <textarea formControlName="description" placeholder="What's on your mind, {{ user.firstName }}?" class="post-textarea w-full"></textarea>
     </form>
 
-    <button type="submit" class="submit-post-btn ml-4"><i class="fa-solid fa-paper-plane"></i></button>
+    <button (click)="createPost()" class="submit-post-btn ml-4"><i class="fa-solid fa-paper-plane"></i></button>
   </div>
   <!-- Image Upload Icon -->
   <div class="image-upload flex items-center">
