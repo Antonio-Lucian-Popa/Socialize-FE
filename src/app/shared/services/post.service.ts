@@ -1,13 +1,13 @@
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-  @Output() isPostCreated = new EventEmitter<boolean>();
+  @Output() postCreated = new EventEmitter<any>();
 
   URL_LINK = "http://localhost:8081/api/v1/posts";
 
@@ -17,10 +17,13 @@ export class PostService {
     const formData = new FormData();
     formData.append('createPostDto', new Blob([JSON.stringify(createPostDto)], { type: 'application/json' }));
 
-    images.forEach((image, index) => {
-      const blob = this.dataURLtoBlob(image);
-      formData.append('files', blob, `file${index}.${this.getFileExtension(blob.type)}`);
-    });
+   if(images.length > 0) {
+      images.forEach((image, index) => {
+        const blob = this.dataURLtoBlob(image);
+        const file = new File([blob], `image${index}.${this.getFileExtension(blob.type)}`, { type: blob.type });
+        formData.append('files', file);
+      });
+    }
 
     // Create a new HttpRequest with reportProgress set to true
     const req = new HttpRequest('POST', `${this.URL_LINK}/create/${userId}`, formData, {
@@ -29,7 +32,13 @@ export class PostService {
     });
 
     // Send the request and return the event stream
-    return this.http.request(req);
+    return this.http.request(req).pipe(
+      tap(event => {
+        if (event.type === HttpEventType.Response) {
+          this.postCreated.emit(event.body); // Emit the created post data
+        }
+      })
+    );
   }
 
   private dataURLtoBlob(dataurl: string): Blob {

@@ -28,17 +28,17 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const userId = this.authService.getUserIdFromToken();
+    const userId = this.authService.getUserId();
     console.log('User id:', userId)
 
-    if(userId) {
-      this.authService.getUserInfo(userId).subscribe((res: any) => {
-        this.userInfo = res;
-        console.log('User info:', this.userInfo);
-      }, (err: any) => {
-        console.error('Error fetching user info:', err);
-      });
-    }
+    // if(userId) {
+    //   this.authService.getUserInfo(userId).subscribe((res: any) => {
+    //     this.userInfo = res;
+    //     console.log('User info:', this.userInfo);
+    //   }, (err: any) => {
+    //     console.error('Error fetching user info:', err);
+    //   });
+    // }
 
     this.searchControl.valueChanges
       .pipe(

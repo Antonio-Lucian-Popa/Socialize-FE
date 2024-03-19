@@ -9,6 +9,7 @@
 * Angular 14
 * NgBootstrap
 * Angular Material
+* ngx-loading-bar/core
 
 ## Application FE images
 * Registration

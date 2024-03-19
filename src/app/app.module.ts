@@ -9,12 +9,12 @@ import { HomeModule } from './features/home/home.module';
 import { HeaderComponent } from './shared/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
-// import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
-// register Swiper custom elements
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+
 register();
 
 @NgModule({
@@ -24,6 +24,7 @@ register();
     UserProfileComponent
   ],
   imports: [
+    LoadingBarModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -31,7 +32,7 @@ register();
     HomeModule,
     ReactiveFormsModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

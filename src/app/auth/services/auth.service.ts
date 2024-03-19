@@ -1,8 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, catchError, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, from, of, tap, throwError } from 'rxjs';
 import { CreateUser } from '../interfaces/createUser';
+
+import { jwtDecode } from "jwt-decode";
 
 export interface Token {
   access_token: string;
@@ -43,6 +45,8 @@ export class AuthService {
     // Append file if present
     if (file) {
       formData.append('file', file, file.name);
+    } else {
+      formData.append('file', new Blob([]), 'empty');
     }
 
     return this.http.post(`${this.URL_LINK}/register`, formData).pipe(
@@ -50,33 +54,57 @@ export class AuthService {
     );
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('jwt');
+  // getToken(): string | null {
+  //   return localStorage.getItem('jwt');
+  // }
+
+  // isAuthenticated(): boolean {
+  //   const token = this.getToken();
+  //   // Check if the token is not expired
+  //   return token != null && !this.jwtHelper.isTokenExpired(token);
+  // }
+
+  isJwtExpired(token: string): boolean {
+    if (!token) {
+      return true;
+    }
+    const decoded: any = jwtDecode(token); // Use `any` or define a more specific type for your decoded token
+    const expirationDate = decoded.exp * 1000; // JS deals with dates in milliseconds since epoch
+    return Date.now() >= expirationDate;
   }
 
-  isAuthenticated(): boolean {
-    const token = this.getToken();
-    // Check if the token is not expired
-    return token != null && !this.jwtHelper.isTokenExpired(token);
+  async getToken(): Promise<string | null> {
+    return await localStorage.getItem('jwt') ?? null; // Ensures that `undefined` is converted to `null`
   }
 
-  isTokenExpired(token: string): boolean {
-    return token != null && this.jwtHelper.isTokenExpired(token);
+  async getUserId(): Promise<string | null> {
+    const token = await this.getToken();
+    console.log(token)
+    if (token) {
+      const decoded: any = jwtDecode(token); // Use `any` or define a more specific type for your decoded token
+      return decoded.userId;
+    }
+    return null;
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return from(this.getToken().then(token => !!token));
   }
 
   logout(): void {
     localStorage.removeItem('jwt');
   }
 
-  getUserIdFromToken(): string | null {
-    const token = this.getToken();
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      // Assuming 'user_id' is the key in the payload that holds the user ID
-      return decodedToken.userId;
-    }
-    return null;
-  }
+  // getUserIdFromToken(): string | null {
+  //   const token = this.getToken();
+  //   console.log(this.jwtHelper.isTokenExpired(token));
+  //   if (token && !this.jwtHelper.isTokenExpired(token)) {
+  //     const decodedToken = this.jwtHelper.decodeToken(token);
+  //     // Assuming 'user_id' is the key in the payload that holds the user ID
+  //     return decodedToken.userId;
+  //   }
+  //   return null;
+  // }
 
   getUserInfo(userId: string): Observable<any> {
     const URL_LINK = 'http://localhost:8081/api/v1/users';

@@ -30,11 +30,12 @@ export class CreatePostModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.auth.getUserIdFromToken()) {
-      this.userId = this.auth.getUserIdFromToken() ?? '';
-    } else {
-      this.userId = '';
-    }
+    this.auth.getUserId().then((userId) => {
+      console.log(userId);
+      if(userId) {
+        this.userId = userId;
+      }
+    });
   }
 
   removeImage(index: number): void {
@@ -44,18 +45,14 @@ export class CreatePostModalComponent implements OnInit {
   createPost(): void {
     // Handle post creation...
     console.log(this.postForm.value, this.images, this.userId);
-
+    console.log(this.userId);
     if (this.userId && this.userId !== '') {
-      this.postService.createPost(this.userId, this.postForm.value, this.images).subscribe(
-        event => {
-          console.log(event);
-          this.postService.isPostCreated.emit(true);
-          this.dialogRef.close(true);
-        },
-        error => {
-          console.error(error);
-        }
-      );
+      this.postService.postCreated.emit({
+        userId: this.userId,
+        createPostDto: this.postForm.value,
+        images: this.images
+      });
+      this.dialogRef.close(true);
       this.postForm.reset();
       this.images = [];
     }

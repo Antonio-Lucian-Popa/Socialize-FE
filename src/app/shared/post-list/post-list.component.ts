@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../services/post.service';
+import { Subscription } from 'rxjs';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-post-list',
@@ -118,15 +120,48 @@ export class PostListComponent implements OnInit {
     }
   ];
 
-  constructor(private postService: PostService) { }
+
+  private subscription: Subscription = new Subscription();
+
+  constructor(private postService: PostService, private loadingBar: LoadingBarService) {}
 
   ngOnInit(): void {
-    // TODO: retreive posts from the backend
-    this.postService.isPostCreated.subscribe((created: boolean) => {
-      if (created) {
-        //TODO: fetch posts from the backend with my post first
-      }
-    });
+    this.subscription.add(this.postService.postCreated.subscribe((postData) => {
+      this.handlePostCreated(postData);
+    }));
+
+    // Initialize your posts array here...
+  }
+
+  handlePostCreated(postData: any): void {
+    this.loadingBar.start(); // Start loading indication
+    this.postService.createPost(postData.userId, postData.createPostDto, postData.images)
+      .subscribe({
+        next: (post) => {
+          this.posts.unshift(post); // Add the new post at the top of the list
+          this.loadingBar.complete(); // Stop and hide the loading bar successfully
+        },
+        error: (error) => {
+          console.error("Failed to create post", error);
+          this.loadingBar.stop(); // Stop the loading bar without completion
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  loadPosts(): void {
+    this.loadingBar.start();
+    // Your logic to load posts
+    // this.postService.getPosts().subscribe(posts => {
+    //   this.posts = posts;
+    //   this.loadingBar.complete();
+    // }, error => {
+    //   console.error("Failed to load posts", error);
+    //   this.loadingBar.stop();
+    // });
   }
 
 }
