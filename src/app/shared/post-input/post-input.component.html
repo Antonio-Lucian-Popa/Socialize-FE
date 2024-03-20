@@ -3,8 +3,8 @@
    <!-- User Avatar -->
    <img [src]="user.image" alt="Your avatar" class="user-avatar mr-3">
   <!-- Post Form -->
-  <form [formGroup]="postForm" (ngSubmit)="submitPost()" class="d-flex align-items-center justify-between w-100">
-    <textarea formControlName="postContent" placeholder="What's on your mind?" class="post-textarea"></textarea>
+  <form class="d-flex align-items-center justify-between w-100">
+    <textarea placeholder="What's on your mind?" class="post-textarea"></textarea>
     <button type="submit" class="submit-post-btn"><i class="fa-solid fa-paper-plane"></i></button>
   </form>
 </div>

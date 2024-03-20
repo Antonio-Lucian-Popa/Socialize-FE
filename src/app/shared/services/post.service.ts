@@ -1,6 +1,6 @@
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,32 +13,37 @@ export class PostService {
 
   constructor(private http: HttpClient) { }
 
-  createPost(userId: string, createPostDto: any, images: string[]): Observable<HttpEvent<any>> {
+  createPost(userId: string, createPostDto: any, images: string[]): Observable<number | any> {
     const formData = new FormData();
     formData.append('createPostDto', new Blob([JSON.stringify(createPostDto)], { type: 'application/json' }));
 
-   if(images.length > 0) {
-      images.forEach((image, index) => {
-        const blob = this.dataURLtoBlob(image);
-        const file = new File([blob], `image${index}.${this.getFileExtension(blob.type)}`, { type: blob.type });
-        formData.append('files', file);
-      });
-    }
+    images.forEach((image, index) => {
+      // Assuming dataURLtoBlob and getFileExtension methods are defined elsewhere in your service
+      const blob = this.dataURLtoBlob(image);
+      const file = new File([blob], `image${index}.${this.getFileExtension(blob.type)}`, { type: blob.type });
+      formData.append('files', file);
+    });
 
-    // Create a new HttpRequest with reportProgress set to true
     const req = new HttpRequest('POST', `${this.URL_LINK}/create/${userId}`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
 
-    // Send the request and return the event stream
-    return this.http.request(req).pipe(
-      tap(event => {
-        if (event.type === HttpEventType.Response) {
-          this.postCreated.emit(event.body); // Emit the created post data
-        }
-      })
-    );
+    const progress = new Subject<number | any>();
+
+    this.http.request(req).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        const percentDone = Math.round(100 * (event.loaded / (event.total ?? 0)));
+        progress.next(percentDone); // Emit the progress
+      } else if (event.type === HttpEventType.Response) {
+        progress.next(event.body); // Emit the final response
+        progress.complete();
+      }
+    }, error => {
+      progress.error(error);
+    });
+
+    return progress.asObservable();
   }
 
   private dataURLtoBlob(dataurl: string): Blob {

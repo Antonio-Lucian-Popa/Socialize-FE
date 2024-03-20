@@ -44,15 +44,13 @@ export class CreatePostModalComponent implements OnInit {
 
   createPost(): void {
     // Handle post creation...
-    console.log(this.postForm.value, this.images, this.userId);
-    console.log(this.userId);
     if (this.userId && this.userId !== '') {
       this.postService.postCreated.emit({
         userId: this.userId,
         createPostDto: this.postForm.value,
         images: this.images
       });
-      this.dialogRef.close(true);
+      this.dialogRef.close();
       this.postForm.reset();
       this.images = [];
     }

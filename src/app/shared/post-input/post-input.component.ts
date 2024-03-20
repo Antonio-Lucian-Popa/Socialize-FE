@@ -10,10 +10,6 @@ import { CreatePostModalComponent } from './create-post-modal/create-post-modal.
 })
 export class PostInputComponent implements OnInit {
 
-  postForm = new FormGroup({
-    postContent: new FormControl('')
-  });
-
   user: any = {
     id: 1,
     firstName: 'John',
@@ -40,15 +36,6 @@ export class PostInputComponent implements OnInit {
       }
       // gestisci qui il risultato se necessario
     });
-  }
-
-  submitPost(): void {
-    const post = this.postForm.value.postContent;
-    // Here you'd handle the post submission, e.g., sending it to a backend server
-    console.log(post);
-
-    // Reset the form after submission
-    this.postForm.reset();
   }
 
 }
