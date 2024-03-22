@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { debounceTime, filter } from 'rxjs';
+import { debounceTime, filter, firstValueFrom, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { UserService } from '../services/user.service';
+import { UserProfileData } from '../interfaces/user-profile-data';
 
 @Component({
   selector: 'app-header',
@@ -19,26 +21,18 @@ export class HeaderComponent implements OnInit {
 
   isNotificationCardOpened: boolean = false;
 
+  userId!: string;
   userInfo: any;
+  userProfileImage!: string;
 
   isMenuOpened = false;
 
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
 
-    const userId = this.authService.getUserId();
-    console.log('User id:', userId)
-
-    // if(userId) {
-    //   this.authService.getUserInfo(userId).subscribe((res: any) => {
-    //     this.userInfo = res;
-    //     console.log('User info:', this.userInfo);
-    //   }, (err: any) => {
-    //     console.error('Error fetching user info:', err);
-    //   });
-    // }
+    this.fetchUserDetails();
 
     this.searchControl.valueChanges
       .pipe(
@@ -54,7 +48,36 @@ export class HeaderComponent implements OnInit {
           this.showDropdown = false;
         }
       });
+
+      this.userService.userUpdatedInformation.subscribe((res: UserProfileData) => {
+        this.userInfo = res.userInfo;
+        this.userProfileImage = res.userProfileImage;
+      });
   }
+
+  fetchUserDetails() {
+    this.authService.getUserId().then(userId => {
+      if (!userId) {
+        console.log('No valid user ID available');
+        return;
+      }
+
+      this.userService.fetchUserProfile(userId).subscribe({
+        next: (data) => {
+          this.userInfo = data.userInfo;
+          this.userProfileImage = data.userProfileImage;
+          console.log('Fetched User Profile Data:', data);
+        },
+        error: (error) => {
+          console.error('Error fetching user profile data:', error);
+        }
+      });
+    }).catch(error => {
+      console.error('Error during user detail fetch operation:', error);
+    });
+  }
+
+
 
   toggleDropdown(): void {
     this.showDropdownUser = !this.showDropdownUser;

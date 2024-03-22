@@ -12,3 +12,10 @@
 .logo-cont {
   cursor: pointer;
 }
+
+.user-avatar {
+  width: 25px; /* Or your desired size */
+  height: 25px; /* Or your desired size */
+  border-radius: 50%; /* Makes the image round */
+  object-fit: cover;
+}

@@ -24,7 +24,7 @@
     <h1>Edit Profile</h1>
     <div class="settings-section d-flex flex-column align-items-center">
       <h2>Account</h2>
-      <form [formGroup]="userProfile" (ngSubmit)="onEditProfile()"
+      <form [formGroup]="userProfile"
         class="d-flex flex-column align-items-center justify-content-center w-80">
 
         <!-- Avatar Image -->
@@ -55,7 +55,7 @@
           <input type="email" id="email" formControlName="email" placeholder="Enter email">
         </div>
       </form>
-      <button type="submit" class="update-btn mt-4 w-80">Update</button>
+      <button (click)="onEditProfile()" class="update-btn mt-4 w-80">Update</button>
     </div>
     <!-- More settings -->
   </section>

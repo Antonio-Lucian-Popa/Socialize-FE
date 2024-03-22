@@ -1,7 +1,7 @@
 <!-- create-post.component.html -->
 <div class="create-post-container d-flex flex-row align-items-center mt-5" (click)="openCreatePostModal()">
    <!-- User Avatar -->
-   <img [src]="user.image" alt="Your avatar" class="user-avatar mr-3">
+   <img [src]="userProfileImage" [alt]="user.firstName" class="user-avatar mr-3">
   <!-- Post Form -->
   <form class="d-flex align-items-center justify-between w-100">
     <textarea placeholder="What's on your mind?" class="post-textarea"></textarea>

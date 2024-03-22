@@ -2,6 +2,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePostModalComponent } from './create-post-modal/create-post-modal.component';
+import { UserService } from '../services/user.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { UserProfileData } from '../interfaces/user-profile-data';
 
 @Component({
   selector: 'app-post-input',
@@ -14,14 +17,44 @@ export class PostInputComponent implements OnInit {
     id: 1,
     firstName: 'John',
     lastName: 'Doe',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   };
 
-  constructor(public dialog: MatDialog) {}
+  userProfileImage!: string;
+
+  constructor(public dialog: MatDialog, private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
     // TODO: Fetch the user from the backend
+    //   this.fetchUserDetails();
+
+    ///
+    this.userService.userUpdatedInformation.subscribe((res: UserProfileData) => {
+      this.user = res.userInfo;
+      this.userProfileImage = res.userProfileImage;
+    });
   }
+
+  // fetchUserDetails() {
+  //   this.authService.getUserId().then(userId => {
+  //     if (!userId) {
+  //       console.log('No valid user ID available');
+  //       return;
+  //     }
+
+  //     this.userService.fetchUserProfile(userId).subscribe({
+  //       next: (data) => {
+  //         this.user = data.userInfo;
+  //         this.userProfileImage = data.userProfileImage;
+  //         console.log('Fetched User Profile Data:', data);
+  //       },
+  //       error: (error) => {
+  //         console.error('Error fetching user profile data:', error);
+  //       }
+  //     });
+  //   }).catch(error => {
+  //     console.error('Error during user detail fetch operation:', error);
+  //   });
+  // }
 
   openCreatePostModal(): void {
     const dialogRef = this.dialog.open(CreatePostModalComponent, {
@@ -31,7 +64,7 @@ export class PostInputComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      if(result) {
+      if (result) {
         // TODO: show loading bar and after show the post in the first position of the feed
       }
       // gestisci qui il risultato se necessario
