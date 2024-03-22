@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LikePostModalComponent } from '../../like-post-modal/like-post-modal.component';
 import { CommentPostModalComponent } from '../../comment-post-modal/comment-post-modal.component';
+import { PostDto } from '../../interfaces/post-dto';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { CommentPostModalComponent } from '../../comment-post-modal/comment-post
 })
 export class PostComponent implements OnInit {
 
-  @Input() post: any;
+  @Input() post!: PostDto;
 
   isPostLiked: boolean = false;
 

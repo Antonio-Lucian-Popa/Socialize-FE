@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpParams, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 
@@ -44,6 +44,17 @@ export class PostService {
     });
 
     return progress.asObservable();
+  }
+
+
+  findAllPostsByUserId(userId: string, page: number = 0, size: number = 10, includeFollowing: boolean = false): Observable<any> {
+    const url = `${this.URL_LINK}/findAllPosts/${userId}`;
+    let params = new HttpParams();
+    params = params.append('page', page.toString());
+    params = params.append('size', size.toString());
+    params = params.append('includeFollowing', includeFollowing.toString());
+
+    return this.http.get(url, { params: params });
   }
 
   private dataURLtoBlob(dataurl: string): Blob {

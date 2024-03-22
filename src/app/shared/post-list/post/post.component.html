@@ -52,7 +52,7 @@
       <!-- </button> -->
     </div>
     <div class="mt-2 likes-dialog-btn" (click)="openLikesDialog(post)" *ngIf="post.likes.length > 0">
-      <span class="font-semibold">Liked by {{post.likes[0].user.firstName}} and {{post.likes.length}} others</span>
+      <span class="font-semibold">Liked by {{post.likes[0].firstName}} and {{post.likes.length}} others</span>
     </div>
     <div class="mt-2 text-sm text-gray-700">
       <span class="font-semibold">{{post.user.firstName}} {{post.user.lastName}} </span>
@@ -111,7 +111,7 @@
       <!-- </button> -->
     </div>
     <div class="mt-2 likes-dialog-btn" (click)="openLikesDialog(post)" *ngIf="post.likes.length > 0">
-      <span class="font-semibold">Liked by {{post.likes[0].user.firstName}} and {{post.likes.length}} others</span>
+      <span class="font-semibold">Liked by {{post.likes[0].firstName}} and {{post.likes.length}} others</span>
     </div>
     <!-- Additional post content goes here -->
   </div>

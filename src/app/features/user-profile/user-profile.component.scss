@@ -119,3 +119,11 @@
   flex: 1;
   min-width: 0; /* Prevent flex items from overflowing */
 }
+
+
+.user-avatar {
+  width: 80px; /* Or your desired size */
+  height: 80px; /* Or your desired size */
+  border-radius: 50%; /* Makes the image round */
+  object-fit: cover;
+}

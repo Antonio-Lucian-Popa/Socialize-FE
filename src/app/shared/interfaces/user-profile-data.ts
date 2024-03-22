@@ -10,8 +10,9 @@ export interface UserInformation {
   email: string;
   birthday: string;
   gender: Gender;
-  following: User;
-  followers: User;
+  totalPosts: number;
+  following: User[];
+  followers: User[];
 }
 
 export enum Gender {

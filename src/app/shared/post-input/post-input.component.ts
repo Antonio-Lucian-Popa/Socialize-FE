@@ -33,6 +33,11 @@ export class PostInputComponent implements OnInit {
       console.log('User:', this.user);
       this.userProfileImage = res.userProfileImage;
     });
+
+    if((this.user == undefined || this.user == null) || (this.userProfileImage == undefined || this.userProfileImage == null)) {
+      this.user = this.userService.userInfo;
+      this.userProfileImage = this.userService.userProfileImage;
+    }
   }
 
   // fetchUserDetails() {
