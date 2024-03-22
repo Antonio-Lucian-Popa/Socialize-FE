@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { BehaviorSubject, Observable, forkJoin, map, switchMap } from 'rxjs';
-import { UserProfileData } from '../interfaces/user-profile-data';
+import { User, UserProfileData } from '../interfaces/user-profile-data';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,9 @@ import { UserProfileData } from '../interfaces/user-profile-data';
 export class UserService {
 
   @Output() userUpdatedInformation = new EventEmitter<UserProfileData>();
+
+  userProfileImage!: string;
+  userInfo!: User;
 
   URL_LINK = 'http://localhost:8081/api/v1/users';
 
@@ -35,6 +38,8 @@ export class UserService {
     }).pipe(
       map(({ userInfo, userProfileImage }) => {
         const profileData = { userInfo, userProfileImage };
+        this.userProfileImage = profileData.userProfileImage;
+        this.userInfo = profileData.userInfo;
         this.userUpdatedInformation.emit(profileData); // Emitting the event here
         return profileData;
       })

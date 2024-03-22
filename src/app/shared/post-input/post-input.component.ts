@@ -30,6 +30,7 @@ export class PostInputComponent implements OnInit {
     ///
     this.userService.userUpdatedInformation.subscribe((res: UserProfileData) => {
       this.user = res.userInfo;
+      console.log('User:', this.user);
       this.userProfileImage = res.userProfileImage;
     });
   }

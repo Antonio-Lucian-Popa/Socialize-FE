@@ -3,7 +3,7 @@
   <h2>Create Post</h2>
   <div class="post-header flex items-center mb-4">
     <!-- User Avatar -->
-    <img [src]="user.image" alt="{{ user.firstName }}'s avatar" class="user-avatar mr-3">
+    <img [src]="userProfileImage" alt="{{ user.firstName }}'s avatar" class="user-avatar mr-3">
     <!-- Post Form -->
     <form [formGroup]="postForm" class="flex-grow">
       <textarea formControlName="description" placeholder="What's on your mind, {{ user.firstName }}?" class="post-textarea w-full"></textarea>

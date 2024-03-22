@@ -4,7 +4,7 @@ export interface UserProfileData {
 }
 
 export interface UserInformation {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -20,7 +20,7 @@ export enum Gender {
 }
 
 export interface User {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
 }
