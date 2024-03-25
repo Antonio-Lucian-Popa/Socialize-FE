@@ -59,6 +59,7 @@ export class HeaderComponent implements OnInit {
     this.authService.getUserId().then(userId => {
       if (!userId) {
         console.log('No valid user ID available');
+        this.router.navigate(['/log-in']);
         return;
       }
 

@@ -17,9 +17,8 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return from(this.auth.getToken()).pipe(
       mergeMap(token => {
-        console.log(token);
         if (token) {
-          if(this.auth.isJwtExpired(token)) {
+          if(this.auth.isJwtExpired(token)){
             this.auth.logout();
             this.router.navigate(['/log-in']);
           } else {
@@ -29,6 +28,8 @@ export class TokenInterceptor implements HttpInterceptor {
               }
             });
           }
+        } else {
+          this.router.navigate(['/log-in']);
         }
         return next.handle(request);
       })

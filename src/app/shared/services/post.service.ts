@@ -1,6 +1,7 @@
 import { HttpClient, HttpEvent, HttpEventType, HttpParams, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
+import { PostDto } from '../interfaces/post-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,16 @@ export class PostService {
     params = params.append('includeFollowing', includeFollowing.toString());
 
     return this.http.get(url, { params: params });
+  }
+
+  likePost(postId: string, userId: string): Observable<PostDto> {
+    const url = `${this.URL_LINK}/like/${postId}/${userId}`;
+    return this.http.put<PostDto>(url, {}); // Sending an empty object as the body, as the endpoint might not require it
+  }
+
+  unlikePost(postId: string, userId: string): Observable<PostDto> {
+    const url = `${this.URL_LINK}/unlike/${postId}/${userId}`;
+    return this.http.put<PostDto>(url, {}); // Sending an empty object as the body, as the endpoint might not require it
   }
 
   private dataURLtoBlob(dataurl: string): Blob {

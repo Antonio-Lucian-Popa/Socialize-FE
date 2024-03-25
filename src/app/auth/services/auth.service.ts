@@ -70,6 +70,7 @@ export class AuthService {
     }
     const decoded: any = jwtDecode(token); // Use `any` or define a more specific type for your decoded token
     const expirationDate = decoded.exp * 1000; // JS deals with dates in milliseconds since epoch
+    console.log(expirationDate)
     return Date.now() >= expirationDate;
   }
 

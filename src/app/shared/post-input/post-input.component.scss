@@ -41,3 +41,51 @@
 .post-textarea {
   outline: none;
 }
+
+
+///////// Skeleton Loader /////////
+
+.create-post-container.skeleton {
+ // background: #e4e4e4; // A lighter background for the skeleton
+  justify-content: start;
+  .skeleton {
+    background: #e4e4e4;
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    &.skeleton {
+      margin-right: 12px; // Match the marginRight of the actual avatar
+    }
+  }
+
+  .skeleton-form {
+    flex-grow: 1;
+    flex-direction: column;
+
+    .post-textarea {
+      height: 40px;
+      width: 80%;
+      border-radius: 18px; // Make it a bit larger to mimic the placeholder text
+      border: none;
+    }
+
+    .submit-post-btn {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%; // Circle shape to mimic the send button
+      margin-left: auto; // Push it to the end of the container
+    }
+  }
+}
+
+@keyframes loading {
+  100% {
+    background-position: -200% 0;
+  }
+}

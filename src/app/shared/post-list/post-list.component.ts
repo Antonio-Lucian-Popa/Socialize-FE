@@ -133,6 +133,8 @@ export class PostListComponent implements OnInit {
   constructor(private postService: PostService, private loadingBar: LoadingBarService, private userService: UserService) {}
 
   ngOnInit(): void {
+
+    // TODO: Make be req for get user info, because the event emmiter not work after ngOnDestroy
     this.subscription.add(this.postService.postCreated.subscribe((postData) => {
       this.uploadFiles(postData);
     }));
@@ -164,6 +166,20 @@ export class PostListComponent implements OnInit {
         error: () => this.loadingBar.stop()
       });
   }
+
+  loadPosts(page: number = 0, size: number = 10): void {
+    console.log('Loading posts for user:', this.userId, 'Page:', page, 'Size:', size, this.isMyPosts)
+    this.postService.findAllPostsByUserId(this.userId, page, size).subscribe({
+      next: (response) => {
+        this.posts = response.content; // Assuming the response is a Page object with a content field
+        console.log('Posts loaded:', this.posts);
+      },
+      error: (error) => {
+        console.error('Error loading posts:', error);
+      },
+    });
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -181,17 +197,5 @@ export class PostListComponent implements OnInit {
 
   //   this.postService.getPosts
   // }
-
-  loadPosts(page: number = 0, size: number = 10): void {
-    this.postService.findAllPostsByUserId(this.userId, page, size, !this.isMyPosts).subscribe({
-      next: (response) => {
-        this.posts = response.content; // Assuming the response is a Page object with a content field
-        console.log('Posts loaded:', this.posts);
-      },
-      error: (error) => {
-        console.error('Error loading posts:', error);
-      },
-    });
-  }
 
 }

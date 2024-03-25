@@ -58,3 +58,24 @@
     justify-content: space-between;
   }
 }
+
+
+/////// Skeleton Loader ///////
+
+.skeleton {
+  background: #e4e4e4;
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite ease-in-out;
+  border-radius: 0.5rem; // Assuming you want rounded corners for all skeleton elements
+}
+
+@keyframes loading {
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.swiper-container {
+  width: 100%;
+  animation-duration: 2s; // Slightly slower animation for larger areas
+}
