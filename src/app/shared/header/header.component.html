@@ -36,17 +36,24 @@
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6 relative">
             <button type="button" (click)="toggleNotificationCard()"
-              class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-              <span class="absolute -inset-1.5"></span>
+              class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white d-flex justify-center align-items-center">
+              <span class="relative inline-block">
+                <!-- Notification Badge as a dot -->
+                <span
+                  class="absolute top-0 right-0 block h-2 w-2 transform translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600" *ngIf="isNewNotifications"></span>
+
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                  aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+              </span>
               <span class="sr-only">View notifications</span>
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-              </svg>
             </button>
 
-            <app-notification-card *ngIf="isNotificationCardOpened" class="absolute notification-card ml-3" (isClosed)="checkNotificationOpeningStatus($event)"></app-notification-card>
+
+            <app-notification-card *ngIf="isNotificationCardOpened" class="absolute notification-card ml-3"
+              (isClosed)="checkNotificationOpeningStatus($event)"></app-notification-card>
 
             <!-- Profile dropdown -->
             <div class="relative ml-3">
@@ -56,8 +63,7 @@
                   id="user-menu-button" aria-expanded="false" aria-haspopup="true" (click)="toggleDropdown()">
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img class="user-avatar" *ngIf="userInfo && userInfo.profileImageUrl"
-                    [src]="userInfo.profileImageUrl"
+                  <img class="user-avatar" *ngIf="userInfo && userInfo.profileImageUrl" [src]="userInfo.profileImageUrl"
                     [alt]="userInfo.firstName">
                 </button>
               </div>
@@ -76,12 +82,12 @@
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                 <!-- Active: "bg-gray-100", Not Active: "" -->
-                <a (click)="openUserProfile()" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
-                  id="user-menu-item-0">Your Profile</a>
-                <a routerLink="/settings" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
-                  id="user-menu-item-1" (click)="closeDropDownUser()">Settings</a>
-                <a (click)="logOut()" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
-                  id="user-menu-item-2" (click)="closeDropDownUser()">Sign out</a>
+                <a (click)="openUserProfile()" class="block my-2 mx-4 text-sm text-gray-700 link-navigation"
+                  role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                <a routerLink="/settings" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem"
+                  tabindex="-1" id="user-menu-item-1" (click)="closeDropDownUser()">Settings</a>
+                <a (click)="logOut()" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem"
+                  tabindex="-1" id="user-menu-item-2" (click)="closeDropDownUser()">Sign out</a>
               </div>
             </div>
           </div>

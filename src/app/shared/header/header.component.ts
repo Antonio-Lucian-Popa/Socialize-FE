@@ -5,6 +5,7 @@ import { debounceTime, filter, firstValueFrom, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { UserService } from '../services/user.service';
 import { User, UserProfileData } from '../interfaces/user-profile-data';
+import { WebSocketService } from '../notification-card/services/web-socket.service';
 
 @Component({
   selector: 'app-header',
@@ -27,8 +28,10 @@ export class HeaderComponent implements OnInit {
 
   isMenuOpened = false;
 
+  isNewNotifications = false;
 
-  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
+
+  constructor(private router: Router, private authService: AuthService, private userService: UserService, private webSocketService: WebSocketService) { }
 
   ngOnInit(): void {
 
@@ -53,6 +56,10 @@ export class HeaderComponent implements OnInit {
       this.userInfo = res;
       this.userProfileImage = res.profileImageUrl;
     });
+    this.webSocketService.newNotifications.subscribe((notification: any) => {
+      this.isNewNotifications = true;
+    });
+
   }
 
   fetchUserDetails() {
@@ -92,6 +99,7 @@ export class HeaderComponent implements OnInit {
 
   toggleNotificationCard(): void {
     this.isNotificationCardOpened = !this.isNotificationCardOpened;
+    this.isNotificationCardOpened ? this.isNewNotifications = false : null;
   }
 
   openUserProfile(): void {
