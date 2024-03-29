@@ -65,6 +65,10 @@ export class PostInputComponent implements OnInit {
   openCreatePostModal(): void {
     const dialogRef = this.dialog.open(CreatePostModalComponent, {
       width: '500px', // o la dimensione desiderata
+      data: {
+        profileImageUrl: this.user.profileImageUrl,
+        user: this.user
+      }
       // passa qui altri dati se necessario
     });
 

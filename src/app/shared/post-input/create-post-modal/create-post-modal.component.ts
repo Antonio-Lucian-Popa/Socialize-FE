@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PostService } from '../../services/post.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
 import { User, UserProfileData } from '../../interfaces/user-profile-data';
 
@@ -24,9 +24,13 @@ export class CreatePostModalComponent implements OnInit {
     private fb: FormBuilder,
     private postService: PostService,
     private dialogRef: MatDialogRef<CreatePostModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService
     ) {
     // Inizializza il form group con un controllo per il contenuto del post
+    console.log('Data:', data)
+    this.user = data.user;
+    this.userProfileImage = data.profileImageUrl;
     this.postForm = this.fb.group({
       description: ''
     });
@@ -44,9 +48,6 @@ export class CreatePostModalComponent implements OnInit {
       this.user = res.userInfo;
     });
 
-    this.userProfileImage = this.userService.userProfileImage;
-    this.user = this.userService.userInfo;
-    console.log('User:', this.user);
   }
 
   removeImage(index: number): void {
