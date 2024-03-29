@@ -20,6 +20,14 @@ export class PostComponent implements OnInit {
 
   isPostLiked: boolean = false;
 
+  swiperConfig: any = {
+    // Swiper configurations
+    slidesPerView: 1,
+    spaceBetween: 10,
+    navigation: true,
+    pagination: { clickable: true },
+  };
+
   constructor(public dialog: MatDialog, private postService: PostService, private authService: AuthService) {
   }
 
@@ -32,17 +40,20 @@ export class PostComponent implements OnInit {
     });
   }
 
+  /**
+   * Check if the post is liked by the current user
+   */
   checkIfPostIsLikedByUser(): void {
     this.isPostLiked = this.post.likes.some((like) => like.id === this.userId);
   }
 
-  swiperConfig: any = {
-    // Swiper configurations
-    slidesPerView: 1,
-    spaceBetween: 10,
-    navigation: true,
-    pagination: { clickable: true },
-  };
+  /**
+   *
+   * @returns true if the post is of the current user, false otherwise
+   */
+  checkIfPostIsOfCurrentUser(): boolean {
+    return this.post.user.id === this.userId;
+  }
 
   openLikesDialog(post: any): void {
     this.dialog.open(LikePostModalComponent, {
@@ -91,6 +102,20 @@ export class PostComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error liking the post', error);
+        // Handle error case
+      },
+    });
+  }
+
+  deletePost(postId: string) {
+    this.postService.deletePostById(postId, this.userId).subscribe({
+      next: (response) => {
+        console.log('Post deleted successfully', response);
+        // Handle successful delete action, e.g., update UI accordingly
+        this.postService.postDeleted.next(postId);
+      },
+      error: (error) => {
+        console.error('Error deleting the post', error);
         // Handle error case
       },
     });

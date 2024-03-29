@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreatePostModalComponent } from './create-post-modal/create-post-modal.component';
 import { UserService } from '../services/user.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { UserProfileData } from '../interfaces/user-profile-data';
+import { User, UserProfileData } from '../interfaces/user-profile-data';
 
 @Component({
   selector: 'app-post-input',
@@ -28,15 +28,15 @@ export class PostInputComponent implements OnInit {
     //   this.fetchUserDetails();
 
     ///
-    this.userService.userUpdatedInformation.subscribe((res: UserProfileData) => {
-      this.user = res.userInfo;
+    this.userService.userUpdatedInformation.subscribe((res: User) => {
+      this.user = res;
       console.log('User:', this.user);
-      this.userProfileImage = res.userProfileImage;
+      this.userProfileImage = res.profileImageUrl;
     });
 
-    if((this.user == undefined || this.user == null) || (this.userProfileImage == undefined || this.userProfileImage == null)) {
+    if((this.user == undefined || this.user == null) || (this.userProfileImage == undefined || this.userProfileImage == null) && this.userService.userInfo) {
       this.user = this.userService.userInfo;
-      this.userProfileImage = this.userService.userProfileImage;
+      this.userProfileImage = this.userService.userInfo.profileImageUrl;
     }
   }
 

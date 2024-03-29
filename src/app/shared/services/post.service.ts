@@ -10,6 +10,8 @@ export class PostService {
 
   @Output() postCreated = new EventEmitter<any>();
 
+  @Output() postDeleted = new EventEmitter<string>();
+
   URL_LINK = "http://localhost:8081/api/v1/posts";
 
   constructor(private http: HttpClient) { }
@@ -45,6 +47,17 @@ export class PostService {
     });
 
     return progress.asObservable();
+  }
+
+  /**
+   *
+   * @param id post id that needs to be deleted
+   * @param userId user id of the post owner
+   * @returns
+   */
+  deletePostById(id: string, userId: string): Observable<any> {
+    const url = `${this.URL_LINK}/delete/${id}/${userId}`;
+    return this.http.delete(url);
   }
 
 

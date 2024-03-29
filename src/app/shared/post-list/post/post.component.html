@@ -75,15 +75,18 @@
           <span>{{ post.createdAt | timeAgo }}</span>
         </div>
       </div>
-      <div class="ml-auto text-sm text-gray-600">
+      <div class="ml-auto text-sm text-gray-600" *ngIf="checkIfPostIsOfCurrentUser()">
         <button mat-button [matMenuTriggerFor]="menu">
           <mat-icon class="material-symbols-outlined">
             more_horiz
           </mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>Item 1</button>
-          <button mat-menu-item>Item 2</button>
+          <button mat-menu-item (click)="deletePost(post.id)">
+            <i class="fa-solid fa-trash mr-2"></i>
+            Remove
+          </button>
+          <!-- <button mat-menu-item>Item 2</button> -->
         </mat-menu>
       </div>
       <!-- <p class="user-handle text-gray-500 mb-0">@{{ post.user.handle }}</p> -->

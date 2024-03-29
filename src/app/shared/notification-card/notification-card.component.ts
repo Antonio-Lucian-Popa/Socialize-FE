@@ -1,4 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { WebSocketService } from './services/web-socket.service';
+import { UserService } from '../services/user.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Notification } from '../interfaces/notification';
 
 @Component({
   selector: 'app-notification-card',
@@ -9,23 +13,24 @@ export class NotificationCardComponent implements OnInit {
 
   @Output() isClosed = new EventEmitter<boolean>();
 
-  notifications = [
-    {
-      user: {
-        firstName: 'Tommy',
-        lastName: 'Lee',
-        image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-      },
-      message: 'replied to you in Generic File',
-      date: '7 November 2023 · 12:35 AM',
-      isNew: true
-    },
-  ];
+  notifications: Notification[] = [];
 
-  constructor() { }
+  constructor(private webSocketService: WebSocketService, private authService: AuthService) { }
 
   ngOnInit(): void {
     // TODO: Fetch notifications from a service
+    this.authService.getUserId().then(userId => {
+      if(userId) {
+        // TODO: Find a way to retreive the last 5 notifications
+        this.webSocketService.getNotifications(0, 5).subscribe((notifications: any) => {
+          this.notifications = notifications.content;
+        });
+      }
+    });
+
+    this.webSocketService.newNotifications.subscribe((notification: any) => {
+      this.notifications.unshift(notification);
+    });
   }
 
   closeNotificationCard(): void {

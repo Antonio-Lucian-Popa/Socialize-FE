@@ -23,6 +23,7 @@ import { TimeAgoPipe } from './pipe/time-ago.pipe';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 import {MatDividerModule} from '@angular/material/divider';
 import { ImageViewDialogComponent } from '../features/discovery/image-view-dialog/image-view-dialog.component';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -30,7 +31,8 @@ const NB_MODULES: any[] = [
   MatMenuModule,
   MatDialogModule,
   ReactiveFormsModule,
-  MatDividerModule
+  MatDividerModule,
+  LoadingBarHttpClientModule
 ];
 
 const COMPONENTS: any[] = [

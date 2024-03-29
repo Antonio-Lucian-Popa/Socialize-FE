@@ -1,5 +1,5 @@
 <!-- create-post.component.html -->
-<div class="create-post-container d-flex flex-row align-items-center mt-5" (click)="openCreatePostModal()" *ngIf="false">
+<div class="create-post-container d-flex flex-row align-items-center mt-5" (click)="openCreatePostModal()" *ngIf="user">
    <!-- User Avatar -->
    <img [src]="userProfileImage" [alt]="user.firstName" class="user-avatar mr-3">
   <!-- Post Form -->
@@ -10,7 +10,7 @@
 </div>
 
 
-<div class="create-post-container skeleton d-flex flex-row align-items-center mt-5" *ngIf="true">
+<div class="create-post-container skeleton d-flex flex-row align-items-center mt-5" *ngIf="!user">
   <!-- User Avatar Skeleton -->
   <div class="skeleton user-avatar mr-3"></div>
   <!-- Post Form Skeleton -->

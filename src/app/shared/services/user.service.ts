@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, map, switchMap, tap } from 'rxjs';
 import { User, UserProfileData } from '../interfaces/user-profile-data';
 
 @Injectable({
@@ -21,8 +21,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUserProfileInfo(userId: string): Observable<any> {
-    console.log(userId)
-    return this.http.get<any>(`${this.URL_LINK}/${userId}`);
+    return this.http.get<any>(`${this.URL_LINK}/${userId}`).pipe(
+      tap((userInfo) => {
+        this.userInfo = userInfo;
+        this.userUpdatedInformation.emit(userInfo);
+      }));
   }
 
   getProfileImageAsBase64(userId: string): Observable<string> {
@@ -31,20 +34,20 @@ export class UserService {
     );
   }
 
-  fetchUserProfile(userId: string): Observable<UserProfileData> {
-    return forkJoin({
-      userInfo: this.getUserProfileInfo(userId),
-      userProfileImage: this.getProfileImageAsBase64(userId),
-    }).pipe(
-      map(({ userInfo, userProfileImage }) => {
-        const profileData = { userInfo, userProfileImage };
-        this.userProfileImage = profileData.userProfileImage;
-        this.userInfo = profileData.userInfo;
-        this.userUpdatedInformation.emit(profileData); // Emitting the event here
-        return profileData;
-      })
-    );
-  }
+  // fetchUserProfile(userId: string): Observable<UserProfileData> {
+  //   return forkJoin({
+  //     userInfo: this.getUserProfileInfo(userId),
+  //     userProfileImage: this.getProfileImageAsBase64(userId),
+  //   }).pipe(
+  //     map(({ userInfo, userProfileImage }) => {
+  //       const profileData = { userInfo, userProfileImage };
+  //       this.userProfileImage = profileData.userProfileImage;
+  //       this.userInfo = profileData.userInfo;
+  //       this.userUpdatedInformation.emit(profileData); // Emitting the event here
+  //       return profileData;
+  //     })
+  //   );
+  // }
 
 
   private convertBlobToBase64(blob: Blob): Observable<string> {

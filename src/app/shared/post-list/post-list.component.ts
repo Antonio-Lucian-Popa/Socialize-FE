@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PostService } from '../services/post.service';
-import { Subscription } from 'rxjs';
+import { Subscription, finalize, forkJoin } from 'rxjs';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { UserService } from '../services/user.service';
 import { PostDto } from '../interfaces/post-dto';
@@ -125,12 +125,13 @@ export class PostListComponent implements OnInit {
     // }
   ];
 
-  userProfileImage!: string;
-
+  page: number = 0;
+  size: number = 10;
+  morePostsAvailable: boolean = false;
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private postService: PostService, private loadingBar: LoadingBarService, private userService: UserService) {}
+  constructor(private postService: PostService, private loadingBar: LoadingBarService, private userService: UserService) { }
 
   ngOnInit(): void {
 
@@ -139,40 +140,58 @@ export class PostListComponent implements OnInit {
       this.uploadFiles(postData);
     }));
 
-    // Initialize your posts array here...
-    if(this.userId) {
-      this.loadPosts();
-    }
+    this.postService.postDeleted.subscribe((postId) => {
+      // this.loadPosts();
+      this.posts.splice(this.posts.findIndex(post => post.id === postId), 1);
+    });
 
-    if(this.isMyPosts) {
-      this.userProfileImage = this.userService.userProfileImage;
+    // Initialize your posts array here...
+    if (this.userId) {
+      this.loadPosts();
     }
   }
 
+  loadMorePosts() {
+    this.page += 1; // Increment the page number to fetch the next page of posts
+    this.subscription.add(
+      this.postService.findAllPostsByUserId(this.userId, this.page, this.size, true).subscribe((posts) => {
+        // Append the new posts to the existing ones
+        this.posts = [...this.posts, ...posts.content];
+        // Update the morePostsAvailable flag
+        this.morePostsAvailable = posts.totalPages > (posts.pageable.pageNumber + 1);
+      })
+    );
+  }
+
+
   uploadFiles(postData: any): void {
-    this.postService.createPost(postData.userId, postData.createPostDto, postData.images)
-      .subscribe({
-        next: (progress) => {
-          if (typeof progress === 'number') {
-            // Directly set the progress on ngx-loading-bar
-            this.loadingBar.set(progress);
-          } else {
-            // Final response
-            console.log('Upload complete', progress);
-            this.loadingBar.complete(); // Finish the loading bar process
-            this.posts.unshift(progress); // Add the new post to the top of the list
-          }
-        },
-        error: () => this.loadingBar.stop()
-      });
+    const createPost$ = this.postService.createPost(postData.userId, postData.createPostDto, postData.images);
+    const getProfileImage$ = this.userService.getProfileImageAsBase64(postData.userId);
+    forkJoin([createPost$, getProfileImage$]).pipe(
+      finalize(() => {
+       // this.loadingBar.complete(); // Always complete the loading bar whether the requests are successful or not
+      })
+    ).subscribe({
+      next: ([progress, image]) => {
+        progress.user.profileImage = image; // Set the image to the progress.user.profileImage
+        this.posts.unshift(progress); // Add the post to the beginning of the posts array
+      },
+      error: () => {
+        console.error('Error occurred during the requests');
+      }
+    });
   }
 
   loadPosts(page: number = 0, size: number = 10): void {
     console.log('Loading posts for user:', this.userId, 'Page:', page, 'Size:', size, this.isMyPosts)
     this.postService.findAllPostsByUserId(this.userId, page, size).subscribe({
       next: (response) => {
-        this.posts = response.content; // Assuming the response is a Page object with a content field
-        console.log('Posts loaded:', this.posts);
+        console.log(response)
+        this.posts = response.content;
+        this.page = response.pageable.pageNumber;
+        this.size = response.pageable.pageSize;
+        // Check if there are more pages available
+        this.morePostsAvailable = response.totalPages > (response.pageable.pageNumber + 1);
       },
       error: (error) => {
         console.error('Error loading posts:', error);

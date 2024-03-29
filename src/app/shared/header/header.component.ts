@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { debounceTime, filter, firstValueFrom, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { UserService } from '../services/user.service';
-import { UserProfileData } from '../interfaces/user-profile-data';
+import { User, UserProfileData } from '../interfaces/user-profile-data';
 
 @Component({
   selector: 'app-header',
@@ -49,10 +49,10 @@ export class HeaderComponent implements OnInit {
         }
       });
 
-      this.userService.userUpdatedInformation.subscribe((res: UserProfileData) => {
-        this.userInfo = res.userInfo;
-        this.userProfileImage = res.userProfileImage;
-      });
+    this.userService.userUpdatedInformation.subscribe((res: User) => {
+      this.userInfo = res;
+      this.userProfileImage = res.profileImageUrl;
+    });
   }
 
   fetchUserDetails() {
@@ -63,11 +63,10 @@ export class HeaderComponent implements OnInit {
         return;
       }
 
-      this.userService.fetchUserProfile(userId).subscribe({
-        next: (data) => {
-          this.userInfo = data.userInfo;
-          this.userProfileImage = data.userProfileImage;
-          console.log('Fetched User Profile Data:', data);
+      this.userService.getUserProfileInfo(userId).subscribe({
+        next: (userProfile) => {
+          this.userInfo = userProfile;
+          console.log('Fetched User Profile Data:', userProfile);
         },
         error: (error) => {
           console.error('Error fetching user profile data:', error);
@@ -78,7 +77,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-
+  logOut(): void {
+    this.authService.logout()
+    this.router.navigate(['/log-in']);
+  }
 
   toggleDropdown(): void {
     this.showDropdownUser = !this.showDropdownUser;

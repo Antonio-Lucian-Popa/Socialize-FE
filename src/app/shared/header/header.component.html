@@ -56,9 +56,9 @@
                   id="user-menu-button" aria-expanded="false" aria-haspopup="true" (click)="toggleDropdown()">
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img class="user-avatar"
-                    [src]="userProfileImage ? userProfileImage : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'"
-                    alt="">
+                  <img class="user-avatar" *ngIf="userInfo && userInfo.profileImageUrl"
+                    [src]="userInfo.profileImageUrl"
+                    [alt]="userInfo.firstName">
                 </button>
               </div>
 
@@ -80,7 +80,7 @@
                   id="user-menu-item-0">Your Profile</a>
                 <a routerLink="/settings" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
                   id="user-menu-item-1" (click)="closeDropDownUser()">Settings</a>
-                <a routerLink="/log-in" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
+                <a (click)="logOut()" class="block my-2 mx-4 text-sm text-gray-700 link-navigation" role="menuitem" tabindex="-1"
                   id="user-menu-item-2" (click)="closeDropDownUser()">Sign out</a>
               </div>
             </div>

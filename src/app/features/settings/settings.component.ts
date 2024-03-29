@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { ChangePasswordDialogComponent } from 'src/app/shared/change-password-dialog/change-password-dialog.component';
+import { UserInformation } from 'src/app/shared/interfaces/user-profile-data';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -17,21 +18,14 @@ export class SettingsComponent implements OnInit {
 
   userId!: string;
 
-  user = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john@gmail.com',
-    password: '123456',
-    biography: 'Love to learn new things.',
-    birthday: '1990-01-01'
-  };
+  user!: UserInformation;
 
   userProfile = this.fb.group({
-    firstName: [this.user.firstName],
-    lastName: [this.user.lastName],
-    biography: [this.user.biography],
-    email: [this.user.email],
-    birthday: [this.user.birthday]
+    firstName: [''],
+    lastName: [''],
+    biography: [''],
+    email: [''],
+    birthday: ['']
   });
 
   avatarUrl: string | ArrayBuffer | null = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
@@ -42,7 +36,22 @@ export class SettingsComponent implements OnInit {
     this.authService.getUserId().then((userId) => {
       if(userId) {
         this.userId = userId;
+        this.loadUserProfile();
       }
+    });
+  }
+
+  loadUserProfile(): void {
+    this.userService.getUserProfileInfo(this.userId).subscribe((response) => {
+      this.user = response;
+      this.avatarUrl = this.user.profileImageUrl;
+      this.userProfile.patchValue({
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        biography: null,
+        email: this.user.email,
+        birthday: this.user.birthday
+      });
     });
   }
 

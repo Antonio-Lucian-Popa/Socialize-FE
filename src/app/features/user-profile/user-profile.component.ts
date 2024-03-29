@@ -37,11 +37,10 @@ export class UserProfileComponent implements OnInit {
     this.userId = this.route.snapshot.paramMap.get('id');
     if(this.userId) {
       // TODO: Fetch user profile data
-      this.userService.fetchUserProfile(this.userId).subscribe({
+      this.userService.getUserProfileInfo(this.userId).subscribe({
         next: (data) => {
           console.log('Fetched User Profile Data:', data);
-          this.user = data.userInfo;
-          this.userProfileImage = data.userProfileImage;
+          this.user = data;
         },
         error: (error) => {
           console.error('Error fetching user profile data:', error);

@@ -5,6 +5,7 @@ export interface UserProfileData {
 
 export interface UserInformation {
   id: string;
+  profileImageUrl: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -22,6 +23,7 @@ export enum Gender {
 
 export interface User {
   id: string;
+  profileImageUrl: string;
   firstName: string;
   lastName: string;
 }
