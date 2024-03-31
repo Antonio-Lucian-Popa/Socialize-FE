@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { User } from '../interfaces/user-profile-data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-suggestion-card',
@@ -7,19 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SuggestionCardComponent implements OnInit {
 
-  suggestedUsers = [
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      recommendation: 'Recently joined',
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-    }
-  ];
+  suggestedUsers: User[] = [];
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.userService.getSuggestedUsers().subscribe((users) => {
+      this.suggestedUsers = users;
+    });
   }
 
 }

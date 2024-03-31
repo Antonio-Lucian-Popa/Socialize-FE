@@ -1,0 +1,28 @@
+.user-info {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    width: 3rem; // Avatar size
+    height: 3rem;
+    border-radius: 9999px;
+    margin-right: 0.75rem;
+  }
+
+  .username {
+    font-weight: bold;
+    margin-bottom: 0!important;
+  }
+}
+
+.follow-btn {
+  color: #6366f1; // Tailwind's indigo-500
+  // Additional styles for the follow button
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}

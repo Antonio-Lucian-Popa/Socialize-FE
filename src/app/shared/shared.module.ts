@@ -24,6 +24,7 @@ import { ChangePasswordDialogComponent } from './change-password-dialog/change-p
 import {MatDividerModule} from '@angular/material/divider';
 import { ImageViewDialogComponent } from '../features/discovery/image-view-dialog/image-view-dialog.component';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { UserSuggestComponent } from './suggestion-card/user-suggest/user-suggest.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -57,6 +58,7 @@ const COMPONENTS: any[] = [
     CreatePostModalComponent,
     TimeAgoPipe,
     ChangePasswordDialogComponent,
+    UserSuggestComponent,
   ],
   imports: [
     CommonModule,

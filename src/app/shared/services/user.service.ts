@@ -34,6 +34,18 @@ export class UserService {
     );
   }
 
+  getSuggestedUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.URL_LINK}/suggested-users`);
+  }
+
+  followUser(followerId: string, followingId: string): Observable<any> {
+    return this.http.put(`${this.URL_LINK}/${followerId}/follow/${followingId}`, null);
+  }
+
+  unfollowUser(followerId: string, followingId: string): Observable<any> {
+    return this.http.put(`${this.URL_LINK}/${followerId}/unfollow/${followingId}`, null);
+  }
+
   // fetchUserProfile(userId: string): Observable<UserProfileData> {
   //   return forkJoin({
   //     userInfo: this.getUserProfileInfo(userId),

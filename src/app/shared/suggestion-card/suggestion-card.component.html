@@ -7,16 +7,7 @@
   <div class="suggestions">
     <!-- This will be repeated for each suggested user -->
     <div class="suggestion flex items-center justify-between mb-3" *ngFor="let user of suggestedUsers">
-      <div class="user-info flex items-center">
-        <img src="{{user.image}}" alt="{{user.firstName}}" class="avatar rounded-full mr-3">
-        <div>
-          <p class="username font-semibold mb-o">{{user.firstName}} {{user.lastName}}</p>
-          <p class="recommendation text-sm text-gray-500 mb-o">{{user.recommendation}}</p>
-        </div>
-      </div>
-      <button class="follow-btn text-indigo-500">
-        <i class="fa-solid fa-user-plus"></i>
-      </button>
+      <app-user-suggest [user]="user" class="w-100"></app-user-suggest>
     </div>
   </div>
 </div>

@@ -1,0 +1,16 @@
+<div class="d-flex align-items-center justify-between w-100">
+  <div class="user-info flex items-center" (click)="openUserProfile(user.id)">
+    <img src="{{user.profileImageUrl}}" alt="{{user.firstName}}" class="user-avatar mr-3">
+    <div>
+      <p class="username font-semibold mb-o">{{user.firstName}} {{user.lastName}}</p>
+    </div>
+  </div>
+  <button class="follow-btn text-indigo-500" (click)="followUser(user.id)" *ngIf="!isFollowed">
+    <i class="fa-solid fa-user-plus" ></i>
+  </button>
+
+  <button class="follow-btn text-indigo-500" (click)="unfollowUser(user.id)" *ngIf="isFollowed">
+    <i class="fa-solid fa-user-minus"></i>
+  </button>
+
+</div>
