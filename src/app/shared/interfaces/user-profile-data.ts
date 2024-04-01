@@ -14,6 +14,9 @@ export interface UserInformation {
   totalPosts: number;
   following: User[];
   followers: User[];
+  interests: string[];
+  bio: string;
+  livesIn: string;
 }
 
 export enum Gender {

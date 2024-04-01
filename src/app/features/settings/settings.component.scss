@@ -123,3 +123,13 @@ textarea {
 }
 
 /* ... additional styles ... */
+
+mat-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+mat-chip {
+  background-color: #e0e0e0;
+}

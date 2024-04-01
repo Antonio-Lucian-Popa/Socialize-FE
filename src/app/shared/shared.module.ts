@@ -26,6 +26,11 @@ import { ImageViewDialogComponent } from '../features/discovery/image-view-dialo
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { UserSuggestComponent } from './suggestion-card/user-suggest/user-suggest.component';
 
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
 const NB_MODULES: any[] = [
   MatCardModule,
   MatIconModule,
@@ -33,7 +38,12 @@ const NB_MODULES: any[] = [
   MatDialogModule,
   ReactiveFormsModule,
   MatDividerModule,
-  LoadingBarHttpClientModule
+  LoadingBarHttpClientModule,
+
+  MatChipsModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatButtonModule,
 ];
 
 const COMPONENTS: any[] = [

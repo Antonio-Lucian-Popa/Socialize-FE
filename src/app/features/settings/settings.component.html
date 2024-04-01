@@ -51,9 +51,29 @@
         </div>
 
         <div class="form-group w-100">
+          <label for="livesIn">Lives In</label>
+          <input type="text" id="livesIn" formControlName="livesIn" placeholder="Where you live?">
+        </div>
+
+        <div class="form-group w-100">
           <label for="email">Email</label>
           <input type="email" id="email" formControlName="email" placeholder="Enter email">
         </div>
+
+        <div class="form-group w-100 mb-3">
+          <label for="interests">Interests</label>
+          <input type="text" id="interests" formControlName="interests" (keyup.enter)="addChip()">
+        </div>
+        <button mat-raised-button class="mb-3" color="primary" (click)="addChip()">Add</button>
+
+        <mat-chip-list>
+          <mat-chip *ngFor="let chip of chips" [removable]="true" (removed)="removeChip(chip)">
+            {{ chip }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+
+
       </form>
       <button (click)="onEditProfile()" class="update-btn mt-4 w-80">Update</button>
     </div>

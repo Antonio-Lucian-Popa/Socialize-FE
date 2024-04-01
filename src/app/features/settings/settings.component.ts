@@ -25,10 +25,16 @@ export class SettingsComponent implements OnInit {
     lastName: [''],
     biography: [''],
     email: [''],
-    birthday: ['']
+    birthday: [''],
+    interests: [''],
+    livesIn: [''],
   });
 
   avatarUrl: string | ArrayBuffer | null = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
+  userProfileImage!: string;
+
+  chipInput: string = '';
+  chips: string[] = [];
 
   constructor(public dialog: MatDialog, private fb: FormBuilder, private userService: UserService, private authService: AuthService) { }
 
@@ -41,17 +47,36 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  addChip(): void {
+    const chipValue = this.userProfile.get('interests')?.value?.trim();
+    if (chipValue && !this.chips.includes(chipValue)) {
+      this.chips.push(chipValue);
+      this.userProfile.get("interests")!.reset(); // Clear the input field
+    }
+    console.log(this.userProfile.value)
+  }
+
+  removeChip(chip: string): void {
+    const chipIndex = this.chips.indexOf(chip);
+    if (chipIndex >= 0) {
+      this.chips.splice(chipIndex, 1);
+    }
+  }
+
   loadUserProfile(): void {
     this.userService.getUserProfileInfo(this.userId).subscribe((response) => {
       this.user = response;
       this.avatarUrl = this.user.profileImageUrl;
+      this.userProfileImage = this.user.profileImageUrl;
       this.userProfile.patchValue({
         firstName: this.user.firstName,
         lastName: this.user.lastName,
-        biography: null,
+        biography: this.user.bio,
         email: this.user.email,
-        birthday: this.user.birthday
+        birthday: this.user.birthday,
+        livesIn: this.user.livesIn,
       });
+      this.chips = this.user.interests;
     });
   }
 
@@ -91,13 +116,18 @@ export class SettingsComponent implements OnInit {
 
   onEditProfile() {
     if (this.userProfile.valid) {
+      const payload = {
+        ...this.userProfile.value,
+        bio: this.userProfile.value.biography,
+        interests: this.chips
+      }
       const formData = new FormData();
-      formData.append('request', new Blob([JSON.stringify(this.userProfile.value)], { type: 'application/json' }));
+      formData.append('request', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
       // if (this.userAvatar) {
       //   formData.append('profileImage', this.userAvatar, this.userAvatar.name);
       // }
       // Call the UserService to handle the form submission
-      if(this.avatarUrl) {
+      if(this.avatarUrl && !this.userProfileImage) {
         const blob = this.dataURLtoBlob(this.avatarUrl.toString());
         formData.append('file', blob, `file.${this.getFileExtension(blob.type)}`);
       }
