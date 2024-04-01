@@ -14,6 +14,7 @@ export class PostListComponent implements OnInit {
 
   @Input() userId!: string;
   @Input() isMyPosts = false;
+  @Input() includeFollowers: boolean = false;
 
   posts: PostDto[] = [
     // {
@@ -154,7 +155,7 @@ export class PostListComponent implements OnInit {
   loadMorePosts() {
     this.page += 1; // Increment the page number to fetch the next page of posts
     this.subscription.add(
-      this.postService.findAllPostsByUserId(this.userId, this.page, this.size, true).subscribe((posts) => {
+      this.postService.findAllPostsByUserId(this.userId, this.page, this.size, this.includeFollowers).subscribe((posts) => {
         // Append the new posts to the existing ones
         this.posts = [...this.posts, ...posts.content];
         // Update the morePostsAvailable flag
@@ -169,7 +170,7 @@ export class PostListComponent implements OnInit {
     const getProfileImage$ = this.userService.getProfileImageAsBase64(postData.userId);
     forkJoin([createPost$, getProfileImage$]).pipe(
       finalize(() => {
-       // this.loadingBar.complete(); // Always complete the loading bar whether the requests are successful or not
+        // this.loadingBar.complete(); // Always complete the loading bar whether the requests are successful or not
       })
     ).subscribe({
       next: ([progress, image]) => {
@@ -184,7 +185,7 @@ export class PostListComponent implements OnInit {
 
   loadPosts(page: number = 0, size: number = 10): void {
     console.log('Loading posts for user:', this.userId, 'Page:', page, 'Size:', size, this.isMyPosts)
-    this.postService.findAllPostsByUserId(this.userId, page, size).subscribe({
+    this.postService.findAllPostsByUserId(this.userId, page, size, this.includeFollowers).subscribe({
       next: (response) => {
         console.log(response)
         this.posts = response.content;
