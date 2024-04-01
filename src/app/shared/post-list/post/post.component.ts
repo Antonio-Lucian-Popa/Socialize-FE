@@ -28,7 +28,11 @@ export class PostComponent implements OnInit {
     pagination: { clickable: true },
   };
 
-  constructor(public dialog: MatDialog, private postService: PostService, private authService: AuthService) {
+  constructor(
+    public dialog: MatDialog,
+    private postService: PostService,
+    private authService: AuthService
+    ) {
   }
 
   ngOnInit(): void {

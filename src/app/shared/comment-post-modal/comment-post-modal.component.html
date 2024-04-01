@@ -15,6 +15,11 @@
     <div *ngFor="let comment of comments" class="pt-2">
       <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)"></app-comment-item>
     </div>
+
+    <div class="no-data-container d-flex flex-column align-items-center justify-center h-100" *ngIf="comments.length == 0">
+      <img src="./assets/img/no-data.svg"class="mb-3" alt="no data">
+      <p class="text-gray-600">No comments</p>
+    </div>
   </div>
 
   <!-- Input commento fissato in basso -->
