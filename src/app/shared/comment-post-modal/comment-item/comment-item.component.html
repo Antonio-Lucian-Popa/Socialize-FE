@@ -1,10 +1,10 @@
 <!-- comment-item.component.html -->
 <div>
   <div class="flex items-start space-x-3 mb-2">
-      <img [src]="comment.user.image" alt="{{ comment.user.firstName }}'s Avatar" class="w-8 h-8 rounded-full object-cover">
+      <img [src]="comment.userDto.profileImageUrl" alt="{{ comment.userDto.firstName }}'s Avatar" class="w-8 h-8 rounded-full object-cover">
       <div class="flex-1">
-          <h4 class="font-semibold text-sm">{{ comment.user.firstName }} {{ comment.user.lastName }}</h4>
-          <p class="text-sm">{{ comment.value }}</p>
+          <h4 class="font-semibold text-sm mb-0">{{ comment.userDto.firstName }} {{ comment.userDto.lastName }}</h4>
+          <p class="text-sm mb-0">{{ comment.value }}</p>
           <button class="text-xs text-gray-500 mt-2" (click)="reply.emit(comment)">Reply</button>
       </div>
   </div>

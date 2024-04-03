@@ -17,11 +17,13 @@ export class CommentPostModalComponent implements OnInit {
   });
 
   post: any;
+  userId: string;
   replyingTo: number | null = null;
 
   constructor(public dialogRef: MatDialogRef<CommentPostModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private commentService: CommentService) {
       this.post = data.post;
+      this.userId = data.userId;
       console.log(this.post)
      }
 
@@ -38,6 +40,7 @@ export class CommentPostModalComponent implements OnInit {
         // Handle error case
       },
     });
+
   }
 
   closeDialog(): void {
@@ -56,8 +59,25 @@ export class CommentPostModalComponent implements OnInit {
     // Ensure to check whether it's a direct comment or a reply, and handle accordingly.
     if (this.replyingTo) {
       // Handle reply logic
+      console.log(this.commentForm.get('commentText')!.value);
     } else {
       // Handle direct comment logic
+      console.log(this.commentForm.get('commentText')!.value);
+      this.commentService.createComment({
+        postId: this.post.id,
+        userId: this.userId,
+        value: this.commentForm.get('commentText')!.value
+      }).subscribe({
+        next: (response) => {
+          console.log('Comment created successfully', response);
+          // Handle successful comment creation, e.g., update UI accordingly
+          this.comments.push(response);
+        },
+        error: (error) => {
+          console.error('Error creating comment', error);
+          // Handle error case
+        },
+      });
     }
     this.commentForm.reset();
     this.replyingTo = null; // Reset replying state

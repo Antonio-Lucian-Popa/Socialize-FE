@@ -14,4 +14,8 @@ export class CommentService {
   findCommentsByPostId(postId: string): Observable<any> {
     return this.http.get<any>(`${this.URL_LINK}/post/${postId}`);
   }
+
+  createComment(comment: any): Observable<any> {
+    return this.http.post<any>(`${this.URL_LINK}`, comment);
+  }
 }

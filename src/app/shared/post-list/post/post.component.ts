@@ -69,7 +69,10 @@ export class PostComponent implements OnInit {
   openCommentDialog(post: any): void {
     this.dialog.open(CommentPostModalComponent, {
       width: '500px',
-      data: {post: post}
+      data: {
+        post: post,
+        userId: this.userId
+      }
     });
   }
 
