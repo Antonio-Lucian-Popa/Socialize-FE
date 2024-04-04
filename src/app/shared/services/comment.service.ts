@@ -18,4 +18,8 @@ export class CommentService {
   createComment(comment: any): Observable<any> {
     return this.http.post<any>(`${this.URL_LINK}`, comment);
   }
+
+  deleteComment(commentId: string, ownerOfCommentId: string): Observable<any> {
+    return this.http.delete<any>(`${this.URL_LINK}/${commentId}/${ownerOfCommentId}`);
+  }
 }

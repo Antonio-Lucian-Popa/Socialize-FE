@@ -1,15 +1,28 @@
 <!-- comment-item.component.html -->
 <div>
   <div class="flex items-start space-x-3 mb-2">
-      <img [src]="comment.userDto.profileImageUrl" alt="{{ comment.userDto.firstName }}'s Avatar" class="w-8 h-8 rounded-full object-cover">
-      <div class="flex-1">
-          <h4 class="font-semibold text-sm mb-0">{{ comment.userDto.firstName }} {{ comment.userDto.lastName }}</h4>
-          <p class="text-sm mb-0">{{ comment.value }}</p>
-          <button class="text-xs text-gray-500 mt-2" (click)="reply.emit(comment)">Reply</button>
-      </div>
+    <img [src]="comment.userDto.profileImageUrl" alt="{{ comment.userDto.firstName }}'s Avatar"
+      class="w-8 h-8 rounded-full object-cover">
+    <div class="flex-1">
+      <h4 class="font-semibold text-sm mb-0">{{ comment.userDto.firstName }} {{ comment.userDto.lastName }}</h4>
+      <p class="text-sm mb-0">{{ comment.value }}</p>
+      <button class="text-xs text-gray-500 mt-2" (click)="onReply(comment)">Reply</button>
+    </div>
+
+
+    <i class="fa-solid fa-ellipsis-vertical option-btn" [matMenuTriggerFor]="menu" *ngIf="isUserOwnerOfComment()"></i>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteComment(comment.id)">
+        <i class="fa-solid fa-trash mr-2"></i>
+        Remove
+      </button>
+      <!-- <button mat-menu-item>Item 2</button> -->
+    </mat-menu>
+
   </div>
   <!-- Modifica qui: Passa un valore fisso per depth ai subcommenti per evitare ulteriore indentazione -->
-  <div *ngFor="let subcomment of comment.subcomments" [ngClass]="{'ml-6': depth === 0, 'ml-0': depth > 0}">
-      <app-comment-item [comment]="subcomment" [depth]="depth + 1" (reply)="reply.emit($event)"></app-comment-item>
+  <div *ngFor="let subcomment of comment.subComments" [ngClass]="{'ml-6': depth === 0, 'ml-0': depth > 0}">
+    <app-comment-item [comment]="subcomment" [depth]="depth + 1" (reply)="onReply($event)" (deleteCommentId)="onDeleteComment($event)"></app-comment-item>
   </div>
 </div>
