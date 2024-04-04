@@ -10,7 +10,7 @@
   <div class="my-4 border-b border-gray-200"></div>
 
   <!-- Lista dei commenti con spazio per l'input fisso in basso -->
-  <div class="overflow-y-auto pt-2" style="height: calc(80vh - 176px);">
+  <div class="overflow-y-auto pt-2 add-padding-right" style="height: calc(80vh - 176px);">
     <!-- Utilizzo del componente CommentItem per ogni commento -->
     <div *ngFor="let comment of comments" class="pt-2">
       <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)" (deleteCommentId)="removeComment($event)"></app-comment-item>
