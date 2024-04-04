@@ -3,9 +3,18 @@
   <div class="flex items-start space-x-3 mb-2">
     <img [src]="comment.userDto.profileImageUrl" alt="{{ comment.userDto.firstName }}'s Avatar"
       class="w-8 h-8 rounded-full object-cover">
-    <div class="flex-1">
-      <h4 class="font-semibold text-sm mb-0">{{ comment.userDto.firstName }} {{ comment.userDto.lastName }}</h4>
-      <p class="text-sm mb-0">{{ comment.value }}</p>
+    <div class="flex-1 d-flex flex-column align-items-start">
+      <span class="font-semibold text-sm mb-0">{{ comment.userDto.firstName }} {{ comment.userDto.lastName }}</span>
+      <span class="created-at-label">{{comment.createdAt | timeAgo}}</span>
+      <p class="text-sm mb-0 mt-1" *ngIf="!isEditPanelOpen">{{ comment.value }}</p>
+      <form class="d-flex flex-column" [formGroup]="editCommentForm" (ngSubmit)="updateComment()" *ngIf="isEditPanelOpen">
+        <input formControlName="value" type="text" id="outlined_error_lastName"
+        aria-describedby="outlined_error_lastName_help"
+        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white focus:outline-none focus:ring-0 peer"
+        placeholder=" " />
+
+        <button type="submit" class="change-comment-btn mt-2">Update</button>
+      </form>
       <button class="text-xs text-gray-500 mt-2" (click)="onReply(comment)">Reply</button>
     </div>
 
@@ -16,6 +25,10 @@
       <button mat-menu-item (click)="deleteComment(comment.id)">
         <i class="fa-solid fa-trash mr-2"></i>
         Remove
+      </button>
+      <button mat-menu-item (click)="editComment(comment.id)">
+        <i class="fa-solid fa-pen-to-square"></i>
+        Edit
       </button>
       <!-- <button mat-menu-item>Item 2</button> -->
     </mat-menu>

@@ -1,3 +1,31 @@
 .option-btn {
   cursor: pointer;
 }
+
+.created-at-label {
+  font-size: 0.7rem;
+}
+
+input {
+  color: #3C3D3D!important;
+}
+
+.change-comment-btn {
+  display: block;
+  width: 4rem;
+  height: 2rem;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #6f42c1; // Or use a color that matches your design
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: darken(#6f42c1, 10%);
+  }
+}
