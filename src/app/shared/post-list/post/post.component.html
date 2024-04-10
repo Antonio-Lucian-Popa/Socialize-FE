@@ -1,23 +1,30 @@
-<div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-5" *ngIf="post && post.imageFilenames && post.imageFilenames.length > 0">
+<div class="max-w-md mx-auto post-container rounded-lg shadow-md overflow-hidden mt-5"
+  *ngIf="post && post.imageFilenames && post.imageFilenames.length > 0">
   <div class="px-4 py-2">
     <div class="flex items-center">
-      <img class="h-8 w-8 rounded-full object-cover mr-2" [src]="post.user.profileImage" [alt]="post.user.firstName" *ngIf="post.user && post.user.profileImage">
+      <img class="h-8 w-8 rounded-full object-cover mr-2" [src]="post.user.profileImage" [alt]="post.user.firstName"
+        *ngIf="post.user && post.user.profileImage">
       <div class="d-flex flex-column align-items-start justify-contemt-start">
         <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
         <div class="post-footer text-gray-600 text-sm flex justify-between">
-          <span>{{ post.createdAt | timeAgo }}</span>
+          <span class="timestamp">{{ post.createdAt | timeAgo }}</span>
         </div>
       </div>
       <!-- <div class="text-xs text-gray-500 ml-auto">New York City, NY</div> -->
       <div class="ml-auto text-sm text-gray-600">
-        <button mat-button [matMenuTriggerFor]="menu">
-          <mat-icon class="material-symbols-outlined">
-            more_horiz
-          </mat-icon>
-        </button>
+        <i class="fa-solid fa-ellipsis-vertical option-btn" [matMenuTriggerFor]="menu"
+          *ngIf="checkIfPostIsOfCurrentUser()"></i>
+
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>Item 1</button>
-          <button mat-menu-item>Item 2</button>
+          <button mat-menu-item (click)="deletePost(post.id)">
+            <i class="fa-solid fa-trash mr-2"></i>
+            Remove
+          </button>
+          <button mat-menu-item (click)="editPost()">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Edit
+          </button>
+          <!-- <button mat-menu-item>Item 2</button> -->
         </mat-menu>
       </div>
     </div>
@@ -25,13 +32,15 @@
   <!-- <img class="w-full" [src]="post.image" [alt]="post.description"> -->
 
   <!-- Swiper Container -->
-  <swiper-container [config]="swiperConfig">
+  <swiper-container [config]="swiperConfig" #swiperRef initial-slide="0" (swiperactiveindexchange)="onActiveIndexChange()">
     <!-- Directly iterate over images with swiper-slide -->
-    <swiper-slide *ngFor="let image of post.imageFilenames">
-      <div class="flex justify-center items-center w-full h-64 overflow-hidden bg-gray-200">
+    <swiper-slide *ngFor="let image of post.imageFilenames" lazy="true">
+      <div class="flex justify-center items-center w-full h-64 overflow-hidden bg-gray-200" loading="lazy">
         <img [src]="image" [alt]="post.description" class="max-w-full max-h-full object-cover">
       </div>
     </swiper-slide>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
   </swiper-container>
 
 
@@ -40,19 +49,22 @@
     <div class="flex items-center action-user">
       <button type="button" class="margin-right-heart-btn">
         <!-- Insert heart icon here -->
-        <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost()"></i>
-        <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost()"></i>
+        <i class="fa-regular fa-heart post-not-liked mr-1" *ngIf="!isPostLiked" (click)="toggleLikePost()"></i>
+        <i class="fa-solid fa-heart post-liked mr-1" *ngIf="isPostLiked" (click)="toggleLikePost()"></i>
+        <span class="font-semibold number-count" *ngIf="post.likes.length <= 2">{{post.likes.length}}</span>
       </button>
-      <button type="button" (click)="openCommentDialog(post)">
+      <button type="button" (click)="openCommentDialog(post)" class="d-flex align-items-center">
         <!-- Insert comment icon here -->
-        <i class="fa-regular fa-comment"></i>
+        <i class="fa-regular fa-comment mr-1"></i>
+        <span class="font-semibold number-count">{{post.numberOfComments}}</span>
       </button>
       <!-- <button type="button" class="ml-auto"> -->
       <!-- Insert share icon here -->
       <!-- </button> -->
     </div>
     <div class="mt-2 likes-dialog-btn" (click)="openLikesDialog(post)" *ngIf="post.likes.length > 2">
-      <span class="font-semibold">Liked by {{post.likes[0].firstName}} and {{post.likes.length}} others</span>
+      <span class="font-semibold number-count">Liked by {{post.likes[0].firstName}} and {{post.likes.length}}
+        others</span>
     </div>
     <div class="mt-2 text-sm text-gray-700">
       <span class="font-semibold">{{post.user.firstName}} {{post.user.lastName}} </span>
@@ -67,12 +79,13 @@
   *ngIf="post && (post.imageFilenames == null || post.imageFilenames.length === 0)">
   <div class="post-header flex items-center mb-3">
     <!-- User Avatar -->
-    <img [src]="post.user.profileImage" alt="{{ post.user.firstName }}" class="h-8 w-8 rounded-full object-cover mr-2" *ngIf="post.user && post.user.profileImage">
+    <img [src]="post.user.profileImage" alt="{{ post.user.firstName }}" class="h-8 w-8 rounded-full object-cover mr-2"
+      *ngIf="post.user && post.user.profileImage">
     <div class="flex items-center justify-between w-100">
       <div class="d-flex flex-column align-items-start justify-contemt-start">
         <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
         <div class="post-footer text-gray-600 text-sm flex justify-between">
-          <span>{{ post.createdAt | timeAgo }}</span>
+          <span class="timestamp">{{ post.createdAt | timeAgo }}</span>
         </div>
       </div>
       <div class="ml-auto text-sm text-gray-600" *ngIf="checkIfPostIsOfCurrentUser()">
@@ -102,21 +115,22 @@
     <div class="flex items-center action-user">
       <button type="button" class="margin-right-heart-btn">
         <!-- Insert heart icon here -->
-        <i class="fa-regular fa-heart mr-1" *ngIf="!isPostLiked" (click)="toggleLikePost()"></i>
-        <i class="fa-solid fa-heart mr-1" *ngIf="isPostLiked" (click)="toggleLikePost()"></i>
-        <span class="font-semibold" *ngIf="post.likes.length <= 2">{{post.likes.length}}</span>
+        <i class="fa-regular fa-heart post-not-liked mr-1" *ngIf="!isPostLiked" (click)="toggleLikePost()"></i>
+        <i class="fa-solid fa-heart post-liked mr-1" *ngIf="isPostLiked" (click)="toggleLikePost()"></i>
+        <span class="font-semibold number-count" *ngIf="post.likes.length <= 2">{{post.likes.length}}</span>
       </button>
       <button type="button" (click)="openCommentDialog(post)" class="d-flex align-items-center">
         <!-- Insert comment icon here -->
         <i class="fa-regular fa-comment mr-1"></i>
-        <span class="font-semibold">{{post.numberOfComments}}</span>
+        <span class="font-semibold number-count">{{post.numberOfComments}}</span>
       </button>
       <!-- <button type="button" class="ml-auto"> -->
       <!-- Insert share icon here -->
       <!-- </button> -->
     </div>
     <div class="mt-2 likes-dialog-btn" (click)="openLikesDialog(post)" *ngIf="post.likes.length > 2">
-      <span class="font-semibold">Liked by {{post.likes[0].firstName}} and {{post.likes.length - 1}} others</span>
+      <span class="font-semibold number-count">Liked by {{post.likes[0].firstName}} and {{post.likes.length - 1}}
+        others</span>
     </div>
     <!-- Additional post content goes here -->
   </div>

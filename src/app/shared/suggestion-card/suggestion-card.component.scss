@@ -1,14 +1,25 @@
+@import 'src/assets/styles/variables.scss';
+
 .suggested-card {
   background: #fff;
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+  .suggest-label {
+    color: $dark-gray-text;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+  }
+
+
+  .see-all-btn {
+    color: $sky-blue;
   }
 
   .suggestions {

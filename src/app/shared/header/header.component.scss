@@ -1,3 +1,13 @@
+@import 'src/assets/styles/variables.scss';
+
+.nav-bar-container {
+  background-color: $deep-blue;
+}
+
+.notification-btn {
+  //background-color: $sky-blue;
+}
+
 .notification-card {
   top: 125%;
   right: 60%;

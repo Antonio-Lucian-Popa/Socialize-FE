@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.valid);
     if (this.form.valid) {
       const form = this.form.getRawValue();
       const payload: CreateUser = {
@@ -46,7 +45,6 @@ export class RegisterComponent implements OnInit {
       this.authService.register(payload).subscribe(res => {
         // this.alertService.showAlertOnLoginSuccess = true;
         this.router.navigate(['/log-in']);
-        console.log(res)
       }, err => {
         console.log(err);
       });

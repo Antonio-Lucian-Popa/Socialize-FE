@@ -9,13 +9,10 @@ import { HomeModule } from './features/home/home.module';
 import { HeaderComponent } from './shared/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
-import { register } from 'swiper/element/bundle';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
-
-register();
 
 @NgModule({
   declarations: [

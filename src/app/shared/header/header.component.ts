@@ -65,7 +65,6 @@ export class HeaderComponent implements OnInit {
   fetchUserDetails() {
     this.authService.getUserId().then(userId => {
       if (!userId) {
-        console.log('No valid user ID available');
         this.router.navigate(['/log-in']);
         return;
       }
@@ -73,7 +72,6 @@ export class HeaderComponent implements OnInit {
       this.userService.getUserProfileInfo(userId).subscribe({
         next: (userProfile) => {
           this.userInfo = userProfile;
-          console.log('Fetched User Profile Data:', userProfile);
         },
         error: (error) => {
           console.error('Error fetching user profile data:', error);
@@ -103,7 +101,6 @@ export class HeaderComponent implements OnInit {
   }
 
   openUserProfile(): void {
-    console.log('Opening user profile...');
     // TODOO: retreive from auth service the user id from token
     this.closeDropDownUser();
     this.router.navigate(['/user-profile', this.userInfo.id]);

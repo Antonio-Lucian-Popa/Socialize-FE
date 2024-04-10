@@ -1,11 +1,11 @@
 <!-- activity-card.component.html -->
 <div class="w-80 bg-white rounded-lg shadow-md p-4">
   <div class="flex justify-between items-center">
-    <h2 class="text-lg font-bold text-gray-700">Activity</h2>
-    <a href="#" class="text-indigo-500 text-sm">See all</a>
+    <h2 class="text-lg font-bold activity-label">Activity</h2>
+    <a class="see-all-link text-sm">See all</a>
   </div>
   <div class="mt-3">
-    <h3 class="text-md text-gray-500">Stories About You</h3>
+    <h3 class="text-md story-about-you-label">Stories About You</h3>
     <p class="text-sm text-gray-400">2 stories mention you</p>
   </div>
   <div class="mt-3">
@@ -15,8 +15,8 @@
       <div class="flex items-center" *ngFor="let activity of activities">
         <img class="h-10 w-10 rounded-full object-cover" [src]="activity.user.image" alt="profile picture">
         <div class="ml-2 d-flex align-items-center">
-          <p class="text-sm font-medium text-gray-800 mb-0 margin-right-custom">{{activity.user.firstName}} {{activity.user.lastName}}</p>
-          <p class="text-xs text-gray-400 mb-0"> {{activity.description}}</p>
+          <p class="text-sm font-medium username-label mb-0 margin-right-custom">{{activity.user.firstName}} {{activity.user.lastName}}</p>
+          <p class="text-xs activity-description mb-0"> {{activity.description}}</p>
         </div>
       </div>
       <!-- ...other activities -->

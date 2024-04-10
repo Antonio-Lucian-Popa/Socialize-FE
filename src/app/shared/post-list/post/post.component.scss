@@ -1,3 +1,9 @@
+@import 'src/assets/styles/variables.scss';
+
+.post-container {
+  background-color: $light-gray;
+}
+
 .margin-right-heart-btn {
   margin-right: 0.5rem;
 }
@@ -12,6 +18,9 @@
   }
 }
 
+.timestamp {
+  color: $medium-gray;
+}
 
 
 //// post without images /////
@@ -46,11 +55,6 @@
     }
   }
 
-  .post-content {
-    font-size: 0.9375rem;
-    line-height: 1.5;
-  }
-
   .post-footer {
     color: #536471;
     font-size: 0.875rem;
@@ -59,6 +63,23 @@
   }
 }
 
+.post-content {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: $dark-gray;
+}
+
+.post-liked {
+  color: $bright-coral;
+}
+
+.post-unliked {
+  color: $medium-gray;
+}
+
+.number-count {
+  color: $dark-gray-text;
+}
 
 /////// Skeleton Loader ///////
 

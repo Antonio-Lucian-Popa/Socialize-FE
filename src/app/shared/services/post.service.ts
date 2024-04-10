@@ -2,6 +2,7 @@ import { HttpClient, HttpEvent, HttpEventType, HttpParams, HttpRequest } from '@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { PostDto } from '../interfaces/post-dto';
+import {v4 as uuidv4} from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { PostDto } from '../interfaces/post-dto';
 export class PostService {
 
   @Output() postCreated = new EventEmitter<any>();
-
+  @Output() postEdited = new EventEmitter<any>();
   @Output() postDeleted = new EventEmitter<string>();
 
   URL_LINK = "http://localhost:8081/api/v1/posts";
@@ -23,11 +24,56 @@ export class PostService {
     images.forEach((image, index) => {
       // Assuming dataURLtoBlob and getFileExtension methods are defined elsewhere in your service
       const blob = this.dataURLtoBlob(image);
-      const file = new File([blob], `image${index}.${this.getFileExtension(blob.type)}`, { type: blob.type });
+      const file = new File([blob], `${uuidv4()}.${this.getFileExtension(blob.type)}`, { type: blob.type });
       formData.append('files', file);
     });
 
     const req = new HttpRequest('POST', `${this.URL_LINK}/create/${userId}`, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    const progress = new Subject<number | any>();
+
+    this.http.request(req).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        const percentDone = Math.round(100 * (event.loaded / (event.total ?? 0)));
+        progress.next(percentDone); // Emit the progress
+      } else if (event.type === HttpEventType.Response) {
+        progress.next(event.body); // Emit the final response
+        progress.complete();
+      }
+    }, error => {
+      progress.error(error);
+    });
+
+    return progress.asObservable();
+  }
+
+  /**
+   *
+   * @param postId post id that needs to be deleted
+   * @param userId user id of the post owner
+   * @param updatePost post content updated
+   * @returns
+   */
+  editPostById(postId: string, userId: string, updatedPost: any, newImages?: string[]): Observable<any> {
+
+    const formData = new FormData();
+    formData.append('updatedPost', new Blob([JSON.stringify(updatedPost)], { type: 'application/json' }));
+
+    if (newImages) {
+      newImages.forEach((image, index) => {
+        // Assuming dataURLtoBlob and getFileExtension methods are defined elsewhere in your service
+        const blob = this.dataURLtoBlob(image);
+        const file = new File([blob], `${uuidv4()}.${this.getFileExtension(blob.type)}`, { type: blob.type });
+        formData.append('files', file);
+      });
+    }
+
+    const url = `${this.URL_LINK}/update/${postId}/${userId}`;
+
+    const req = new HttpRequest('PUT', url, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -60,6 +106,12 @@ export class PostService {
     return this.http.delete(url);
   }
 
+  removeImagesFromPost(postId: string, imageUrls: string[]): Observable<any> {
+    // The endpoint expects a list of image URLs to remove in the request body
+    const url = `${this.URL_LINK}/removeImages/${postId}`;
+    return this.http.request('delete', url, { body: imageUrls });
+  }
+
 
   findAllPostsByUserId(userId: string, page: number = 0, size: number = 10, includeFollowing: boolean = false): Observable<any> {
     const url = `${this.URL_LINK}/findAllPosts/${userId}`;
@@ -88,11 +140,11 @@ export class PostService {
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
 
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
 
-    return new Blob([u8arr], {type: mime});
+    return new Blob([u8arr], { type: mime });
   }
 
   private getFileExtension(mimeType: string): string {

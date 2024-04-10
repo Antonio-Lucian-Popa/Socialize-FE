@@ -30,7 +30,6 @@ export class PostInputComponent implements OnInit {
     ///
     this.userService.userUpdatedInformation.subscribe((res: User) => {
       this.user = res;
-      console.log('User:', this.user);
       this.userProfileImage = res.profileImageUrl;
     });
 
@@ -40,28 +39,6 @@ export class PostInputComponent implements OnInit {
     }
   }
 
-  // fetchUserDetails() {
-  //   this.authService.getUserId().then(userId => {
-  //     if (!userId) {
-  //       console.log('No valid user ID available');
-  //       return;
-  //     }
-
-  //     this.userService.fetchUserProfile(userId).subscribe({
-  //       next: (data) => {
-  //         this.user = data.userInfo;
-  //         this.userProfileImage = data.userProfileImage;
-  //         console.log('Fetched User Profile Data:', data);
-  //       },
-  //       error: (error) => {
-  //         console.error('Error fetching user profile data:', error);
-  //       }
-  //     });
-  //   }).catch(error => {
-  //     console.error('Error during user detail fetch operation:', error);
-  //   });
-  // }
-
   openCreatePostModal(): void {
     const dialogRef = this.dialog.open(CreatePostModalComponent, {
       width: '500px', // o la dimensione desiderata
@@ -70,14 +47,6 @@ export class PostInputComponent implements OnInit {
         user: this.user
       }
       // passa qui altri dati se necessario
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result) {
-        // TODO: show loading bar and after show the post in the first position of the feed
-      }
-      // gestisci qui il risultato se necessario
     });
   }
 

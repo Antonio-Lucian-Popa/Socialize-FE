@@ -1,10 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LikePostModalComponent } from '../../like-post-modal/like-post-modal.component';
 import { CommentPostModalComponent } from '../../comment-post-modal/comment-post-modal.component';
 import { PostDto } from '../../interfaces/post-dto';
 import { PostService } from '../../services/post.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { UserService } from '../../services/user.service';
+import { EditPostModalComponent } from './edit-post-modal/edit-post-modal.component';
+import { register } from 'swiper/element';
+import Swiper from 'swiper';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -14,6 +19,18 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class PostComponent implements OnInit {
 
+  @ViewChild('swiperRef')
+  swiperRef: ElementRef | undefined;
+  swiper?: Swiper;
+
+  ngAfterViewInit(): void {
+    register();
+    this.swiper = this.swiperRef?.nativeElement.swiper;
+  }
+
+  onActiveIndexChange() {
+    console.log(this.swiper?.activeIndex);
+  }
   @Input() post!: PostDto;
 
   userId!: string;
@@ -21,23 +38,27 @@ export class PostComponent implements OnInit {
   isPostLiked: boolean = false;
 
   swiperConfig: any = {
-    // Swiper configurations
     slidesPerView: 1,
     spaceBetween: 10,
     navigation: true,
-    pagination: { clickable: true },
+    pagination: {
+      type: 'bullets',
+      clickable: true
+    },
   };
+
 
   constructor(
     public dialog: MatDialog,
     private postService: PostService,
-    private authService: AuthService
-    ) {
+    private authService: AuthService,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit(): void {
     this.authService.getUserId().then((userId) => {
-      if(userId) {
+      if (userId) {
         this.userId = userId;
         this.checkIfPostIsLikedByUser();
       }
@@ -62,7 +83,7 @@ export class PostComponent implements OnInit {
   openLikesDialog(post: any): void {
     this.dialog.open(LikePostModalComponent, {
       width: '500px',
-      data: {likes: post.likes}
+      data: { likes: post.likes }
     });
   }
 
@@ -79,7 +100,7 @@ export class PostComponent implements OnInit {
   toggleLikePost(): void {
     this.isPostLiked = !this.isPostLiked;
     // TODO: Send a request to like/unlike the post
-    if(this.isPostLiked) {
+    if (this.isPostLiked) {
       this.likePost(this.post.id);
     } else {
       this.unlikePost(this.post.id);
@@ -89,7 +110,6 @@ export class PostComponent implements OnInit {
   likePost(postId: string) {
     this.postService.likePost(postId, this.userId).subscribe({
       next: (response) => {
-        console.log('Post liked successfully', response);
         // Handle successful like action, e.g., update UI accordingly
         this.post.likes = response.likes;
       },
@@ -117,7 +137,6 @@ export class PostComponent implements OnInit {
   deletePost(postId: string) {
     this.postService.deletePostById(postId, this.userId).subscribe({
       next: (response) => {
-        console.log('Post deleted successfully', response);
         // Handle successful delete action, e.g., update UI accordingly
         this.postService.postDeleted.next(postId);
       },
@@ -126,6 +145,47 @@ export class PostComponent implements OnInit {
         // Handle error case
       },
     });
+  }
+
+  editPost() {
+    const dialogRef = this.dialog.open(EditPostModalComponent, {
+      width: '500px',
+      data: {
+        post: this.post,
+        user: this.userService.userInfo,
+        profileImageUrl: this.userService.userInfo.profileImageUrl
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+      if (Array.isArray(result)) {
+        // Use _.remove to mutate the original array, removing items that match the condition
+        _.remove(this.post.imageFilenames, (filename) => result.includes(filename));
+
+        // After modifying the array, ensure you update any dependent components or services, like Swiper
+        setTimeout(() => {
+          this.swiper?.update(); // Inform Swiper about the update
+        }, 0);
+      } else if(result) {
+        // Handle successful edit action, e.g., update UI accordingly
+        this.updatePost(result);
+      }
+    })
+  }
+
+  updatePost(post: PostDto) {
+    this.post = post; // Update the post object
+    // this.post.imageFilenames = post.imageFilenames; // Update the image array
+    console.log(this.swiper);
+    setTimeout(() => {
+      this.swiper?.update(); // Inform Swiper about the update
+    }, 0);
+
+  }
+
+  slideChange(swiper: any) {
+    console.log(swiper)
   }
 
 }

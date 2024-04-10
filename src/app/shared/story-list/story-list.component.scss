@@ -25,3 +25,10 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+
+.swiper-button-next,
+.swiper-button-prev {
+  --swiper-navigation-size: 85px;
+  --swiper-navigation-color: black;
+}

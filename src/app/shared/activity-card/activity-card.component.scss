@@ -1,3 +1,23 @@
+@import 'src/assets/styles/variables.scss';
+
 .margin-right-custom {
   margin-right: 0.8rem;
+}
+
+.activity-description {
+  color: $dark-gray-text;
+}
+
+.see-all-link {
+  color: $sky-blue;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.story-about-you-label, .activity-label {
+  color: $dark-gray-text;
+}
+
+.username-label {
+  color: $dark-gray-text;
 }

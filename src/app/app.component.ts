@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.isLoggedIn = !event.url.endsWith('/log-in');
         this.isRegister = !event.url.endsWith('/sign-up');
-        console.log(this.isRegister, this.isLoggedIn);
       }
     });
   }

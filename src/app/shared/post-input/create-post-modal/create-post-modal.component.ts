@@ -28,7 +28,6 @@ export class CreatePostModalComponent implements OnInit {
     private userService: UserService
     ) {
     // Inizializza il form group con un controllo per il contenuto del post
-    console.log('Data:', data)
     this.user = data.user;
     this.userProfileImage = data.profileImageUrl;
     this.postForm = this.fb.group({
@@ -37,12 +36,6 @@ export class CreatePostModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.auth.getUserId().then((userId) => {
-    //   console.log(userId);
-    //   if(userId) {
-    //     this.userId = userId;
-    //   }
-    // });
 
     this.userService.userUpdatedInformation.subscribe((res: UserProfileData) => {
       this.user = res.userInfo;

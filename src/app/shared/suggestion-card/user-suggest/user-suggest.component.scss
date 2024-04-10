@@ -1,3 +1,5 @@
+@import 'src/assets/styles/variables.scss';
+
 .user-info {
   display: flex;
   align-items: center;
@@ -9,15 +11,14 @@
     margin-right: 0.75rem;
   }
 
-  .username {
-    font-weight: bold;
+  .username-label {
     margin-bottom: 0!important;
+    color: $dark-gray-text;
   }
 }
 
 .follow-btn {
-  color: #6366f1; // Tailwind's indigo-500
-  // Additional styles for the follow button
+  color: $sky-blue;
 }
 
 .user-avatar {

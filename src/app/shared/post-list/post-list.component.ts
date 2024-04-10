@@ -183,6 +183,20 @@ export class PostListComponent implements OnInit {
     });
   }
 
+  editPost(postData: any): void {
+    this.postService.editPostById(postData.postId, postData.userId, postData.payload, postData.images).subscribe({
+      next: (response) => {
+        console.log('Post updated successfully', response);
+        // Handle successful delete action, e.g., update UI accordingly
+        this.postService.postEdited.next(response);
+      },
+      error: (error) => {
+        console.error('Error deleting the post', error);
+        // Handle error case
+      },
+    });
+  }
+
   loadPosts(page: number = 0, size: number = 10): void {
     console.log('Loading posts for user:', this.userId, 'Page:', page, 'Size:', size, this.isMyPosts)
     this.postService.findAllPostsByUserId(this.userId, page, size, this.includeFollowers).subscribe({

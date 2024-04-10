@@ -30,7 +30,6 @@ export class LogInComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.valid)
     if(this.form.valid) {
       const { email, password } = this.form.value;
       // made a login request

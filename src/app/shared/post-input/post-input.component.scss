@@ -1,3 +1,6 @@
+@import 'src/assets/styles/variables.scss';
+
+
 /* create-post.component.scss */
 .create-post-container {
   display: flex;
@@ -27,19 +30,20 @@
 }
 
 .submit-post-btn {
-  background-color: #4267B2;
-  color: white;
+  background-color: $sky-blue;
+  color: $text-white;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
   &:hover {
-    background-color: darken(#4267B2, 10%);
+    background-color: darken($sky-blue, 10%);
   }
 }
 
 .post-textarea {
   outline: none;
+  color: $medium-gray;
 }
 
 

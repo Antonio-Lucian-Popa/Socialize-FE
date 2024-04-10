@@ -25,22 +25,18 @@ export class UserSuggestComponent implements OnInit {
   }
 
   followUser(followingId: string): void {
-    console.log('Follow user:', followingId);
     const followerId = this.userService.userInfo.id;
     if(followingId && followerId) {
       this.userService.followUser(followerId, followingId).subscribe((response) => {
-        console.log('Follow user response:', response);
         this.isFollowed = true;
       });
     }
   }
 
   unfollowUser(unfollowingId: string): void {
-    console.log('Unfollow user:', unfollowingId);
     const followerId = this.userService.userInfo.id;
     if(unfollowingId && followerId) {
       this.userService.unfollowUser(followerId, unfollowingId).subscribe((response) => {
-        console.log('Unfollow user response:', response);
         this.isFollowed = false;
       });
     }

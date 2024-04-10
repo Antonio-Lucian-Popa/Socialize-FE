@@ -43,10 +43,13 @@ $socialize-fe-theme: mat.define-light-theme((color: (primary: $socialize-fe-prim
 
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
+@import 'src/assets/styles/variables.scss';
+
 
 html,
 body {
   height: 100%;
+  background-color: $light-gray;
 }
 
 body {
