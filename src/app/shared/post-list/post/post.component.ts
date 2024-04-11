@@ -175,9 +175,8 @@ export class PostComponent implements OnInit {
   }
 
   updatePost(post: PostDto) {
-    this.post = post; // Update the post object
-    // this.post.imageFilenames = post.imageFilenames; // Update the image array
-    console.log(this.swiper);
+    this.post.description = post.description; // Update the description
+    this.post.imageFilenames = post.imageFilenames; // Update the image array
     setTimeout(() => {
       this.swiper?.update(); // Inform Swiper about the update
     }, 0);

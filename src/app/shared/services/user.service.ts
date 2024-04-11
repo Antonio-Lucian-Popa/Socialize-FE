@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { BehaviorSubject, Observable, forkJoin, map, switchMap, tap } from 'rxjs';
 import { User, UserProfileData } from '../interfaces/user-profile-data';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +13,28 @@ export class UserService {
 
   userProfileImage!: string;
   userInfo!: User;
+  myUserId!: string;
 
   URL_LINK = 'http://localhost:8081/api/v1/users';
 
   private avatarPreviewSource = new BehaviorSubject<string | null>(null);
   avatarPreview = this.avatarPreviewSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService.getUserId().then((userId) => {
+      if(userId) {
+        this.myUserId = userId;
+      }
+    });
+   }
 
   getUserProfileInfo(userId: string): Observable<any> {
     return this.http.get<any>(`${this.URL_LINK}/${userId}`).pipe(
       tap((userInfo) => {
-        this.userInfo = userInfo;
-        this.userUpdatedInformation.emit(userInfo);
+        if (this.myUserId === userInfo.id) {
+          this.userInfo = userInfo;
+          this.userUpdatedInformation.emit(userInfo);
+        }
       }));
   }
 
@@ -34,8 +44,8 @@ export class UserService {
     );
   }
 
-  getSuggestedUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.URL_LINK}/suggested-users`);
+  getSuggestedUsers(userId: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.URL_LINK}/suggested-users/${userId}`);
   }
 
   followUser(followerId: string, followingId: string): Observable<any> {

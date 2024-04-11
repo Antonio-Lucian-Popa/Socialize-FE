@@ -29,7 +29,7 @@ export class UserProfileComponent implements OnInit {
 
   user!: UserInformation;
 
-  isMyProfile = true; // TODO: Set this to false if the user is not the logged in user
+  isMyProfile = false; // TODO: Set this to false if the user is not the logged in user
 
   constructor(private route: ActivatedRoute, private userService: UserService) { }
 
@@ -41,6 +41,8 @@ export class UserProfileComponent implements OnInit {
         next: (data) => {
           console.log('Fetched User Profile Data:', data);
           this.user = data;
+          console.log(this.userService.userInfo.id, data.id);
+          this.isMyProfile = this.userService.userInfo.id == this.user.id;
         },
         error: (error) => {
           console.error('Error fetching user profile data:', error);
