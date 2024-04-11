@@ -23,6 +23,10 @@ export class EditDetailDialogComponent implements OnInit {
       this.userDetails = data.user;
       this.userId = data.userId;
       this.editUserDetailsForm = this.fb.group({
+        firstName: [''],
+        lastName: [''],
+        email: [''],
+        birthday: [''],
         biography: [''],
         interests: [''],
         livesIn: [''],
@@ -31,11 +35,16 @@ export class EditDetailDialogComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loadUserProfile();
   }
 
   loadUserProfile(): void {
     this.userService.getUserProfileInfo(this.userId).subscribe((response) => {
       this.editUserDetailsForm.patchValue({
+        firstName: response.firstName,
+        lastName: response.lastName,
+        email: response.email,
+        birthday: response.birthday,
         biography: response.bio,
         livesIn: response.livesIn,
       });
@@ -72,15 +81,15 @@ export class EditDetailDialogComponent implements OnInit {
       this.userService.updateProfile(this.userId, formData).subscribe((response) => {
         console.log('Profile updated successfully', response);
         if(response) {
-          this.userService.userUpdatedInformation.emit(response);
-          this.closeDialog();
+         // this.userService.userUpdatedInformation.emit(response);
+          this.closeDialog(response);
         }
       });
 
     }
   }
 
-  closeDialog(): void {
-    this.dialogRef.close();
+  closeDialog(data?: any): void {
+    this.dialogRef.close(data);
   }
 }

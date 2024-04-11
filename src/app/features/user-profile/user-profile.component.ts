@@ -45,13 +45,16 @@ export class UserProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(EditDetailDialogComponent, {
       width: '500px', // o la dimensione desiderata
       data: {
-        profileImageUrl: this.user.profileImageUrl,
+        userId: this.userId,
         user: this.user
       }
       // passa qui altri dati se necessario
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
+      this.user.bio = result.bio;
+      this.user.interests = result.interests;
+      this.user.livesIn = result.livesIn;
     });
   }
 
