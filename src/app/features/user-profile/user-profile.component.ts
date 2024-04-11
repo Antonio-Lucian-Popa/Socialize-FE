@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { EditDetailDialogComponent } from 'src/app/shared/edit-detail-dialog/edit-detail-dialog.component';
 import { UserInformation } from 'src/app/shared/interfaces/user-profile-data';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -14,24 +16,12 @@ export class UserProfileComponent implements OnInit {
 
   userProfileImage!: string;
 
-  // user: UserProfileData = {
-  //   firstName: 'Jake',
-  //   lastName: 'Smith',
-  //   username: 'wellsalex',
-  //   image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  //   followers: '4.6k',
-  //   following: '4.6k',
-  //   posts: '4.6k',
-  //   location: 'Mountain View, CA',
-  //   bio: 'Lover of the outdoors and all things mountain.',
-  //   interests: ['Hiking', 'Skiing', 'Photography']
-  // };
 
   user!: UserInformation;
 
   isMyProfile = false; // TODO: Set this to false if the user is not the logged in user
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id');
@@ -49,6 +39,24 @@ export class UserProfileComponent implements OnInit {
         }
       });
     }
+  }
+
+  openDetailModal(): void {
+    const dialogRef = this.dialog.open(EditDetailDialogComponent, {
+      width: '500px', // o la dimensione desiderata
+      data: {
+        profileImageUrl: this.user.profileImageUrl,
+        user: this.user
+      }
+      // passa qui altri dati se necessario
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  isDetailsPresent(): boolean {
+    return !!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0;
   }
 
 }

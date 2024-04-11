@@ -1,0 +1,43 @@
+<!-- change-password-modal.component.html -->
+<div class="change-password-modal">
+  <div class="d-flex align-items-center justify-between mb-4">
+    <h2 class="modal-title">Details</h2>
+
+  <button class="inline-flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full hover:bg-gray-300" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+  </div>
+
+  <form [formGroup]="editUserDetailsForm" (ngSubmit)="onEdit()" class="d-flex flex-column align-items-center justify-content-center">
+
+    <div class="form-group w-100">
+      <label for="biography">Biography</label>
+      <textarea id="biography" formControlName="biography" placeholder="What's on your mind?"
+        class="post-textarea"></textarea>
+    </div>
+
+    <div class="form-group w-100">
+      <label for="livesIn">Lives In</label>
+      <input type="text" id="livesIn" formControlName="livesIn" placeholder="Where you live?">
+    </div>
+
+    <div class="form-group w-100 mb-3">
+      <label for="interests">Interests</label>
+      <div class="d-flex align-items-center chip-input">
+        <input type="text" id="interests" class="mt-0" formControlName="interests" (keyup.enter)="addChip()">
+        <button mat-raised-button color="primary" class="btn-add" (click)="addChip()">Add</button>
+      </div>
+    </div>
+
+    <mat-chip-list>
+      <mat-chip *ngFor="let chip of chips" [removable]="true" (removed)="removeChip(chip)">
+        {{ chip }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+
+    <div class="d-flex justify-end mt-2 w-100">
+      <button mat-raised-button type="submit" class="update-btn">Update</button>
+    </div>
+  </form>
+</div>

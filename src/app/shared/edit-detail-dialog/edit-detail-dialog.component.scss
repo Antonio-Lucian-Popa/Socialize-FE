@@ -1,0 +1,50 @@
+.form-group {
+  margin-bottom: 1rem;
+  width: 80%;
+
+  label {
+    display: block;
+    color: #333;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+}
+
+.update-btn {
+  display: block;
+  border: none;
+  border-radius: 4px;
+  background-color: #6f42c1; // Or use a color that matches your design
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: darken(#6f42c1, 10%);
+  }
+}
+
+.btn-add {
+  margin-left: 1rem;
+}
+
+.post-textarea {
+  margin-top: 0.5rem;
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #ccd0d5;
+  border-radius: 5px;
+  resize: vertical; /* Allows the user to resize the textarea vertically */
+  width: 100%;
+}
+
+.chip-input {
+  margin-top: 0.5rem;
+}

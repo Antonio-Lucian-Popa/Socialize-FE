@@ -32,6 +32,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { EditCommentDialogComponent } from './comment-post-modal/comment-item/edit-comment-dialog/edit-comment-dialog.component';
 import { EditPostModalComponent } from './post-list/post/edit-post-modal/edit-post-modal.component';
+import { EditDetailDialogComponent } from './edit-detail-dialog/edit-detail-dialog.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -73,6 +74,7 @@ const COMPONENTS: any[] = [
     UserSuggestComponent,
     EditCommentDialogComponent,
     EditPostModalComponent,
+    EditDetailDialogComponent,
   ],
   imports: [
     CommonModule,
