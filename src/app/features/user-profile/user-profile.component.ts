@@ -38,7 +38,6 @@ export class UserProfileComponent implements OnInit {
   loadUserInfo(userId: string): void {
     this.userService.getUserProfileInfo(userId).subscribe({
       next: (data) => {
-        console.log('Fetched User Profile Data:', data);
         this.user = data;
         console.log(this.userService.userInfo.id, data.id);
         this.isMyProfile = this.userService.userInfo.id == data.id;
@@ -59,7 +58,6 @@ export class UserProfileComponent implements OnInit {
       // passa qui altri dati se necessario
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.user.bio = result.bio;
       this.user.interests = result.interests;
       this.user.livesIn = result.livesIn;
@@ -67,7 +65,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   isDetailsPresent(): boolean {
-    console.log(!!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0, this.isMyProfile)
     return !!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0;
   }
 
