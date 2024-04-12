@@ -22,11 +22,11 @@ export class UserService {
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.authService.getUserId().then((userId) => {
-      if(userId) {
+      if (userId) {
         this.myUserId = userId;
       }
     });
-   }
+  }
 
   getUserProfileInfo(userId: string): Observable<any> {
     return this.http.get<any>(`${this.URL_LINK}/${userId}`).pipe(
@@ -46,6 +46,10 @@ export class UserService {
 
   getSuggestedUsers(userId: string): Observable<User[]> {
     return this.http.get<User[]>(`${this.URL_LINK}/suggested-users/${userId}`);
+  }
+
+  searchUsers(term: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.URL_LINK}/search/users`, { params: { name: term.toLowerCase() } });
   }
 
   followUser(followerId: string, followingId: string): Observable<any> {

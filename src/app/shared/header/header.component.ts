@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { debounceTime, filter, firstValueFrom, forkJoin } from 'rxjs';
+import { debounceTime, filter, firstValueFrom, forkJoin, of, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { UserService } from '../services/user.service';
 import { User, UserProfileData } from '../interfaces/user-profile-data';
@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   searchControl: FormControl = new FormControl('');
   showDropdown: boolean = false;
-  searchResults: string[] = [];
+  searchResults: User[] = [];
 
   showDropdownUser: boolean = false;
 
@@ -38,19 +38,27 @@ export class HeaderComponent implements OnInit {
     this.fetchUserDetails();
 
     this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300), // Wait for 300ms pause in events
-        filter(term => term.length > 0 || term === '') // Ensure non-empty or reset
-      )
-      .subscribe(term => {
-        if (term.length > 0) {
-          // Simulate fetching search results, e.g., from a service
-          this.searchResults = ['Result 1', 'Result 2', 'Result 3']; // Static results for demonstration
-          this.showDropdown = true;
+    .pipe(
+      debounceTime(300), // Wait for 300ms pause in events
+      filter(term => term.length > 0 || term === ''), // Ensure non-empty or reset
+      switchMap(term => {
+        if (term) {
+          return this.userService.searchUsers(term);
         } else {
-          this.showDropdown = false;
+          // Immediately return an empty array when the term is empty
+          return of([]);
         }
-      });
+      })
+    )
+    .subscribe((results: any[]) => {
+      if (results.length > 0) {
+        this.searchResults = results;
+        this.showDropdown = true;
+      } else {
+        this.showDropdown = false;
+        this.searchResults = [];
+      }
+    });
 
     this.userService.userUpdatedInformation.subscribe((res: User) => {
       this.userInfo = res;
