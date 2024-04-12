@@ -1,3 +1,7 @@
+.container-discovery {
+  height: calc(100% - 64px);
+}
+
 /* Existing .cover-image styles */
 .cover-image {
   width: 10rem;
@@ -34,5 +38,17 @@
 @keyframes load {
   to {
     left: 100%;
+  }
+}
+
+.load-more-btn {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: darken(#4267B2, 10%);
   }
 }

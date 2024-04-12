@@ -24,19 +24,36 @@ export class PostInputComponent implements OnInit {
   constructor(public dialog: MatDialog, private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    // TODO: Fetch the user from the backend
-    //   this.fetchUserDetails();
+    this.fetchUserDetails();
 
-    ///
     this.userService.userUpdatedInformation.subscribe((res: User) => {
       this.user = res;
       this.userProfileImage = res.profileImageUrl;
     });
 
-    if((this.user == undefined || this.user == null) || (this.userProfileImage == undefined || this.userProfileImage == null) && this.userService.userInfo) {
+    if ((this.user == undefined || this.user == null) || (this.userProfileImage == undefined || this.userProfileImage == null) && this.userService.userInfo) {
       this.user = this.userService.userInfo;
       this.userProfileImage = this.userService.userInfo.profileImageUrl;
     }
+  }
+
+  fetchUserDetails() {
+    this.authService.getUserId().then(userId => {
+
+      if (userId) {
+        this.userService.getUserProfileInfo(userId).subscribe({
+          next: (userProfile) => {
+            this.user = userProfile;
+            this.userProfileImage = userProfile.profileImageUrl;
+          },
+          error: (error) => {
+            console.error('Error fetching user profile data:', error);
+          }
+        });
+      }
+    }).catch(error => {
+      console.error('Error during user detail fetch operation:', error);
+    });
   }
 
   openCreatePostModal(): void {

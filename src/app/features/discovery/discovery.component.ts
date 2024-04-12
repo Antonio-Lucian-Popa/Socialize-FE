@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageViewDialogComponent } from './image-view-dialog/image-view-dialog.component';
+import { PostService } from 'src/app/shared/services/post.service';
+import { PostImage } from 'src/app/shared/interfaces/post-image';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-discovery',
@@ -9,64 +12,78 @@ import { ImageViewDialogComponent } from './image-view-dialog/image-view-dialog.
 })
 export class DiscoveryComponent implements OnInit {
 
-  popularImages = [
-    {id: 1, image: 'https://images.unsplash.com/photo-1682686578842-00ba49b0a71a?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-    {id: 2, image: 'https://images.unsplash.com/photo-1682685797365-41f45b562c0a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-    {id: 3, image: 'https://images.unsplash.com/photo-1707343848655-a196bfe88861?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-    {id: 4, image: 'https://images.unsplash.com/photo-1710743385110-23d273762d14?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-    {id: 5, image: 'https://images.unsplash.com/photo-1710596039020-b93566d8106b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-    {id: 6, image: 'https://images.unsplash.com/photo-1710695174960-59026cbac187?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
-  ];
+  popularImages: PostImage[] = [];
 
   loading: boolean = true;
-  private imagesLoaded = 0;
-  currentPage = 0;
-  totalPages = undefined; // Assume this comes from your backend
+  currentPage: number = 0;
+  pageSize: number = 10;
+  totalPages: number = 0;
+
+  myUserId!: string;
 
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private postService: PostService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.getUserId().then((userId) => {
+      if (userId) {
+        this.myUserId = userId;
+      }
+    });
     this.loadImages();
   }
 
   loadImages(): void {
-    if ((this.totalPages && this.currentPage < this.totalPages) || this.totalPages === undefined) {
-      this.loading = true;
-      // this.yourService.getImages(this.currentPage).subscribe(data => {
-      //   const newImages = data.images; // Adapt based on your actual data structure
-      //   this.totalPages = data.totalPages; // Update total pages
-      //   this.popularImages = [...this.popularImages, ...newImages];
-      //   this.currentPage++;
-      //   // Reset loading state and counter if this is a new load
-      //   this.imagesLoaded = 0;
-      //   // Don't set loading to false here; let imageLoaded handle it
-      // });
+    if (this.totalPages !== undefined && this.totalPages > 0 && this.currentPage >= this.totalPages) {
+      return;
     }
-  }
-
-  imageLoaded(): void {
-    this.imagesLoaded++;
-    if (this.imagesLoaded === this.popularImages.length) {
-      this.loading = false;
-    }
+    this.loading = true;
+    this.postService.getPopularImages(this.currentPage, this.pageSize).subscribe({
+      next: (pageData) => {
+        this.popularImages = pageData.content;
+        this.totalPages = pageData.totalPages;
+        this.loading = false; // Reset loading state
+      },
+      error: (error) => {
+        console.error('Failed to fetch images', error);
+        this.loading = false; // Ensure loading is reset on error
+      }
+    });
   }
 
   // Call this method to load more images
   loadMore(): void {
-    this.loadImages();
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.loadImages();
+    }
   }
 
-  openImageDialog(imageId: number): void {
-    console.log('openImageDialog', imageId);
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadImages();
+    }
+  }
+
+  openImageDialog(postId: string): void {
+    console.log('openImageDialog', postId);
     const dialogRef = this.dialog.open(ImageViewDialogComponent, {
       width: '80%',
-      height: '95vh'
+      height: '95vh',
+      data: {
+        postId,
+        userId: this.myUserId
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  isLoadMoreBtnVisible(): boolean {
+    return this.currentPage >= this.totalPages - 1;
   }
 
 }

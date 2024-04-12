@@ -3,6 +3,7 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { PostDto } from '../interfaces/post-dto';
 import {v4 as uuidv4} from 'uuid';
+import { PaginatedPostImages, PostImage } from '../interfaces/post-image';
 
 @Injectable({
   providedIn: 'root'
@@ -121,6 +122,18 @@ export class PostService {
     params = params.append('includeFollowing', includeFollowing.toString());
 
     return this.http.get(url, { params: params });
+  }
+
+  getPopularImages(page: number, size: number): Observable<PaginatedPostImages> {
+    let params = new HttpParams();
+    params = params.append('page', page.toString());
+    params = params.append('size', size.toString());
+
+    return this.http.get<PaginatedPostImages>(`${this.URL_LINK}/popular-images`, { params });
+  }
+
+  getPostById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.URL_LINK}/find-post/${id}`);
   }
 
   likePost(postId: string, userId: string): Observable<PostDto> {

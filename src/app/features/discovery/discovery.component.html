@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="d-flex flex-col justify-content-between container-discovery">
   <!-- Skeleton Loader -->
   <div class="container-skeleton d-flex w-100" *ngIf="loading">
     <div class="skeleton-loader" *ngFor="let popularImage of popularImages;"></div>
@@ -7,16 +7,18 @@
   <div class="d-flex">
     <div *ngFor="let popularImage of popularImages; let i = index">
       <!-- Load detection for each image -->
-      <img [src]="popularImage.image" (load)="imageLoaded()" style="display: none;">
+      <img [src]="popularImage.imageUrl" style="display: none;">
       <div class="cover-image"
-           (click)="openImageDialog(popularImage.id)"
-           [style.background-image]="'url(' + popularImage.image + ')'"
+           (click)="openImageDialog(popularImage.postId)"
+           [style.background-image]="'url(' + popularImage.imageUrl + ')'"
            *ngIf="!loading">
       </div>
     </div>
   </div>
 
-  <!-- Button to load more images, shown if there are more pages to load -->
-  <button *ngIf="totalPages && currentPage < totalPages" (click)="loadMore()">Load More</button>
+  <div class="d-flex justify-content-center mb-3 w-100">
+    <!-- Button to load more images, shown if there are more pages to load -->
+  <button class="load-more-btn" *ngIf="!isLoadMoreBtnVisible()" (click)="loadMore()">Load More</button>
 
+  </div>
 </div>
