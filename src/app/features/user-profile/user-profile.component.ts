@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription, switchMap } from 'rxjs';
 import { EditDetailDialogComponent } from 'src/app/shared/edit-detail-dialog/edit-detail-dialog.component';
 import { UserInformation } from 'src/app/shared/interfaces/user-profile-data';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -11,6 +12,8 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
+
+  private routeSub!: Subscription;
 
   userId!: string | null;
 
@@ -24,21 +27,26 @@ export class UserProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.paramMap.get('id');
-    if(this.userId) {
-      // TODO: Fetch user profile data
-      this.userService.getUserProfileInfo(this.userId).subscribe({
-        next: (data) => {
-          console.log('Fetched User Profile Data:', data);
-          this.user = data;
-          console.log(this.userService.userInfo.id, data.id);
-          this.isMyProfile = this.userService.userInfo.id == this.user.id;
-        },
-        error: (error) => {
-          console.error('Error fetching user profile data:', error);
-        }
-      });
-    }
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      this.userId = params.get('id');
+      if (this.userId) {
+        this.loadUserInfo(this.userId);
+      }
+    });
+  }
+
+  loadUserInfo(userId: string): void {
+    this.userService.getUserProfileInfo(userId).subscribe({
+      next: (data) => {
+        console.log('Fetched User Profile Data:', data);
+        this.user = data;
+        console.log(this.userService.userInfo.id, data.id);
+        this.isMyProfile = this.userService.userInfo.id == data.id;
+      },
+      error: (error) => {
+        console.error('Error fetching user profile data:', error);
+      }
+    });
   }
 
   openDetailModal(): void {
@@ -61,6 +69,12 @@ export class UserProfileComponent implements OnInit {
   isDetailsPresent(): boolean {
     console.log(!!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0, this.isMyProfile)
     return !!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0;
+  }
+
+  ngOnDestroy(): void {
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 
 }
