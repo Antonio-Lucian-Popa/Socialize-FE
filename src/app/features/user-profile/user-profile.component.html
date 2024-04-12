@@ -28,7 +28,7 @@
     </div>
 
     <!-- user-info-card.component.html -->
-    <div class="user-info-card bg-white rounded-lg shadow p-4 mt-4">
+    <div class="user-info-card bg-white rounded-lg shadow p-4 mt-4" *ngIf="(isDetailsPresent() && !isMyProfile) || isMyProfile">
       <div class="d-flex flex-column w-100" *ngIf="isDetailsPresent()">
         <div class="d-flex justify-end">
           <i class="fa-solid fa-pencil edit-icon-btn" (click)="openDetailModal()"></i>
@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <div class="d-flex flex-column w-100" *ngIf="!isDetailsPresent()">
+      <div class="d-flex flex-column w-100" *ngIf="!isDetailsPresent() && isMyProfile">
         <span>Add some details about you</span>
         <button class="btn btn-primary mt-2" (click)="openDetailModal()">Add Details</button>
       </div>

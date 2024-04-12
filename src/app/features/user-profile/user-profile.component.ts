@@ -59,6 +59,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   isDetailsPresent(): boolean {
+    console.log(!!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0, this.isMyProfile)
     return !!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0;
   }
 
