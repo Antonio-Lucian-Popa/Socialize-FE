@@ -89,8 +89,12 @@ export class CommentPostModalComponent implements OnInit {
         console.log('Comment created successfully', response);
         // Handle successful comment creation, e.g., update UI accordingly
        // this.comments.push(response);
-       if(!parentId) this.comments.push(response);
-        this.insertSubComment(this.comments, parentId!, response);
+       response.subComments = []; // Initialize subComments for new comments
+       if(!parentId) {
+         this.comments.push(response);
+       } else {
+         this.insertSubComment(this.comments, parentId, response);
+       }
       },
       error: (error) => {
         console.error('Error creating comment', error);
@@ -125,20 +129,23 @@ export class CommentPostModalComponent implements OnInit {
 }
 
 
-  insertSubComment(comments: any[], parentId: string, subCommentToAdd: any): boolean {
-    for (const comment of comments) {
-      if (comment.id === parentId) {
-        // Found the parent comment, insert the subComment
-        comment.subComments.push(subCommentToAdd);
-        return true; // Return true indicating the subComment has been added
-      } else if (comment.subComments && comment.subComments.length > 0) {
-        // Recursively search in subComments
-        const isInserted = this.insertSubComment(comment.subComments, parentId, subCommentToAdd);
-        if (isInserted) return true; // If inserted in a nested structure, stop searching
+insertSubComment(comments: any[], parentId: string, subCommentToAdd: any): boolean {
+  for (const comment of comments) {
+    if (comment.id === parentId) {
+      if (!comment.subComments) {
+        comment.subComments = []; // Ensure subComments is an array
       }
+      comment.subComments.push(subCommentToAdd);
+      return true; // Return true indicating the subComment has been added
+    } else if (comment.subComments && comment.subComments.length > 0) {
+      // Recursively search in subComments
+      const isInserted = this.insertSubComment(comment.subComments, parentId, subCommentToAdd);
+      if (isInserted) return true; // If inserted in a nested structure, stop searching
     }
-    return false; // Return false indicating the subComment has not been added
   }
+  return false; // Return false indicating the subComment has not been added
+}
+
 
 
 

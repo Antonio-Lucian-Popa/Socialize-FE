@@ -151,6 +151,7 @@ export class ImageViewDialogComponent implements OnInit {
   }
 
   createComment(parentId?: string): void {
+    console.log("Replying to: ", parentId)
     let actualCommentText = this.commentForm.get('commentText')!.value!.replace(this.replyPrefix, '');
     this.commentService.createComment({
       parentId: parentId ? parentId : null,
@@ -162,8 +163,12 @@ export class ImageViewDialogComponent implements OnInit {
         console.log('Comment created successfully', response);
         // Handle successful comment creation, e.g., update UI accordingly
        // this.comments.push(response);
-       if(!parentId) this.comments.push(response);
-        this.insertSubComment(this.comments, parentId!, response);
+       response.subComments = []; // Initialize subComments for new comments
+       if(!parentId) {
+         this.comments.push(response);
+       } else {
+         this.insertSubComment(this.comments, parentId, response);
+       }
       },
       error: (error) => {
         console.error('Error creating comment', error);
@@ -175,7 +180,9 @@ export class ImageViewDialogComponent implements OnInit {
   insertSubComment(comments: any[], parentId: string, subCommentToAdd: any): boolean {
     for (const comment of comments) {
       if (comment.id === parentId) {
-        // Found the parent comment, insert the subComment
+        if (!comment.subComments) {
+          comment.subComments = []; // Ensure subComments is an array
+        }
         comment.subComments.push(subCommentToAdd);
         return true; // Return true indicating the subComment has been added
       } else if (comment.subComments && comment.subComments.length > 0) {
