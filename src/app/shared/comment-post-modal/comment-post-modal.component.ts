@@ -18,6 +18,8 @@ export class CommentPostModalComponent implements OnInit {
     commentText: new FormControl('')
   });
 
+  isChangesSaved: boolean = false;
+
 
   post: any;
   userId: string;
@@ -49,7 +51,8 @@ export class CommentPostModalComponent implements OnInit {
 
   closeDialog(): void {
     // Close the dialog. Implement dialog close logic here, likely using MatDialogRef
-    this.dialogRef.close();
+    this.dialogRef.close(this.isChangesSaved);
+    this.isChangesSaved = false;
   }
 
   prepareReply(comment: any): void {
@@ -95,9 +98,11 @@ export class CommentPostModalComponent implements OnInit {
        } else {
          this.insertSubComment(this.comments, parentId, response);
        }
+       this.isChangesSaved = true;
       },
       error: (error) => {
         console.error('Error creating comment', error);
+        this.isChangesSaved = false;
         // Handle error case
       },
     });
@@ -110,6 +115,7 @@ export class CommentPostModalComponent implements OnInit {
             if (comments[i].id === id) {
                 // If the target comment is found, remove it
                 comments.splice(i, 1);
+                this.isChangesSaved = true;
                 return true; // Comment was successfully removed
             } else if (comments[i].subComments && comments[i].subComments.length > 0) {
                 // If the comment has subComments, recurse into them
@@ -117,6 +123,7 @@ export class CommentPostModalComponent implements OnInit {
                 console.log(isRemoved)
                 if (isRemoved) {
                     // If the comment was removed in a nested subComments, no need to continue
+                    this.isChangesSaved = true;
                     return true;
                 }
             }

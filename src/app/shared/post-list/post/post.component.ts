@@ -88,12 +88,41 @@ export class PostComponent implements OnInit {
   }
 
   openCommentDialog(post: any): void {
-    this.dialog.open(CommentPostModalComponent, {
+    const dialogRef = this.dialog.open(CommentPostModalComponent, {
       width: '500px',
       data: {
         post: post,
         userId: this.userId
       }
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (result) => {
+        console.log('The dialog was closed', result);
+        if (result) {
+          // Handle successful comment action, e.g., update UI accordingly
+          this.refreshPost();
+        }
+
+      },
+      error: (error) => {
+        console.error('Error closing dialog', error);
+        // Handle error case
+      }
+    });
+  }
+
+  refreshPost() {
+    this.postService.getPostById(this.post.id).subscribe({
+      next: (response) => {
+        console.log('Post fetched successfully', response);
+        // Handle successful fetch action, e.g., update UI accordingly
+        this.post = response;
+      },
+      error: (error) => {
+        console.error('Error fetching post', error);
+        // Handle error case
+      },
     });
   }
 
@@ -167,7 +196,7 @@ export class PostComponent implements OnInit {
         setTimeout(() => {
           this.swiper?.update(); // Inform Swiper about the update
         }, 0);
-      } else if(result) {
+      } else if (result) {
         // Handle successful edit action, e.g., update UI accordingly
         this.updatePost(result);
       }

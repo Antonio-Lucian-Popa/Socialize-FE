@@ -87,6 +87,8 @@ export class ImageViewDialogComponent implements OnInit {
     commentText: new FormControl('')
   });
 
+  isChangesSaved: boolean = false;
+
   isPostLiked: boolean = false;
 
   replyingTo: string | null = null; // parent comment id
@@ -116,6 +118,7 @@ export class ImageViewDialogComponent implements OnInit {
       next: (results) => {
         console.log('Data fetched successfully', results);
         this.popularImagePost = results.post;
+        this.isPostLiked = this.popularImagePost.likes.some((like) => like.id === this.userId);
         this.comments = results.comments;
       },
       error: (error) => {
@@ -162,17 +165,19 @@ export class ImageViewDialogComponent implements OnInit {
       next: (response) => {
         console.log('Comment created successfully', response);
         // Handle successful comment creation, e.g., update UI accordingly
-       // this.comments.push(response);
-       response.subComments = []; // Initialize subComments for new comments
-       if(!parentId) {
-         this.comments.push(response);
-       } else {
-         this.insertSubComment(this.comments, parentId, response);
-       }
+        // this.comments.push(response);
+        response.subComments = []; // Initialize subComments for new comments
+        if (!parentId) {
+          this.comments.push(response);
+        } else {
+          this.insertSubComment(this.comments, parentId, response);
+        }
+        this.isChangesSaved = true;
       },
       error: (error) => {
         console.error('Error creating comment', error);
         // Handle error case
+        this.isChangesSaved = false;
       },
     });
   }
@@ -197,44 +202,69 @@ export class ImageViewDialogComponent implements OnInit {
   removeComment(commentId: string): void {
     // Define a recursive function to handle removal
     const removeCommentRecursive = (comments: any[], id: string): boolean => {
-        for (let i = 0; i < comments.length; i++) {
-            if (comments[i].id === id) {
-                // If the target comment is found, remove it
-                comments.splice(i, 1);
-                return true; // Comment was successfully removed
-            } else if (comments[i].subComments && comments[i].subComments.length > 0) {
-                // If the comment has subComments, recurse into them
-                const isRemoved = removeCommentRecursive(comments[i].subComments, id);
-                if (isRemoved) {
-                    // If the comment was removed in a nested subComments, no need to continue
-                    return true;
-                }
-            }
+      for (let i = 0; i < comments.length; i++) {
+        if (comments[i].id === id) {
+          // If the target comment is found, remove it
+          comments.splice(i, 1);
+          this.isChangesSaved = true;
+          return true; // Comment was successfully removed
+        } else if (comments[i].subComments && comments[i].subComments.length > 0) {
+          // If the comment has subComments, recurse into them
+          const isRemoved = removeCommentRecursive(comments[i].subComments, id);
+          if (isRemoved) {
+            // If the comment was removed in a nested subComments, no need to continue
+            this.isChangesSaved = true;
+            return true;
+          }
         }
-        return false; // Comment with the given ID was not found
+      }
+      return false; // Comment with the given ID was not found
     };
 
     // Start the recursive removal from the top-level comments
     removeCommentRecursive(this.comments, commentId);
 
-}
+  }
 
-  toggleLikePost(post: any): void {
+  toggleLikePost(): void {
     this.isPostLiked = !this.isPostLiked;
-    if (this.isPostLiked) {
-      // this.popularImagePost.likes.push({
-      //   id: 47,
-      //   firstName: 'Jane',
-      //   lastName: 'Doe',
-      //   image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-      // });
-    } else {
-      this.popularImagePost.likes.splice(this.popularImagePost.likes.findIndex((like: any) => like.id === 47), 1);
-    }
     // TODO: Send a request to like/unlike the post
+    if (this.isPostLiked) {
+      this.likePost(this.popularImagePost.id);
+    } else {
+      this.unlikePost(this.popularImagePost.id);
+    }
+  }
+
+  likePost(postId: string) {
+    this.postService.likePost(postId, this.userId).subscribe({
+      next: (response) => {
+        // Handle successful like action, e.g., update UI accordingly
+        this.popularImagePost.likes = response.likes;
+      },
+      error: (error) => {
+        console.error('Error liking the post', error);
+        // Handle error case
+      },
+    });
+  }
+
+  unlikePost(postId: string) {
+    this.postService.unlikePost(postId, this.userId).subscribe({
+      next: (response) => {
+        console.log('Post liked successfully', response);
+        // Handle successful like action, e.g., update UI accordingly
+        this.popularImagePost.likes = response.likes;
+      },
+      error: (error) => {
+        console.error('Error liking the post', error);
+        // Handle error case
+      },
+    });
   }
 
   onClose(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(this.isChangesSaved);
+    this.isChangesSaved = false;
   }
 }

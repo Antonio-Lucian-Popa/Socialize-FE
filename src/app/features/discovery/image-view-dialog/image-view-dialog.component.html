@@ -26,8 +26,8 @@
           <div class="flex items-center action-user">
             <button type="button" class="margin-right-heart-btn">
               <!-- Insert heart icon here -->
-              <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost(popularImagePost)"></i>
-              <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost(popularImagePost)"></i>
+              <i class="fa-regular fa-heart" *ngIf="!isPostLiked" (click)="toggleLikePost()"></i>
+              <i class="fa-solid fa-heart" *ngIf="isPostLiked" (click)="toggleLikePost()"></i>
             </button>
 
             <span class="font-semibold ml-2">{{popularImagePost.likes.length}}</span>
