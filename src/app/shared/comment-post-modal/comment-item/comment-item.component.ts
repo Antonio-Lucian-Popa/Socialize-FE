@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommentService } from '../../services/comment.service';
 import { UserService } from '../../services/user.service';
 import { FormBuilder } from '@angular/forms';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-comment-item',
@@ -23,11 +24,14 @@ export class CommentItemComponent implements OnInit {
 
   isEditPanelOpen = false;
 
-  constructor(private commentService: CommentService, private userService: UserService, private fb: FormBuilder) { }
+  constructor(private commentService: CommentService, private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void {
-    console.log(this.comment.subComments);
-    this.userId = this.userService.userInfo.id;
+    this.authService.getUserId().then((userId) => {
+      if (userId) {
+        this.userId = userId;
+      }
+    });
    }
 
   onReply(comment: any): void {

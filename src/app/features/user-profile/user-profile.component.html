@@ -22,7 +22,8 @@
         </div>
       </div>
       <div class="container-user-actions d-flex align-items-center justify-center mt-2" *ngIf="!isMyProfile">
-        <button class="btn btn-primary mr-2">Follow</button>
+        <button class="btn btn-primary mr-2" *ngIf="!isUserFollowing" (click)="follow()">Follow</button>
+        <button class="btn btn-primary mr-2" *ngIf="isUserFollowing" (click)="unfollow()">Unfollow</button>
         <button class="btn btn-secondary">Message</button>
       </div>
     </div>
