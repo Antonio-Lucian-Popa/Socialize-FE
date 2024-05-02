@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
+import { WelcomeComponent } from './features/welcome/welcome.component';
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: 'enabled',
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'discovery', loadChildren: () => import('./features/discovery/discovery.module').then(m => m.DiscoveryModule), canActivate: [AuthGuard]  },
   { path: 'log-in', loadChildren: () => import('./auth/components/log-in/log-in.module').then(m => m.LogInModule) },
   { path: 'sign-up', loadChildren: () => import('./auth/components/register/register.module').then(m => m.RegisterModule) },
+  { path: 'welcome', component: WelcomeComponent, canActivate: [AuthGuard]},
   // { path: 'forgot-password', loadChildren: () => import('./auth/components/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];

@@ -179,3 +179,11 @@ mat-dialog-container {
     padding: 0!important;
   }
 }
+
+.container-welcome {
+  app-who-follow-card {
+    .who-to-follow-card {
+      box-shadow: none !important;
+    }
+  }
+}

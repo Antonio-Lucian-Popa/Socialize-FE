@@ -39,8 +39,8 @@
         <img [src]="image" [alt]="post.description" class="max-w-full max-h-full object-cover">
       </div>
     </swiper-slide>
-    <div class="swiper-button-next" *ngIf="post.imageFilenames.length > 0"></div>
-    <div class="swiper-button-prev" *ngIf="post.imageFilenames.length > 0"></div>
+    <div class="swiper-button-next" *ngIf="post.imageFilenames.length > 1"></div>
+    <div class="swiper-button-prev" *ngIf="post.imageFilenames.length > 1"></div>
   </swiper-container>
 
 

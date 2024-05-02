@@ -1,0 +1,69 @@
+<div class="container-welcome d-flex flex-column justify-content-center align-items-center">
+  <div class="welcome-container">
+    <h1>Welcome to Socialize!</h1>
+  </div>
+
+  <mat-card *ngIf="isAddProfileImage">
+    <mat-card-content class="d-flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="userProfile" class="d-flex flex-column align-items-center justify-content-center w-80">
+
+        <!-- Avatar Image -->
+        <!-- Circular Avatar -->
+        <div class="avatar-container" (click)="avatarInput.click()">
+          <img *ngIf="avatarUrl" [src]="avatarUrl" class="circular-avatar">
+          <input type="file" id="avatarInput" (change)="onAvatarChange($event)" hidden #avatarInput>
+        </div>
+      </form>
+      <p>Add a profile image</p>
+
+      <div class="d-flex align-items-center justify-end">
+        <button mat-raised-button color="primary" class="add-right-margin" (click)="isAddProfileImage = false">Skip</button>
+        <button mat-raised-button color="primary" (click)="changeView(false, true, false)">Next</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="isAddProfileInfo">
+    <mat-card-content class="d-flex flex-column align-items-center justify-content-center">
+      <form [formGroup]="userProfile"
+        class="d-flex flex-column align-items-center justify-content-center w-80">
+
+        <div class="form-group w-100">
+          <label for="biography">Biography</label>
+          <textarea id="biography" formControlName="biography" placeholder="What's on your mind?"
+            class="post-textarea"></textarea>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="livesIn">Lives In</label>
+          <input type="text" id="livesIn" formControlName="livesIn" placeholder="Where you live?">
+        </div>
+
+        <div class="form-group w-100 mb-3">
+          <label for="interests">Interests</label>
+          <input type="text" id="interests" formControlName="interests" (keyup.enter)="addChip()">
+        </div>
+        <button mat-raised-button class="mb-3" color="primary" (click)="addChip()">Add</button>
+
+        <mat-chip-list>
+          <mat-chip *ngFor="let chip of chips" [removable]="true" (removed)="removeChip(chip)">
+            {{ chip }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </form>
+      <div class="d-flex align-items-center justify-end">
+        <button mat-raised-button color="primary" class="add-right-margin" (click)="isAddProfileImage = false">Skip</button>
+        <button mat-raised-button color="primary" (click)="changeView(false, false, true)">Next</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="isAddFollowers">
+    <app-who-follow-card></app-who-follow-card>
+    <div class="d-flex align-items-center justify-end">
+      <button mat-raised-button color="primary" class="add-right-margin" (click)="isAddProfileImage = false">Skip</button>
+      <button mat-raised-button color="primary" (click)="changeView(false, false, false)">Finish</button>
+    </div>
+  </mat-card>
+</div>

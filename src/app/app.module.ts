@@ -13,12 +13,14 @@ import { UserProfileComponent } from './features/user-profile/user-profile.compo
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { WelcomeComponent } from './features/welcome/welcome.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    WelcomeComponent
   ],
   imports: [
     LoadingBarModule,

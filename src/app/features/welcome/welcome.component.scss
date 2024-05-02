@@ -1,0 +1,61 @@
+.container-welcome {
+  height: calc(100vh - 64px);
+}
+
+.avatar-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid #ccc; /* Optional: for border */
+}
+
+.circular-avatar {
+  width: 100%;
+  height: auto;
+}
+
+/* ... additional styles ... */
+
+mat-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+mat-chip {
+  background-color: #e0e0e0;
+}
+
+.add-right-margin {
+  margin-right: 8px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  width: 80%;
+
+  label {
+    display: block;
+    color: #333;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+}
+
+textarea {
+  padding: 8px;
+  border: 1px solid #ccd0d5;
+  resize: vertical; /* Allows the user to resize the textarea vertically */
+  width: 100%;
+}
