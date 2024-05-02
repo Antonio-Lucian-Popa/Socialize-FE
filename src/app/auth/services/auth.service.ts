@@ -1,10 +1,11 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, catchError, from, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, from, of, switchMap, tap, throwError } from 'rxjs';
 import { CreateUser } from '../interfaces/createUser';
 
 import { jwtDecode } from "jwt-decode";
+import { environment } from 'src/environments/environment';
 
 export interface Token {
   access_token: string;
@@ -16,14 +17,16 @@ export interface Token {
 })
 export class AuthService {
 
-  URL_LINK = 'http://localhost:8081/api/v1/auth';
+  // URL_LINK = 'http://localhost:8081/api/v1/auth';
+ // URL_LINK = 'https://socialize-be.go.ro:2347/api/v1/auth';
+  URL_LINK = environment.apiUrl + '/api/v1';
 
   private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) { }
 
   login(payload: any): Observable<Token | null> {
-    return this.http.post<Token>(`${this.URL_LINK}/authenticate`, payload).pipe(
+    return this.http.post<Token>(`${this.URL_LINK}/auth/authenticate`, payload).pipe(
       tap(response => {
         localStorage.setItem('jwt', response.access_token); // Store JWT token
       }),
@@ -49,9 +52,17 @@ export class AuthService {
       formData.append('file', new Blob([]), 'empty');
     }
 
-    return this.http.post(`${this.URL_LINK}/register`, formData).pipe(
+    return this.http.post(`${this.URL_LINK}/auth/register`, formData).pipe(
       catchError(this.handleError)
     );
+  }
+
+  validateToken(token: string): Observable<boolean> {
+    console.log(token)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<boolean>(`${this.URL_LINK}/auth/validate-token`, {}, { headers });
   }
 
   // getToken(): string | null {
@@ -87,7 +98,15 @@ export class AuthService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    return from(this.getToken().then(token => !!token));
+    return from(this.getToken()).pipe(
+      switchMap(token => {
+        if (token && !this.isJwtExpired(token)) {
+          return this.validateToken(token);
+        } else {
+          return of(false);
+        }
+      })
+    );
   }
 
   logout(): void {
@@ -106,7 +125,7 @@ export class AuthService {
   // }
 
   getUserInfo(userId: string): Observable<any> {
-    const URL_LINK = 'http://localhost:8081/api/v1/users';
+    const URL_LINK = environment.apiUrl + '/api/v1/users';
     return this.http.get<any>(`${URL_LINK}/${userId}`).pipe(
       catchError(this.handleError)
     );

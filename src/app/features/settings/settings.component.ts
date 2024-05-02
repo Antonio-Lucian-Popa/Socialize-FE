@@ -66,8 +66,8 @@ export class SettingsComponent implements OnInit {
   loadUserProfile(): void {
     this.userService.getUserProfileInfo(this.userId).subscribe((response) => {
       this.user = response;
-      this.avatarUrl = this.user.profileImageUrl;
-      this.userProfileImage = this.user.profileImageUrl;
+      this.avatarUrl = this.user && this.user.profileImageUrl ? this.user.profileImageUrl : this.avatarUrl;
+      this.userProfileImage =  this.user && this.user.profileImageUrl ? this.user.profileImageUrl : '';
       this.userProfile.patchValue({
         firstName: this.user.firstName,
         lastName: this.user.lastName,
@@ -127,7 +127,7 @@ export class SettingsComponent implements OnInit {
       //   formData.append('profileImage', this.userAvatar, this.userAvatar.name);
       // }
       // Call the UserService to handle the form submission
-      if(this.avatarUrl && !this.userProfileImage) {
+      if(this.avatarUrl && this.userProfileImage != undefined) {
         const blob = this.dataURLtoBlob(this.avatarUrl.toString());
         formData.append('file', blob, `file.${this.getFileExtension(blob.type)}`);
       }

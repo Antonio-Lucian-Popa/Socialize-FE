@@ -4,6 +4,7 @@ import { Observable, Subject, tap } from 'rxjs';
 import { PostDto } from '../interfaces/post-dto';
 import {v4 as uuidv4} from 'uuid';
 import { PaginatedPostImages, PostImage } from '../interfaces/post-image';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class PostService {
   @Output() postEdited = new EventEmitter<any>();
   @Output() postDeleted = new EventEmitter<string>();
 
-  URL_LINK = "http://localhost:8081/api/v1/posts";
+   //URL_LINK = "http://localhost:8081/api/v1/posts";
+ // URL_LINK = 'https://socialize-be.go.ro:2347/api/v1/posts';
+  URL_LINK = environment.apiUrl + '/api/v1';
 
   constructor(private http: HttpClient) { }
 
@@ -29,7 +32,7 @@ export class PostService {
       formData.append('files', file);
     });
 
-    const req = new HttpRequest('POST', `${this.URL_LINK}/create/${userId}`, formData, {
+    const req = new HttpRequest('POST', `${this.URL_LINK}/posts/create/${userId}`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -72,7 +75,7 @@ export class PostService {
       });
     }
 
-    const url = `${this.URL_LINK}/update/${postId}/${userId}`;
+    const url = `${this.URL_LINK}/posts/update/${postId}/${userId}`;
 
     const req = new HttpRequest('PUT', url, formData, {
       reportProgress: true,
@@ -103,19 +106,19 @@ export class PostService {
    * @returns
    */
   deletePostById(id: string, userId: string): Observable<any> {
-    const url = `${this.URL_LINK}/delete/${id}/${userId}`;
+    const url = `${this.URL_LINK}/posts/delete/${id}/${userId}`;
     return this.http.delete(url);
   }
 
   removeImagesFromPost(postId: string, imageUrls: string[]): Observable<any> {
     // The endpoint expects a list of image URLs to remove in the request body
-    const url = `${this.URL_LINK}/removeImages/${postId}`;
+    const url = `${this.URL_LINK}/posts/removeImages/${postId}`;
     return this.http.request('delete', url, { body: imageUrls });
   }
 
 
   findAllPostsByUserId(userId: string, page: number = 0, size: number = 10, includeFollowing: boolean = false): Observable<any> {
-    const url = `${this.URL_LINK}/findAllPosts/${userId}`;
+    const url = `${this.URL_LINK}/posts/findAllPosts/${userId}`;
     let params = new HttpParams();
     params = params.append('page', page.toString());
     params = params.append('size', size.toString());
@@ -129,20 +132,20 @@ export class PostService {
     params = params.append('page', page.toString());
     params = params.append('size', size.toString());
 
-    return this.http.get<PaginatedPostImages>(`${this.URL_LINK}/popular-images`, { params });
+    return this.http.get<PaginatedPostImages>(`${this.URL_LINK}/posts/popular-images`, { params });
   }
 
   getPostById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.URL_LINK}/find-post/${id}`);
+    return this.http.get<any>(`${this.URL_LINK}/posts/find-post/${id}`);
   }
 
   likePost(postId: string, userId: string): Observable<PostDto> {
-    const url = `${this.URL_LINK}/like/${postId}/${userId}`;
+    const url = `${this.URL_LINK}/posts/like/${postId}/${userId}`;
     return this.http.put<PostDto>(url, {}); // Sending an empty object as the body, as the endpoint might not require it
   }
 
   unlikePost(postId: string, userId: string): Observable<PostDto> {
-    const url = `${this.URL_LINK}/unlike/${postId}/${userId}`;
+    const url = `${this.URL_LINK}/posts/unlike/${postId}/${userId}`;
     return this.http.put<PostDto>(url, {}); // Sending an empty object as the body, as the endpoint might not require it
   }
 

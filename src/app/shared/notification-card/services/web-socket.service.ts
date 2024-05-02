@@ -5,13 +5,16 @@ import { Client } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Notification } from '../../interfaces/notification';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
 
-  URL_LINK = 'http://localhost:8081/api/v1/notifications';
+   URL_LINK = environment.apiUrl + '/api/v1';
+  //URL_LINK = 'https://socialize-be.go.ro:2347/api/v1/notifications';
+
 
   @Output() newNotifications = new EventEmitter<any>();
 
@@ -20,7 +23,7 @@ export class WebSocketService {
   constructor(private http: HttpClient) {}
 
   connect(userId: string) {
-    const socket = new SockJS('http://localhost:8081/ws');
+    const socket = new SockJS(environment.apiUrl + '/ws');
   this.stompClient = new Client({
     webSocketFactory: () => socket
   });
@@ -46,6 +49,6 @@ export class WebSocketService {
 
   getNotifications(page: number, size: number): Observable<any> {
     const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<any>(`${this.URL_LINK}/findNotifications`, { params });
+    return this.http.get<any>(`${this.URL_LINK}/notifications/findNotifications`, { params });
   }
 }

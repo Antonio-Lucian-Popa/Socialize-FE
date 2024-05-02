@@ -8,7 +8,7 @@
   </button>
   </div>
 
-  <form [formGroup]="editUserDetailsForm" (ngSubmit)="onEdit()" class="d-flex flex-column align-items-center justify-content-center">
+  <form [formGroup]="editUserDetailsForm" class="d-flex flex-column align-items-center justify-content-center">
 
     <div class="form-group w-100">
       <label for="biography">Biography</label>
@@ -37,7 +37,7 @@
     </mat-chip-list>
 
     <div class="d-flex justify-end mt-2 w-100">
-      <button mat-raised-button type="submit" class="update-btn">Update</button>
+      <button mat-raised-button type="button" class="update-btn" (click)="onEdit()">Update</button>
     </div>
   </form>
 </div>
