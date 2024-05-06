@@ -54,7 +54,7 @@ export class WelcomeComponent implements OnInit {
       this.chips.push(chipValue);
       this.userProfile.get("interests")!.reset(); // Clear the input field
     }
-    console.log(this.userProfile.value)
+    console.log(chipValue)
   }
 
   removeChip(chip: string): void {

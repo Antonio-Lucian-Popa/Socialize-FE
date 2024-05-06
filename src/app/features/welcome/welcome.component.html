@@ -29,7 +29,7 @@
   <mat-card *ngIf="isAddProfileInfo">
     <mat-card-content class="d-flex flex-column align-items-center justify-content-center">
       <form [formGroup]="userProfile"
-        class="d-flex flex-column align-items-center justify-content-center w-80">
+        class="d-flex flex-column align-items-center justify-content-center w-80 mb-3">
 
         <div class="form-group w-100">
           <label for="biography">Biography</label>
@@ -42,12 +42,13 @@
           <input type="text" id="livesIn" formControlName="livesIn" placeholder="Where you live?">
         </div>
 
-        <div class="form-group d-flex align-items-end justify-between w-100 mb-3">
-          <div class="w-100 mr-2">
-            <label for="interests">Interests</label>
+        <div class="form-group d-flex flex-column w-100 mb-3">
+          <label for="interests">Interests</label>
+          <div class="container-interests w-100 d-flex align-items-center justify-between">
           <input type="text" id="interests" formControlName="interests" (keyup.enter)="addChip()">
+          <i class="fa-solid fa-circle-plus btn-add-interest ml-2" (click)="addChip()"></i>
           </div>
-          <i class="fa-solid fa-circle-plus btn-add-interest" (click)="addChip()"></i>
+
         </div>
 
         <mat-chip-list>
