@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
 
   isLoggedIn: boolean = true;
   isRegister: boolean = true;
+  isWelcome: boolean = true;
 
   private routerSubscription!: Subscription;
 
@@ -20,8 +21,13 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.isLoggedIn = !event.url.endsWith('/log-in');
         this.isRegister = !event.url.endsWith('/sign-up');
+        this.isWelcome = !event.url.endsWith('/welcome');
       }
     });
+  }
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
   }
 
   ngOnDestroy() {
@@ -29,7 +35,7 @@ export class AppComponent implements OnInit {
     this.routerSubscription.unsubscribe();
   }
 
-  ngOnInit(): void {
-    window.scrollTo(0, 0);
+  isHeaderVisible(): boolean {
+    return this.isLoggedIn && this.isRegister && this.isWelcome;
   }
 }

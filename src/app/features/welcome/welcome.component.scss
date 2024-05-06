@@ -1,5 +1,10 @@
 .container-welcome {
-  height: calc(100vh - 64px);
+  //height: calc(100vh - 64px);
+  background: linear-gradient(to bottom, #414171, #0F0F11);
+
+  .welcome-title {
+    color: #fff;
+  }
 }
 
 .avatar-container {
@@ -12,6 +17,16 @@
   align-items: center;
   cursor: pointer;
   border: 2px solid #ccc; /* Optional: for border */
+  position: relative;
+
+  i {
+    position: absolute;
+    bottom: 0;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
 }
 
 .circular-avatar {
@@ -58,4 +73,13 @@ textarea {
   border: 1px solid #ccd0d5;
   resize: vertical; /* Allows the user to resize the textarea vertically */
   width: 100%;
+  margin-top: 0.5rem;
+}
+
+.btn-back {
+  background-color: #35374B;
+}
+
+.btn-add-interest {
+  font-size: 1.4rem;
 }

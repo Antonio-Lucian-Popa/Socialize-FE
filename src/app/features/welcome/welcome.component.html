@@ -1,6 +1,6 @@
-<div class="container-welcome d-flex flex-column justify-content-center align-items-center">
+<div class="container-welcome d-flex flex-column justify-content-center align-items-center h-100">
   <div class="welcome-container">
-    <h1>Welcome to Socialize!</h1>
+    <h1 class="roboto-bold welcome-title">Welcome to Socialize!</h1>
   </div>
 
   <mat-card *ngIf="isAddProfileImage">
@@ -9,16 +9,19 @@
 
         <!-- Avatar Image -->
         <!-- Circular Avatar -->
-        <div class="avatar-container" (click)="avatarInput.click()">
-          <img *ngIf="avatarUrl" [src]="avatarUrl" class="circular-avatar">
+        <div class="avatar-container mb-2" (click)="avatarInput.click()">
+          <div class="d-flex align-items-center justify-content-center">
+            <img *ngIf="avatarUrl" [src]="avatarUrl" class="circular-avatar">
+            <i class="fa-solid fa-plus"></i>
+          </div>
           <input type="file" id="avatarInput" (change)="onAvatarChange($event)" hidden #avatarInput>
         </div>
       </form>
-      <p>Add a profile image</p>
+      <p class="roboto-medium">Add a profile image</p>
 
-      <div class="d-flex align-items-center justify-end">
-        <button mat-raised-button color="primary" class="add-right-margin" (click)="isAddProfileImage = false">Skip</button>
-        <button mat-raised-button color="primary" (click)="changeView(false, true, false)">Next</button>
+      <div class="d-flex align-items-center justify-end w-100">
+        <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="skipView()">Skip</button>
+        <button mat-raised-button color="primary" class="roboto-regular" (click)="changeView(false, true, false)">Next</button>
       </div>
     </mat-card-content>
   </mat-card>
@@ -39,11 +42,13 @@
           <input type="text" id="livesIn" formControlName="livesIn" placeholder="Where you live?">
         </div>
 
-        <div class="form-group w-100 mb-3">
-          <label for="interests">Interests</label>
+        <div class="form-group d-flex align-items-end justify-between w-100 mb-3">
+          <div class="w-100 mr-2">
+            <label for="interests">Interests</label>
           <input type="text" id="interests" formControlName="interests" (keyup.enter)="addChip()">
+          </div>
+          <i class="fa-solid fa-circle-plus btn-add-interest" (click)="addChip()"></i>
         </div>
-        <button mat-raised-button class="mb-3" color="primary" (click)="addChip()">Add</button>
 
         <mat-chip-list>
           <mat-chip *ngFor="let chip of chips" [removable]="true" (removed)="removeChip(chip)">
@@ -52,18 +57,20 @@
           </mat-chip>
         </mat-chip-list>
       </form>
-      <div class="d-flex align-items-center justify-end">
-        <button mat-raised-button color="primary" class="add-right-margin" (click)="isAddProfileImage = false">Skip</button>
-        <button mat-raised-button color="primary" (click)="changeView(false, false, true)">Next</button>
+      <div class="d-flex align-items-center justify-end w-100">
+        <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="isAddProfileImage = false">Skip</button>
+        <button mat-raised-button color="primary" class="add-right-margin roboto-regular btn-back" (click)="changeView(true, false, false)">Back</button>
+        <button mat-raised-button color="primary" class="roboto-regular" (click)="changeView(false, false, true)">Next</button>
       </div>
     </mat-card-content>
   </mat-card>
 
   <mat-card *ngIf="isAddFollowers">
     <app-who-follow-card></app-who-follow-card>
-    <div class="d-flex align-items-center justify-end">
-      <button mat-raised-button color="primary" class="add-right-margin" (click)="isAddProfileImage = false">Skip</button>
-      <button mat-raised-button color="primary" (click)="changeView(false, false, false)">Finish</button>
+    <div class="d-flex align-items-center justify-end w-100">
+      <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="isAddProfileImage = false">Skip</button>
+      <button mat-raised-button color="primary" class="add-right-margin roboto-regular btn-back" (click)="changeView(false, true, false)">Back</button>
+      <button mat-raised-button color="primary" class="roboto-regular" (click)="changeView(false, false, false)">Finish</button>
     </div>
   </mat-card>
 </div>
