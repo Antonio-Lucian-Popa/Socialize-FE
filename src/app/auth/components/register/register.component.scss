@@ -50,6 +50,11 @@ input.ng-invalid.ng-touched {
   border: red 1px solid;
 }
 
+.btn-login {
+  background-color: #6A7EFC;
+  color: #ffff;
+}
+
 @media only screen and (max-width: 900px) {
   .container-register {
     flex-direction: column;
