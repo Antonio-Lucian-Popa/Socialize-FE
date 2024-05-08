@@ -13,6 +13,8 @@ import { User, UserProfileData } from '../interfaces/user-profile-data';
 })
 export class PostInputComponent implements OnInit {
 
+  @Output() postCreated = new EventEmitter<any>();
+
   user: any = {
     id: 1,
     firstName: 'John',
@@ -64,6 +66,10 @@ export class PostInputComponent implements OnInit {
         user: this.user
       }
       // passa qui altri dati se necessario
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle the post creation result
+      this.postCreated.emit(result);
     });
   }
 

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-welcome',
@@ -7,6 +10,8 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
+
+  userId!: string;
 
   userProfile = this.fb.group({
     firstName: [''],
@@ -28,9 +33,29 @@ export class WelcomeComponent implements OnInit {
   isAddProfileInfo = false;
   isAddFollowers = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private router: Router, private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.getUserId().then((userId) => {
+      if (userId) {
+        this.userId = userId;
+        this.loadUserProfile();
+      }
+    });
+  }
+
+  loadUserProfile(): void {
+    this.userService.getUserProfileInfo(this.userId).subscribe((response) => {
+      this.userProfile.patchValue({
+        firstName: response.firstName,
+        lastName: response.lastName,
+        biography: response.bio,
+        email: response.email,
+        birthday: response.birthday,
+        livesIn: response.livesIn,
+      });
+      this.chips = response.interests;
+    });
   }
 
   onAvatarChange(event: Event) {
@@ -44,7 +69,10 @@ export class WelcomeComponent implements OnInit {
 
   readAvatar(file: File) {
     const reader = new FileReader();
-    reader.onload = e => this.avatarUrl = e.target!.result;
+    reader.onload = e => {
+      this.avatarUrl = e.target!.result
+      this.userProfileImage = e.target!.result as string;
+    };
     reader.readAsDataURL(file);
   }
 
@@ -70,10 +98,67 @@ export class WelcomeComponent implements OnInit {
     this.isAddFollowers = followers;
   }
 
-  skipView(): void {
-    if(this.isAddProfileImage) {
-      // set default image profile
 
+  goToHome(): void {
+    // navigate to home page
+    this.router.navigate(['/home']);
+  }
+
+  submitProfile(): void {
+    // submit the user profile
+    console.log(this.userProfile.value);
+    this.onEditProfile();
+    this.goToHome();
+  }
+
+  onEditProfile() {
+    console.log(this.userProfile.value);
+    const payload = {
+      ...this.userProfile.value,
+      bio: this.userProfile.value.biography,
+      interests: this.chips,
+      enabled: true
+    }
+    const formData = new FormData();
+    formData.append('request', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+    console.log(this.avatarUrl);
+    if (this.avatarUrl && this.userProfileImage != undefined && !this.userProfileImage.startsWith('./assets/')) {
+      const blob = this.dataURLtoBlob(this.avatarUrl.toString());
+      formData.append('file', blob, `file.${this.getFileExtension(blob.type)}`);
+    } else {
+      const emptyFileBlob = new Blob([], { type: 'application/octet-stream' });
+      formData.append('file', emptyFileBlob, 'emptyfile.dat');
+    }
+    this.userService.updateProfile(this.userId, formData).subscribe((response) => {
+      console.log('Profile updated successfully', response);
+      if (response) {
+        this.userService.userUpdatedInformation.emit(response);
+      }
+    });
+  }
+
+  private dataURLtoBlob(dataurl: string): Blob {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)![1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new Blob([u8arr], { type: mime });
+  }
+
+  private getFileExtension(mimeType: string): string {
+    switch (mimeType) {
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      default:
+        return 'dat';
     }
   }
 

@@ -14,6 +14,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { WelcomeComponent } from './features/welcome/welcome.component';
+import { ErrorInterceptor } from './auth/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { WelcomeComponent } from './features/welcome/welcome.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

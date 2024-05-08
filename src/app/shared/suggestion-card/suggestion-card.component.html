@@ -1,7 +1,7 @@
 <div class="suggested-card bg-white rounded-lg p-4 shadow w-80">
   <div class="header flex justify-between items-center mb-4">
     <h3 class="text-lg font-semibold suggest-label">Suggested For You</h3>
-    <button class="see-all-btn text-sm">See all</button>
+    <button class="see-all-btn text-sm" *ngIf="isSeeAllVisible">See all</button>
   </div>
 
   <div class="suggestions">

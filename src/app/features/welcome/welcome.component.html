@@ -20,7 +20,7 @@
       <p class="roboto-medium">Add a profile image</p>
 
       <div class="d-flex align-items-center justify-end w-100">
-        <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="skipView()">Skip</button>
+        <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="changeView(false, true, false)">Skip</button>
         <button mat-raised-button color="primary" class="roboto-regular" (click)="changeView(false, true, false)">Next</button>
       </div>
     </mat-card-content>
@@ -59,7 +59,7 @@
         </mat-chip-list>
       </form>
       <div class="d-flex align-items-center justify-end w-100">
-        <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="isAddProfileImage = false">Skip</button>
+        <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="changeView(false, false, true)">Skip</button>
         <button mat-raised-button color="primary" class="add-right-margin roboto-regular btn-back" (click)="changeView(true, false, false)">Back</button>
         <button mat-raised-button color="primary" class="roboto-regular" (click)="changeView(false, false, true)">Next</button>
       </div>
@@ -67,11 +67,11 @@
   </mat-card>
 
   <mat-card *ngIf="isAddFollowers">
-    <app-who-follow-card></app-who-follow-card>
+    <app-suggestion-card [isSeeAllVisible]="false"></app-suggestion-card>
     <div class="d-flex align-items-center justify-end w-100">
-      <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="isAddProfileImage = false">Skip</button>
+      <button mat-raised-button color="primary" class="add-right-margin roboto-regular" (click)="submitProfile()">Skip</button>
       <button mat-raised-button color="primary" class="add-right-margin roboto-regular btn-back" (click)="changeView(false, true, false)">Back</button>
-      <button mat-raised-button color="primary" class="roboto-regular" (click)="changeView(false, false, false)">Finish</button>
+      <button mat-raised-button color="primary" class="roboto-regular" (click)="submitProfile()">Finish</button>
     </div>
   </mat-card>
 </div>

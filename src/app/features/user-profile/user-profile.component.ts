@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { EditDetailDialogComponent } from 'src/app/shared/edit-detail-dialog/edit-detail-dialog.component';
 import { UserInformation } from 'src/app/shared/interfaces/user-profile-data';
+import { PostService } from 'src/app/shared/services/post.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -27,7 +28,7 @@ export class UserProfileComponent implements OnInit {
 
   isMyProfile = false; // TODO: Set this to false if the user is not the logged in user
 
-  constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog, private postService: PostService) { }
 
   ngOnInit(): void {
     this.myUserId = this.userService.myUserId;
@@ -55,6 +56,10 @@ export class UserProfileComponent implements OnInit {
         }
       });
     }
+
+    this.postService.postDeleted.subscribe((postId: string) => {
+      this.user.totalPosts--;
+    });
   }
 
   loadUserInfo(userId: string): void {
@@ -120,6 +125,11 @@ export class UserProfileComponent implements OnInit {
         }
       });
     }
+  }
+
+  checkPostCreated(event: any): void {
+    console.log('Post created:', event);
+    this.user.totalPosts++;
   }
 
   ngOnDestroy(): void {
