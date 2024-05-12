@@ -19,9 +19,10 @@ export class NotificationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUserId().then(userId => {
+      console.log("Notification card: " + userId)
       if(userId) {
         // TODO: Find a way to retreive the last 5 notifications
-        this.webSocketService.getNotifications(0, 5).subscribe((notifications: any) => {
+        this.webSocketService.getNotifications(userId, 0, 5).subscribe((notifications: any) => {
           this.notifications = notifications.content;
         });
       }

@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUserId().then(userId => {
-      console.log(userId)
+      console.log("Home: " + userId)
       if(userId) {
         this.userId = userId;
         this.webSocketService.connect(userId);

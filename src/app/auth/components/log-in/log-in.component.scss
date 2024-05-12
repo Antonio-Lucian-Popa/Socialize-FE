@@ -76,6 +76,10 @@ input {
   color: #3C3D3D!important;
 }
 
+.errorMessage {
+  color: red!important;
+}
+
 @media only screen and (max-width: 900px) {
   .container-login {
     flex-direction: column;

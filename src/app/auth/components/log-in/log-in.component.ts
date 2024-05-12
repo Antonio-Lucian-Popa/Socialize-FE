@@ -17,6 +17,8 @@ export class LogInComponent implements OnInit {
     password: ['', Validators.required]
   });
 
+  errorMessage: string = "";
+
   constructor(
     private fb: UntypedFormBuilder,
     private authService: AuthService,
@@ -70,8 +72,9 @@ export class LogInComponent implements OnInit {
           },
           error: (err) => {
             // Handle the error from the second request
-            console.error('Request failed:', err);
+            console.error('Request failed:', err.error.message);
             // Show alert error or handle error
+            this.errorMessage = err.error.message
           }
         });
       }

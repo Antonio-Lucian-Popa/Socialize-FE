@@ -47,8 +47,8 @@ export class WebSocketService {
     }
   }
 
-  getNotifications(page: number, size: number): Observable<any> {
+  getNotifications(userId: string, page: number, size: number): Observable<any> {
     const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<any>(`${this.URL_LINK}/notifications/findNotifications`, { params });
+    return this.http.get<any>(`${this.URL_LINK}/notifications/findNotifications/${userId}`, { params });
   }
 }
