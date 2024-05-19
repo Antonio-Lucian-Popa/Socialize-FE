@@ -12,7 +12,7 @@ export class UserService {
 
   @Output() userUpdatedInformation = new EventEmitter<UserProfileData>();
 
-  userProfileImage!: string;
+  //userProfileImage!: string;
   userInfo!: User;
   myUserId!: string;
 

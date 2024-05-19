@@ -1,5 +1,5 @@
 <!-- Inserisci un contenitore esterno con una larghezza massima -->
-<div class="story-list-container">
+<!-- <div class="story-list-container">
   <div class="story-list relative">
     <swiper-container  [slidesPerView]="5" [spaceBetween]="2" [navigation]="true" [css-mode]="true" class="mySwiper">
       <swiper-slide *ngFor="let story of stories">
@@ -10,4 +10,18 @@
       </swiper-slide>
     </swiper-container>
   </div>
+</div> -->
+
+<div class="my-story d-flex flex-column align-items-center" (click)="onMyStoryClick()">
+  <div class="d-flex justify-content-center w-100">
+    <img [src]="myProfileImageUrl" class="avatar" alt="My Story" />
+  <div class="container-pencil">
+    <i class="fa-solid fa-pen"></i>
+  </div>
+  </div>
+  <span>Your story</span>
 </div>
+<div #storyContainer></div>
+
+<!-- Hidden file input for story upload -->
+<input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">

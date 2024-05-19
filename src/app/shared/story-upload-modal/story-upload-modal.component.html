@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Upload Story</h2>
+<mat-dialog-content>
+  <input type="file" (change)="onFileSelected($event)">
+  <div *ngIf="previewUrl">
+    <img [src]="previewUrl" alt="Preview" *ngIf="image?.type?.startsWith('image/')">
+    <video controls *ngIf="image?.type?.startsWith('video/')">
+      <source [src]="previewUrl" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onUpload()" [disabled]="!image">Upload</button>
+</mat-dialog-actions>

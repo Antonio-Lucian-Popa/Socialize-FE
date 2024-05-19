@@ -264,3 +264,33 @@ mat-dialog-container {
 }
 
 /////////////////////// End Font Style /////////////////////
+
+.story {
+  .item-link {
+    width: 100%!important;
+    height: 100%!important;
+    display: flex!important;
+    flex-direction: column!important;
+    align-items: center!important;
+
+    .item-preview {
+      width: 2.9rem !important;
+      height: 2.9rem !important;
+    }
+  }
+}
+
+#zuck-modal-content {
+  width: 100%!important;
+  position: relative!important;
+
+  .close {
+    position: absolute!important;
+    top: 0!important;
+    right: 5%!important;
+    padding: 1rem!important;
+    cursor: pointer!important;
+    text-decoration: none!important;
+    color: #ffff!important;
+  }
+}

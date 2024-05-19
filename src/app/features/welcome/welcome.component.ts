@@ -82,7 +82,6 @@ export class WelcomeComponent implements OnInit {
       this.chips.push(chipValue);
       this.userProfile.get("interests")!.reset(); // Clear the input field
     }
-    console.log(chipValue)
   }
 
   removeChip(chip: string): void {
@@ -106,22 +105,19 @@ export class WelcomeComponent implements OnInit {
 
   submitProfile(): void {
     // submit the user profile
-    console.log(this.userProfile.value);
     this.onEditProfile();
     this.goToHome();
   }
 
   onEditProfile() {
-    console.log(this.userProfile.value);
     const payload = {
       ...this.userProfile.value,
       bio: this.userProfile.value.biography,
       interests: this.chips,
-      enabled: true
+      isUserNew: true
     }
     const formData = new FormData();
     formData.append('request', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
-    console.log(this.avatarUrl);
     if (this.avatarUrl && this.userProfileImage != undefined && !this.userProfileImage.startsWith('./assets/')) {
       const blob = this.dataURLtoBlob(this.avatarUrl.toString());
       formData.append('file', blob, `file.${this.getFileExtension(blob.type)}`);
@@ -130,7 +126,6 @@ export class WelcomeComponent implements OnInit {
       formData.append('file', emptyFileBlob, 'emptyfile.dat');
     }
     this.userService.updateProfile(this.userId, formData).subscribe((response) => {
-      console.log('Profile updated successfully', response);
       if (response) {
         this.userService.userUpdatedInformation.emit(response);
       }

@@ -4,7 +4,7 @@
     <app-explore-card></app-explore-card>
   </div>
   <div class="center">
-    <app-story-list></app-story-list>
+    <app-story-list class="d-flex align-items-center justify-content-center" [userId]="userId"></app-story-list>
     <app-post-input class="d-flex align-items-center justify-content-center"></app-post-input>
    <app-post-list *ngIf="userId" [userId]="userId" [includeFollowers]="true"></app-post-list>
   </div>

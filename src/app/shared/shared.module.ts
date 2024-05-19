@@ -33,6 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { EditCommentDialogComponent } from './comment-post-modal/comment-item/edit-comment-dialog/edit-comment-dialog.component';
 import { EditPostModalComponent } from './post-list/post/edit-post-modal/edit-post-modal.component';
 import { EditDetailDialogComponent } from './edit-detail-dialog/edit-detail-dialog.component';
+import { StoryUploadModalComponent } from './story-upload-modal/story-upload-modal.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -75,6 +76,7 @@ const COMPONENTS: any[] = [
     EditCommentDialogComponent,
     EditPostModalComponent,
     EditDetailDialogComponent,
+    StoryUploadModalComponent,
   ],
   imports: [
     CommonModule,

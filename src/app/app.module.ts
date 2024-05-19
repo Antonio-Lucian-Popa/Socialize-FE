@@ -16,6 +16,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { WelcomeComponent } from './features/welcome/welcome.component';
 import { ErrorInterceptor } from './auth/error.interceptor';
 
+
 @NgModule({
   declarations: [
     AppComponent,

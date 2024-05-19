@@ -31,9 +31,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/zuck.js/dist/zuck.min.css",
+              "node_modules/zuck.js/dist/skins/snapgram.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/zuck.js/dist/zuck.min.js"
+            ]
           },
           "configurations": {
             "production": {
