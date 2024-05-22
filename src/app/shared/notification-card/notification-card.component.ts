@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WebSocketService } from './services/web-socket.service';
-import { UserService } from '../services/user.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Notification } from '../interfaces/notification';
 
@@ -19,9 +18,7 @@ export class NotificationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUserId().then(userId => {
-      console.log("Notification card: " + userId)
       if(userId) {
-        // TODO: Find a way to retreive the last 5 notifications
         this.webSocketService.getNotifications(userId, 0, 5).subscribe((notifications: any) => {
           this.notifications = notifications.content;
         });

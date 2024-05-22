@@ -24,14 +24,9 @@ export class LogInComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private userService: UserService
-   // private alertService: AlertService
     ) { }
 
   ngOnInit(): void {
-    // if(this.alertService.showAlertOnLoginSuccess) {
-    //   this.alertService.showAlert('success', 'An error occurred!');
-    //   this.alertService.showAlertOnLoginSuccess = false;
-    // }
   }
 
   submit(): void {
@@ -55,7 +50,6 @@ export class LogInComponent implements OnInit {
             } else {
               // Handle the case where user ID is null
               console.error('User ID is null');
-              // You might want to do something else, like redirecting to an error page
               return throwError('User ID is null');
             }
           })
@@ -63,7 +57,6 @@ export class LogInComponent implements OnInit {
           next: (res) => {
             // Handle the response from the second request
             console.log('User profile:', res);
-            // TODO: de vazut bine de ce enabled e true daca in back-end e false
             if (!res.userNew) {
               this.router.navigate(['/']);
             } else {

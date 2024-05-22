@@ -23,8 +23,7 @@ export class RegisterComponent implements OnInit {
   constructor
     (private fb: UntypedFormBuilder,
       private authService: AuthService,
-      private router: Router,
-      //  private alertService: AlertService
+      private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -43,13 +42,10 @@ export class RegisterComponent implements OnInit {
       }
 
       this.authService.register(payload).subscribe(res => {
-        // this.alertService.showAlertOnLoginSuccess = true;
         this.router.navigate(['/log-in']);
       }, err => {
         console.log(err);
       });
-
-      // this.authService.register(payload).subscribe(res => {
       //   this.alertService.showAlertOnLoginSuccess = true;
       //   this.router.navigate(['/login']);
       //   console.log(res)

@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 export class WebSocketService {
 
    URL_LINK = environment.apiUrl + '/api/v1';
-  //URL_LINK = 'https://socialize-be.go.ro:2347/api/v1/notifications';
 
 
   @Output() newNotifications = new EventEmitter<any>();
@@ -34,7 +33,6 @@ export class WebSocketService {
     this.stompClient.subscribe(`/user/${userId}/queue/notifications`, (notification: any) => {
       console.log('Notification:', notification.body);
       this.newNotifications.emit(notification.body);
-      // Handle the notification, e.g., display it in the UI
     });
   };
 

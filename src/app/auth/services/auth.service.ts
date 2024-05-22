@@ -17,8 +17,6 @@ export interface Token {
 })
 export class AuthService {
 
-  // URL_LINK = 'http://localhost:8081/api/v1/auth';
- // URL_LINK = 'https://socialize-be.go.ro:2347/api/v1/auth';
   URL_LINK = environment.apiUrl + '/api/v1';
 
   private jwtHelper = new JwtHelperService();
@@ -41,9 +39,8 @@ export class AuthService {
     const formData = new FormData();
 
     // Append user data with explicit Content-Type for the JSON part
-    // Note: Adding a filename for the JSON blob part ("request.json") might help.
     const userBlob = new Blob([JSON.stringify(userData)], { type: 'application/json' });
-    formData.append('request', userBlob); // Notice the 'request.json' filename
+    formData.append('request', userBlob);
 
     // Append file if present
     if (file) {
@@ -65,21 +62,12 @@ export class AuthService {
     return this.http.post<boolean>(`${this.URL_LINK}/auth/validate-token`, {}, { headers });
   }
 
-  // getToken(): string | null {
-  //   return localStorage.getItem('jwt');
-  // }
-
-  // isAuthenticated(): boolean {
-  //   const token = this.getToken();
-  //   // Check if the token is not expired
-  //   return token != null && !this.jwtHelper.isTokenExpired(token);
-  // }
 
   isJwtExpired(token: string): boolean {
     if (!token) {
       return true;
     }
-    const decoded: any = jwtDecode(token); // Use `any` or define a more specific type for your decoded token
+    const decoded: any = jwtDecode(token);
     const expirationDate = decoded.exp * 1000; // JS deals with dates in milliseconds since epoch
     return Date.now() >= expirationDate;
   }
@@ -91,7 +79,7 @@ export class AuthService {
   async getUserId(): Promise<string | null> {
     const token = await this.getToken();
     if (token) {
-      const decoded: any = jwtDecode(token); // Use `any` or define a more specific type for your decoded token
+      const decoded: any = jwtDecode(token);
       return decoded.userId;
     }
     return null;
@@ -112,17 +100,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('jwt');
   }
-
-  // getUserIdFromToken(): string | null {
-  //   const token = this.getToken();
-  //   console.log(this.jwtHelper.isTokenExpired(token));
-  //   if (token && !this.jwtHelper.isTokenExpired(token)) {
-  //     const decodedToken = this.jwtHelper.decodeToken(token);
-  //     // Assuming 'user_id' is the key in the payload that holds the user ID
-  //     return decodedToken.userId;
-  //   }
-  //   return null;
-  // }
 
   getUserInfo(userId: string): Observable<any> {
     const URL_LINK = environment.apiUrl + '/api/v1/users';
