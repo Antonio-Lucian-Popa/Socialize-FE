@@ -127,7 +127,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
             link: '',
             linkText: '',
             seen: story.viewed,
-            time: new Date(story.expirationDate).getTime() / 1000
+            time: new Date(story.createdAt).getTime() / 1000
           });
           console.log('Added item to group:', acc[story.user.id]);
         }
@@ -213,7 +213,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
         this.storyMap.set(story.user.id, newTimelineItem);
       }
 
-      this.stories.unshift(story); // Add the new story to the beginning of all stories
+      this.stories.push(story); // Add the new story to the beginning of all stories
       this.myStoryExists = true;
       this.updateZuckStories();
     } else {

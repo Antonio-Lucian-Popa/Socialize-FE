@@ -3,6 +3,7 @@ export interface Story {
   title: string;
   value: string;
   expirationDate: string;
+  createdAt: string;
   user: {
     id: string;
     firstName: string;
