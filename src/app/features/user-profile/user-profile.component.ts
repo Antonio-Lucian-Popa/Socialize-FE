@@ -66,6 +66,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserProfileInfo(userId).subscribe({
       next: (data) => {
         this.user = data;
+        console.log('User data:', data);
         console.log(this.userService.userInfo.id, data.id);
         this.isMyProfile = this.userService.userInfo.id == data.id;
       },
@@ -92,7 +93,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   isDetailsPresent(): boolean {
-    return !!this.user.livesIn && !!this.user.bio && this.user.interests.length > 0;
+    return !!this.user.livesIn && !!this.user.bio || this.user.interests.length > 0;
   }
 
   follow(): void {

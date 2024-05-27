@@ -22,16 +22,16 @@
         </div>
       </div>
       <div class="container-user-actions d-flex align-items-center justify-center mt-2" *ngIf="!isMyProfile">
-        <button class="btn btn-primary mr-2" *ngIf="!isUserFollowing" (click)="follow()">Follow</button>
-        <button class="btn btn-primary mr-2" *ngIf="isUserFollowing" (click)="unfollow()">Unfollow</button>
-        <button class="btn btn-secondary">Message</button>
+        <button class="btn btn-primary w-100 mr-2" *ngIf="!isUserFollowing" (click)="follow()">Follow</button>
+        <button class="btn btn-primary w-100 mr-2" *ngIf="isUserFollowing" (click)="unfollow()">Unfollow</button>
+        <button class="btn btn-secondary" *ngIf="false">Message</button>
       </div>
     </div>
 
     <!-- user-info-card.component.html -->
     <div class="user-info-card bg-white rounded-lg shadow p-4 mt-4" *ngIf="(isDetailsPresent() && !isMyProfile) || isMyProfile">
       <div class="d-flex flex-column w-100" *ngIf="isDetailsPresent()">
-        <div class="d-flex justify-end">
+        <div class="d-flex justify-end" *ngIf="isMyProfile">
           <i class="fa-solid fa-pencil edit-icon-btn" (click)="openDetailModal()"></i>
         </div>
         <div class="info-item mb-3">
@@ -50,7 +50,7 @@
 
         <hr class="divider my-3">
 
-        <div class="label mb-2">Interests</div>
+        <div class="label mb-2" *ngIf="user.interests.length > 0">Interests</div>
         <div class="interests">
           <!-- List user interests -->
           <span class="interest" *ngFor="let interest of user.interests">{{ interest }}</span>
