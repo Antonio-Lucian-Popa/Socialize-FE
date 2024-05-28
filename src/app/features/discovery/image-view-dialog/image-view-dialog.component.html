@@ -1,8 +1,10 @@
 <!-- my-dialog.component.html -->
-<div class="d-flex flex-column align-items-end contenitor-modal" *ngIf="popularImagePost">
-  <mat-icon mat-dialog-close class="material-symbols-outlined">
-    close
-  </mat-icon>
+<div class="d-flex flex-column contenitor-modal" *ngIf="popularImagePost">
+  <div class="d-flex justify-end w-100">
+    <mat-icon mat-dialog-close class="material-symbols-outlined">
+      close
+    </mat-icon>
+  </div>
 
   <div class="row w-100 mt-2">
     <div class="col-md-8 cover-image" *ngIf="popularImagePost.imageFilenames.length > 0"
@@ -15,7 +17,7 @@
         <div class="user-description">
           <div class="d-flex align-items-center mb-3">
             <img [src]="popularImagePost.user.profileImage" [alt]="popularImagePost.user.firstName"
-              class="user-avatar mr-2" />
+              class="w-10 h-10 rounded-full object-cover mr-2" />
             <div class="d-flex flex-column">
               <span class="mb-0 pb-0">{{ popularImagePost.user.firstName }} {{ popularImagePost.user.lastName }}</span>
               <p class="post-date">{{ popularImagePost.createdAt | timeAgo }}</p>
@@ -35,11 +37,13 @@
         </div>
         <div class="comments mt-3" *ngIf="comments.length > 0">
           <div *ngFor="let comment of comments" class="pt-2">
-            <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)" (deleteCommentId)="removeComment($event)"></app-comment-item>
+            <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)"
+              (deleteCommentId)="removeComment($event)"></app-comment-item>
           </div>
         </div>
-        <div class="no-data-container d-flex flex-column align-items-center justify-center" *ngIf="comments.length == 0">
-          <img src="./assets/img/no-data.svg"class="mb-3" alt="no data">
+        <div class="no-data-container d-flex flex-column align-items-center justify-center"
+          *ngIf="comments.length == 0">
+          <img src="./assets/img/no-data.svg" class="mb-3" alt="no data">
           <p class="text-gray-600">No comments</p>
         </div>
       </div>
