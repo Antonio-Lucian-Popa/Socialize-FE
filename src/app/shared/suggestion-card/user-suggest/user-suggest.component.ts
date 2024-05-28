@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../../interfaces/user-profile-data';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-user-suggest',
@@ -13,7 +14,9 @@ export class UserSuggestComponent implements OnInit {
   @Input() user!: User;
   isFollowed = false;
 
-  constructor(private userService: UserService, private router: Router) { }
+  myUserId!: string;
+
+  constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -25,12 +28,17 @@ export class UserSuggestComponent implements OnInit {
   }
 
   followUser(followingId: string): void {
-    const followerId = this.userService.userInfo.id;
-    if(followingId && followerId) {
-      this.userService.followUser(followerId, followingId).subscribe((response) => {
-        this.isFollowed = true;
-      });
-    }
+    this.authService.getUserId().then((userId) => {
+      if (userId) {
+        this.myUserId = userId;
+
+        if(followingId) {
+          this.userService.followUser(this.myUserId, followingId).subscribe((response) => {
+            this.isFollowed = true;
+          });
+        }
+      }
+    });
   }
 
   unfollowUser(unfollowingId: string): void {

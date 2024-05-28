@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { Subscription, finalize, forkJoin } from 'rxjs';
 import { LoadingBarService } from '@ngx-loading-bar/core';
@@ -10,7 +10,7 @@ import { PostDto } from '../interfaces/post-dto';
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss']
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit, OnChanges {
 
   @Input() userId!: string;
   @Input() isMyPosts = false;
@@ -147,7 +147,13 @@ export class PostListComponent implements OnInit {
     });
 
     // Initialize your posts array here...
-    if (this.userId) {
+    // if (this.userId) {
+    //   this.loadPosts();
+    // }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userId'].currentValue) {
       this.loadPosts();
     }
   }

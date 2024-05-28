@@ -8,6 +8,7 @@ import { StoryUploadModalComponent } from '../story-upload-modal/story-upload-mo
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { forkJoin } from 'rxjs';
 import { StoriesTimeline, TimelineItem } from 'zuck.js/dist/types';
+import { User } from '../interfaces/user-profile-data';
 
 interface GroupedStories {
   [key: string]: TimelineItem;
@@ -33,8 +34,8 @@ export class StoryListComponent implements OnInit, AfterViewInit {
   newStories: Story[] = [];
   seenStories: Story[] = [];
 
-  myProfileImageUrl: string = 'path-to-profile-image'; // Replace with the actual profile image URL
-  myUserName: string = 'Your Name'; // Replace with the actual user name
+  myProfileImageUrl!: string; // Replace with the actual profile image URL
+  myUserName!: string; // Replace with the actual user name
   myStoryExists: boolean = false;
 
   zuckInstance: any; // Track the Zuck instance
@@ -49,6 +50,15 @@ export class StoryListComponent implements OnInit, AfterViewInit {
         this.loadUserProfile();
       }
     });
+
+    this.userService.userUpdatedInformation.subscribe((res: User) => {
+      this.myUserName = `${res.firstName} ${res.lastName}`;
+      this.myProfileImageUrl = res.profileImageUrl;
+    });
+
+    if (!!this.myUserName || (!!this.myProfileImageUrl) && (!!this.userService.userInfo && !!this.userService.userInfo.profileImageUrl)) {
+      this.myProfileImageUrl = this.userService.userInfo.profileImageUrl;
+    }
   }
 
   loadUserProfile(): void {

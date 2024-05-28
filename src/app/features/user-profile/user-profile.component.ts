@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { EditDetailDialogComponent } from 'src/app/shared/edit-detail-dialog/edit-detail-dialog.component';
 import { UserInformation } from 'src/app/shared/interfaces/user-profile-data';
 import { PostService } from 'src/app/shared/services/post.service';
@@ -28,34 +29,19 @@ export class UserProfileComponent implements OnInit {
 
   isMyProfile = false; // TODO: Set this to false if the user is not the logged in user
 
-  constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog, private postService: PostService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog, private postService: PostService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.myUserId = this.userService.myUserId;
     this.routeSub = this.route.paramMap.subscribe(params => {
       this.userId = params.get('id');
-      if (this.userId) {
-        this.loadUserInfo(this.userId);
-      }
-    });
 
-    // TODO: find a way to check if that user i follow
-    if(this.myUserId && this.userId) {
-      this.userService.getUserProfileInfo(this.userId).subscribe({
-        next: (data) => {
-          console.log(this.myUserId, data.followers, data.followers.includes(this.myUserId))
-          // find a way to check if that user i follow using followers.id
-          data.followers.forEach((follower: any) => {
-            if (follower.id === this.myUserId) {
-              this.isUserFollowing = true;
-            }
-          });
-        },
-        error: (error) => {
-          console.error('Error fetching user profile data:', error);
+      this.authService.getUserId().then((userId) => {
+        this.myUserId = userId;
+        if (this.userId) {
+          this.loadUserInfo(this.userId);
         }
       });
-    }
+    });
 
     this.postService.postDeleted.subscribe((postId: string) => {
       this.user.totalPosts--;
@@ -66,9 +52,8 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserProfileInfo(userId).subscribe({
       next: (data) => {
         this.user = data;
-        console.log('User data:', data);
-        console.log(this.userService.userInfo.id, data.id);
-        this.isMyProfile = this.userService.userInfo.id == data.id;
+        this.isMyProfile = this.myUserId == data.id;
+        this.user.followers.find((follower) => follower.id === this.myUserId) ? this.isUserFollowing = true : this.isUserFollowing = false;
       },
       error: (error) => {
         console.error('Error fetching user profile data:', error);

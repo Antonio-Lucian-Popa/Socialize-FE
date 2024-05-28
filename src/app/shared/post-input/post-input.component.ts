@@ -15,11 +15,7 @@ export class PostInputComponent implements OnInit {
 
   @Output() postCreated = new EventEmitter<any>();
 
-  user: any = {
-    id: 1,
-    firstName: 'John',
-    lastName: 'Doe',
-  };
+  user: any;
 
   userProfileImage!: string;
 
@@ -33,7 +29,7 @@ export class PostInputComponent implements OnInit {
       this.userProfileImage = res.profileImageUrl;
     });
 
-    if ((this.user == undefined || this.user == null) || (this.userProfileImage == undefined || this.userProfileImage == null) && this.userService.userInfo) {
+    if (!!this.userProfileImage || (!!this.userProfileImage) && (!!this.userService.userInfo && !!this.userService.userInfo.profileImageUrl)) {
       this.user = this.userService.userInfo;
       this.userProfileImage = this.userService.userInfo.profileImageUrl;
     }
