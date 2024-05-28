@@ -118,6 +118,10 @@ export class UserProfileComponent implements OnInit {
     this.user.totalPosts++;
   }
 
+  onBack(): void {
+    window.history.back();
+  }
+
   ngOnDestroy(): void {
     if (this.routeSub) {
       this.routeSub.unsubscribe();

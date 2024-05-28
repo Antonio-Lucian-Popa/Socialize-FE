@@ -2,6 +2,9 @@
   <div class="left">
     <!-- user-profile-card.component.html -->
     <div class="profile-card bg-white rounded-lg p-4 text-center shadow">
+      <div class="container-back-icon">
+        <i class="fa-solid fa-arrow-left" (click)="onBack()"></i>
+      </div>
       <div class="d-flex justify-center">
         <img src="{{ user.profileImageUrl }}" alt="{{ user.firstName }}" class="user-avatar">
       </div>

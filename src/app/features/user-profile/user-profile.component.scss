@@ -6,6 +6,7 @@
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 19rem;
+  position: relative;
 }
 
 .profile-avatar {
@@ -136,4 +137,13 @@
 
 .edit-icon-btn {
   cursor: pointer;
+}
+
+.container-back-icon {
+  position: absolute;
+  i {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #666;
+  }
 }
