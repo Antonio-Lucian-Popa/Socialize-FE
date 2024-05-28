@@ -86,4 +86,8 @@ export class DiscoveryComponent implements OnInit {
     return this.currentPage >= this.totalPages - 1;
   }
 
+  onBack(): void {
+    window.history.back();
+  }
+
 }

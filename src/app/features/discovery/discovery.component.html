@@ -4,14 +4,24 @@
     <div class="skeleton-loader" *ngFor="let popularImage of popularImages;"></div>
   </div>
 
-  <div class="d-flex">
-    <div *ngFor="let popularImage of popularImages; let i = index">
-      <!-- Load detection for each image -->
-      <img [src]="popularImage.imageUrl" style="display: none;">
-      <div class="cover-image"
-           (click)="openImageDialog(popularImage.postId)"
-           [style.background-image]="'url(' + popularImage.imageUrl + ')'"
-           *ngIf="!loading">
+  <div class="d-flex flex-column w-100">
+    <div class="container-title d-flex align-items-center justify-between mt-2 mb-4">
+      <div class="container-back-icon mr-2">
+        <i class="fa-solid fa-chevron-left" (click)="onBack()"></i>
+      </div>
+      <h2 class="text-lg font-bold activity-label mb-0 pb-0">Popular Images</h2>
+      <div class="empty"></div>
+    </div>
+
+    <div class="d-flex">
+      <div *ngFor="let popularImage of popularImages; let i = index">
+        <!-- Load detection for each image -->
+        <img [src]="popularImage.imageUrl" style="display: none;">
+        <div class="cover-image"
+             (click)="openImageDialog(popularImage.postId)"
+             [style.background-image]="'url(' + popularImage.imageUrl + ')'"
+             *ngIf="!loading">
+        </div>
       </div>
     </div>
   </div>
