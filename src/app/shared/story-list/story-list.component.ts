@@ -56,6 +56,10 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       this.myProfileImageUrl = res.profileImageUrl;
     });
 
+    this.userService.userAddedOnFollowList.subscribe((res: User) => {
+      this.loadStories();
+    });
+
     if (!!this.myUserName || (!!this.myProfileImageUrl) && (!!this.userService.userInfo && !!this.userService.userInfo.profileImageUrl)) {
       this.myProfileImageUrl = this.userService.userInfo.profileImageUrl;
     }
@@ -95,7 +99,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       avatars: true,
       list: false,
       cubeEffect: true,
-      localStorage: true,
+      localStorage: false,
       stories: []
     });
   }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { debounceTime, filter, firstValueFrom, forkJoin, of, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { UserService } from '../services/user.service';
-import { User, UserProfileData } from '../interfaces/user-profile-data';
+import { User } from '../interfaces/user-profile-data';
 import { WebSocketService } from '../notification-card/services/web-socket.service';
 
 @Component({
@@ -91,8 +91,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut(): void {
-    this.authService.logout()
-    this.router.navigate(['/log-in']);
+    this.authService.logout().subscribe(res => {
+      this.router.navigate(['/log-in']);
+    });
   }
 
   toggleDropdown(): void {
@@ -109,7 +110,6 @@ export class HeaderComponent implements OnInit {
   }
 
   openUserProfile(userId?: string): void {
-    // TODOO: retreive from auth service the user id from token
     this.closeDropDownUser();
     this.searchControl.reset();
     this.router.navigate(['/user-profile',  userId ? userId : this.userInfo.id]);

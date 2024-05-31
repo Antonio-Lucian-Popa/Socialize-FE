@@ -35,6 +35,7 @@ export class UserSuggestComponent implements OnInit {
         if(followingId) {
           this.userService.followUser(this.myUserId, followingId).subscribe((response) => {
             this.isFollowed = true;
+            this.userService.userAddedOnFollowList.emit(response);
           });
         }
       }

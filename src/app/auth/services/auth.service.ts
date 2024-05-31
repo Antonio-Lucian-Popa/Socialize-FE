@@ -97,8 +97,13 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    localStorage.removeItem('jwt');
+  logout(): Observable<any> {
+    return this.http.post<any>(`${this.URL_LINK}/auth/logout`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem('jwt');
+      }),
+      catchError(this.handleError)
+    );
   }
 
   getUserInfo(userId: string): Observable<any> {

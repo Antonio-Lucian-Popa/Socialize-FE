@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 export class UserService {
 
   @Output() userUpdatedInformation = new EventEmitter<UserProfileData>();
+  @Output() userAddedOnFollowList = new EventEmitter<any>();
 
   //userProfileImage!: string;
   userInfo!: User;
