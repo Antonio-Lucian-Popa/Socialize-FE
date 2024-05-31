@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { Subscription, finalize, forkJoin } from 'rxjs';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { UserService } from '../services/user.service';
 import { PostDto } from '../interfaces/post-dto';
 
@@ -24,7 +23,7 @@ export class PostListComponent implements OnInit, OnChanges {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private postService: PostService, private loadingBar: LoadingBarService, private userService: UserService) { }
+  constructor(private postService: PostService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.subscription.add(this.postService.postCreated.subscribe((postData) => {
@@ -32,8 +31,11 @@ export class PostListComponent implements OnInit, OnChanges {
     }));
 
     this.postService.postDeleted.subscribe((postId) => {
-      // this.loadPosts();
       this.posts.splice(this.posts.findIndex(post => post.id === postId), 1);
+    });
+
+    this.userService.userAddedOrRemovedOnFollowList.subscribe((response) => {
+      this.loadPosts();
     });
   }
 
@@ -89,7 +91,6 @@ export class PostListComponent implements OnInit, OnChanges {
   }
 
   loadPosts(page: number = 0, size: number = 10): void {
-    console.log('Loading posts for user:', this.userId, 'Page:', page, 'Size:', size, this.isMyPosts)
     this.postService.findAllPostsByUserId(this.userId, page, size, this.includeFollowers).subscribe({
       next: (response) => {
         console.log(response)

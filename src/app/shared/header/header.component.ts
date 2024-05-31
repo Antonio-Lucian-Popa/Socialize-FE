@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
     this.searchControl.valueChanges
     .pipe(
       debounceTime(300), // Wait for 300ms pause in events
-      filter(term => term.length > 0 || term === ''), // Ensure non-empty or reset
+      filter(term => term === '' || (term && term.length > 0 )), // Ensure non-empty or reset
       switchMap(term => {
         if (term) {
           return this.userService.searchUsers(term);

@@ -19,34 +19,33 @@ export class UserSuggestComponent implements OnInit {
   constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.getUserId().then((userId) => {
+      if (userId) {
+        this.myUserId = userId;
+      }
+    });
   }
 
   openUserProfile(userId: string): void {
-    if(userId) {
+    if (userId) {
       this.router.navigate(['/user-profile', userId]);
     }
   }
 
   followUser(followingId: string): void {
-    this.authService.getUserId().then((userId) => {
-      if (userId) {
-        this.myUserId = userId;
-
-        if(followingId) {
-          this.userService.followUser(this.myUserId, followingId).subscribe((response) => {
-            this.isFollowed = true;
-            this.userService.userAddedOnFollowList.emit(response);
-          });
-        }
-      }
-    });
+    if (followingId) {
+      this.userService.followUser(this.myUserId, followingId).subscribe((response) => {
+        this.isFollowed = true;
+        this.userService.userAddedOrRemovedOnFollowList.emit(response);
+      });
+    }
   }
 
   unfollowUser(unfollowingId: string): void {
-    const followerId = this.userService.userInfo.id;
-    if(unfollowingId && followerId) {
-      this.userService.unfollowUser(followerId, unfollowingId).subscribe((response) => {
+    if (unfollowingId && this.myUserId) {
+      this.userService.unfollowUser(this.myUserId, unfollowingId).subscribe((response) => {
         this.isFollowed = false;
+        this.userService.userAddedOrRemovedOnFollowList.emit(unfollowingId);
       });
     }
   }

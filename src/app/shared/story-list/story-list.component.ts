@@ -56,8 +56,14 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       this.myProfileImageUrl = res.profileImageUrl;
     });
 
-    this.userService.userAddedOnFollowList.subscribe((res: User) => {
-      this.loadStories();
+    this.userService.userAddedOrRemovedOnFollowList.subscribe((res: string) => {
+      console.log('User added or removed on follow list:', res)
+      if(res) {
+        this.zuckInstance.remove(res);
+        this.storyMap.delete(res);
+      } else {
+        this.loadStories();
+      }
     });
 
     if (!!this.myUserName || (!!this.myProfileImageUrl) && (!!this.userService.userInfo && !!this.userService.userInfo.profileImageUrl)) {
