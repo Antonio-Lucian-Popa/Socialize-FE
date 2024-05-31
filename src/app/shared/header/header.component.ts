@@ -108,13 +108,15 @@ export class HeaderComponent implements OnInit {
     this.isNotificationCardOpened ? this.isNewNotifications = false : null;
   }
 
-  openUserProfile(): void {
+  openUserProfile(userId?: string): void {
     // TODOO: retreive from auth service the user id from token
     this.closeDropDownUser();
-    this.router.navigate(['/user-profile', this.userInfo.id]);
+    this.searchControl.reset();
+    this.router.navigate(['/user-profile',  userId ? userId : this.userInfo.id]);
   }
 
   closeDropDownUser(): void {
+    this.showDropdown = false;
     this.showDropdownUser = false;
   }
 

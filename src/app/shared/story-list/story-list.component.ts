@@ -34,8 +34,8 @@ export class StoryListComponent implements OnInit, AfterViewInit {
   newStories: Story[] = [];
   seenStories: Story[] = [];
 
-  myProfileImageUrl!: string; // Replace with the actual profile image URL
-  myUserName!: string; // Replace with the actual user name
+  myProfileImageUrl!: string;
+  myUserName!: string;
   myStoryExists: boolean = false;
 
   zuckInstance: any; // Track the Zuck instance

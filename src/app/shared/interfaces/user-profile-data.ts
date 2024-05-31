@@ -1,6 +1,6 @@
 export interface UserProfileData {
-  userInfo: any; // Adjust the type based on your actual user info structure
-  userProfileImage: string; // This will be a base64 string
+  userInfo: User;
+  userProfileImage: string;
 }
 
 export interface UserInformation {
