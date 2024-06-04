@@ -37,6 +37,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
   myProfileImageUrl!: string;
   myUserName!: string;
   myStoryExists: boolean = false;
+  myUserId!: string;
 
   zuckInstance: any; // Track the Zuck instance
   storyMap: Map<string, TimelineItem> = new Map(); // Map to track added stories
@@ -74,6 +75,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
   loadUserProfile(): void {
     this.userService.getUserProfileInfo(this.userId).subscribe(userInfo => {
       console.log(userInfo);
+      this.myUserId = userInfo.id;
       this.myUserName = `${userInfo.firstName} ${userInfo.lastName}`;
       this.myProfileImageUrl = userInfo.profileImageUrl;
       this.loadStories();
@@ -96,6 +98,19 @@ export class StoryListComponent implements OnInit, AfterViewInit {
     });
   }
 
+  markStoryAsViewed(storyId: string) {
+    console.log('Marking story as viewed:', storyId);
+    const story = this.stories.find(story => story.id === storyId);
+        if (story) {
+          this.storyService.markStoryAsViewed(story.id, this.myUserId).subscribe(() => {
+            story.viewed = true;
+            this.updateZuckStories();
+          });
+        } else {
+          console.error('Story not found:', storyId);
+        }
+  }
+
   initZuckInstance() {
     const storyElement = this.storyContainer.nativeElement;
     this.zuckInstance = Zuck(storyElement, {
@@ -106,9 +121,23 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       list: false,
       cubeEffect: true,
       localStorage: false,
-      stories: []
+      stories: [],
+      callbacks: {
+        onOpen(storyId: string, callback: () => void) {
+          callback();
+        },
+        onEnd(storyId: string, callback: () => void) {},
+        onClose(storyId: string, callback: () => void) {},
+        onNavigateItem(storyId: string, nextStoryId: string, callback: () => void) {},
+        onDataUpdate(currentState: StoriesTimeline, callback: () => void) {},
+        onNextItem(storyId: string, nextStoryId: string, callback: () => void) {},
+        onView: (storyId: string) => {
+          this.markStoryAsViewed(storyId);
+        }
+      }
     });
   }
+
 
   onMyStoryClick() {
     this.openUploadDialog();
