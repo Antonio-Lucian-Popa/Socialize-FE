@@ -31,4 +31,8 @@ export class StoryService {
   getSeenStories(userId: string): Observable<Story[]> {
     return this.http.get<Story[]>(`${this.URL_LINK}/seen?userId=${userId}`);
   }
+
+  markStoryAsViewed(storyId: string, userId: string): Observable<Story> {
+    return this.http.post<Story>(`${this.URL_LINK}/view/${storyId}?userId=${userId}`, {});
+  }
 }
