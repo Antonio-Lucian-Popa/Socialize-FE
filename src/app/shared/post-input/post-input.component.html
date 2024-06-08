@@ -1,8 +1,8 @@
 <div class="create-post-container d-flex flex-row align-items-center mt-5" (click)="openCreatePostModal()" *ngIf="user">
    <!-- User Avatar -->
-   <img [src]="userProfileImage" [alt]="user.firstName" class="user-avatar mr-3">
+   <img [src]="userProfileImage" [alt]="user.firstName" class="user-avatar">
   <!-- Post Form -->
-  <form class="d-flex align-items-center justify-between w-100">
+  <form class="d-flex align-items-center justify-between w-100 ml-3">
     <textarea placeholder="What's on your mind?" class="post-textarea"></textarea>
     <button type="submit" class="submit-post-btn"><i class="fa-solid fa-paper-plane"></i></button>
   </form>
@@ -11,9 +11,9 @@
 
 <div class="create-post-container skeleton d-flex flex-row align-items-center mt-5" *ngIf="!user">
   <!-- User Avatar Skeleton -->
-  <div class="skeleton user-avatar mr-3"></div>
+  <div class="skeleton user-avatar"></div>
   <!-- Post Form Skeleton -->
-  <div class="skeleton-form d-flex align-items-center justify-between w-100">
+  <div class="skeleton-form d-flex align-items-center justify-between w-100 ml-3">
     <div class="skeleton post-textarea"></div>
     <div class="skeleton submit-post-btn"></div>
   </div>

@@ -14,9 +14,10 @@
 }
 
 .user-avatar {
-  width: 40px; /* Or your desired size */
-  height: 40px; /* Or your desired size */
-  border-radius: 50%; /* Makes the image round */
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  border: 2px solid #f0f0f0;
   object-fit: cover;
 }
 
