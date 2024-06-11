@@ -7,6 +7,7 @@ import { EditDetailDialogComponent } from 'src/app/shared/edit-detail-dialog/edi
 import { UserInformation } from 'src/app/shared/interfaces/user-profile-data';
 import { PostService } from 'src/app/shared/services/post.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { UserListDialogComponent } from 'src/app/shared/user-list-dialog/user-list-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -120,6 +121,26 @@ export class UserProfileComponent implements OnInit {
 
   onBack(): void {
     window.history.back();
+  }
+
+  openFollowersDialog(): void {
+    const dialogRef = this.dialog.open(UserListDialogComponent, {
+      data: {
+        isFollowing: false,
+        userId: this.userId
+      },
+      width: '500px'
+    });
+  }
+
+  openFollowingDialog(): void {
+    const dialogRef = this.dialog.open(UserListDialogComponent, {
+      data: {
+        isFollowing: true,
+        userId: this.userId
+      },
+      width: '500px'
+    });
   }
 
   ngOnDestroy(): void {

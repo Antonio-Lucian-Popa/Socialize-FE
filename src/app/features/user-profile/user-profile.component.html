@@ -11,11 +11,11 @@
       <h3 class="profile-name">{{ user.firstName }} {{ user.lastName }}</h3>
       <!-- <p class="profile-username">@{{ user.username }}</p> -->
       <div class="profile-stats mt-4 flex justify-center space-x-6">
-        <div class="stat">
+        <div class="stat cursor" (click)="openFollowersDialog()">
           <span class="stat-value">{{ user.followers.length }}</span>
           <span class="stat-key">Followers</span>
         </div>
-        <div class="stat">
+        <div class="stat cursor" (click)="openFollowingDialog()">
           <span class="stat-value">{{ user.following.length }}</span>
           <span class="stat-key">Following</span>
         </div>

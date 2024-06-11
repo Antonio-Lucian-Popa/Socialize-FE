@@ -34,6 +34,7 @@ import { EditCommentDialogComponent } from './comment-post-modal/comment-item/ed
 import { EditPostModalComponent } from './post-list/post/edit-post-modal/edit-post-modal.component';
 import { EditDetailDialogComponent } from './edit-detail-dialog/edit-detail-dialog.component';
 import { StoryUploadModalComponent } from './story-upload-modal/story-upload-modal.component';
+import { UserListDialogComponent } from './user-list-dialog/user-list-dialog.component';
 
 const NB_MODULES: any[] = [
   MatCardModule,
@@ -77,6 +78,7 @@ const COMPONENTS: any[] = [
     EditPostModalComponent,
     EditDetailDialogComponent,
     StoryUploadModalComponent,
+    UserListDialogComponent,
   ],
   imports: [
     CommonModule,

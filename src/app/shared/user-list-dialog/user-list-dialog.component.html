@@ -1,0 +1,28 @@
+<div class="likes-dialog p-4 max-w-md mx-auto relative">
+  <div class="flex justify-between items-center">
+    <!-- Dialog Title -->
+    <div class="text-lg font-semibold text-gray-900">
+      {{isFollowing ? 'Following' : 'Followers'}}
+    </div>
+    <!-- Close Button -->
+    <button class="inline-flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full hover:bg-gray-300" (click)="closeDialog()">
+      <mat-icon class="text-gray-800">close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Line Divider -->
+  <div class="my-4 border-b border-gray-200"></div>
+
+  <!-- Likes List -->
+  <div class="flex flex-col space-y-2 overflow-y-auto" style="max-height: 300px;">
+    <div *ngFor="let user of userList" class="flex items-center justify-between">
+      <!-- User Info and Avatar -->
+      <div class="flex items-center space-x-3" (click)="openUserProfile(user.id)">
+        <img src="{{ user.profileImageUrl }}" alt="{{ user.firstName }}'s Avatar" class="w-10 h-10 rounded-full object-cover">
+        <div class="text-sm font-medium">
+          {{ user.firstName }} {{ user.lastName }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

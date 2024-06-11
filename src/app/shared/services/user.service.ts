@@ -100,6 +100,14 @@ export class UserService {
     this.avatarPreviewSource.next(previewUrl);
   }
 
+  getFollowingUsers(userId: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.URL_LINK}/users/${userId}/following`);
+  }
+
+  getFollowers(userId: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.URL_LINK}/users/${userId}/followers`);
+  }
+
   private convertBlobToBase64(blob: Blob): Observable<string> {
     const reader = new FileReader();
     const base64Observable = new Observable<string>((observer) => {
