@@ -91,7 +91,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
         avatars: true,
         list: false,
         cubeEffect: true,
-        localStorage: true,
+        localStorage: false,
         stories: zuckStories
       });
       console.log('Zuck instance:', this.zuckInstance)
@@ -196,4 +196,5 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
 }

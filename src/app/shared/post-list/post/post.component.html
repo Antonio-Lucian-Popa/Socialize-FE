@@ -2,8 +2,8 @@
   *ngIf="post && post.imageFilenames && post.imageFilenames.length > 0">
   <div class="px-4 py-2">
     <div class="flex items-center">
-      <img class="h-8 w-8 rounded-full object-cover mr-2" [src]="post.user.profileImage" [alt]="post.user.firstName"
-        *ngIf="post.user && post.user.profileImage">
+      <img class="h-8 w-8 rounded-full object-cover mr-2 user-image" [src]="post.user.profileImage" [alt]="post.user.firstName"
+        *ngIf="post.user && post.user.profileImage" (click)="openUserProfile(post.user.id)">
       <div class="d-flex flex-column align-items-start justify-contemt-start">
         <div class="text-sm font-semibold">{{post.user.firstName}} {{post.user.lastName}}</div>
         <div class="post-footer text-gray-600 text-sm flex justify-between">
@@ -51,7 +51,7 @@
         <!-- Insert heart icon here -->
         <i class="fa-regular fa-heart post-not-liked mr-1" *ngIf="!isPostLiked" (click)="toggleLikePost()"></i>
         <i class="fa-solid fa-heart post-liked mr-1" *ngIf="isPostLiked" (click)="toggleLikePost()"></i>
-        <span class="font-semibold number-count" *ngIf="post.likes.length <= 2">{{post.likes.length}}</span>
+        <span class="font-semibold number-count" (click)="openLikesDialog(post)" *ngIf="post.likes.length <= 2">{{post.likes.length}}</span>
       </button>
       <button type="button" (click)="openCommentDialog(post)" class="d-flex align-items-center">
         <!-- Insert comment icon here -->

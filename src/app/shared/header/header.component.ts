@@ -80,6 +80,7 @@ export class HeaderComponent implements OnInit {
       this.userService.getUserProfileInfo(userId).subscribe({
         next: (userProfile) => {
           this.userInfo = userProfile;
+          this.userProfileImage = userProfile.profileImageUrl;
         },
         error: (error) => {
           console.error('Error fetching user profile data:', error);

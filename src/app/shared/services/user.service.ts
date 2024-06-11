@@ -52,6 +52,11 @@ export class UserService {
     return this.http.get<User[]>(`${this.URL_LINK}/users/suggested-users/${userId}`);
   }
 
+  checkUsersFollowing(followerId: string, followedIds: string[]): Observable<string[]> {
+    const params = { followerId };
+    return this.http.post<string[]>(`${this.URL_LINK}/users/check`, followedIds, { params });
+  }
+
   searchUsers(term: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL_LINK}/users/search/users`, { params: { name: term.toLowerCase() } });
   }

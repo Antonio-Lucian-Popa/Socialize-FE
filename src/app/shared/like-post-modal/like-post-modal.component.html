@@ -18,14 +18,14 @@
     <div *ngFor="let like of displayedLikes" class="flex items-center justify-between">
       <!-- User Info and Avatar -->
       <div class="flex items-center space-x-3">
-        <img src="{{ like.user.image }}" alt="{{ like.user.firstName }}'s Avatar" class="w-10 h-10 rounded-full object-cover">
+        <img src="{{ like.profileImage }}" alt="{{ like.firstName }}'s Avatar" class="w-10 h-10 rounded-full object-cover">
         <div class="text-sm font-medium">
-          {{ like.user.firstName }} {{ like.user.lastName }}
+          {{ like.firstName }} {{ like.lastName }}
         </div>
       </div>
       <!-- Follow/Unfollow Button -->
-      <button (click)="toggleFollow(like.user)" class="px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full hover:bg-blue-600">
-        {{ like.user.isFollowing ? 'Unfollow' : 'Follow' }}
+      <button *ngIf="like.id !== userId" (click)="toggleFollow(like)" class="px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full hover:bg-blue-600">
+        {{ like.isFollowing ? 'Unfollow' : 'Follow' }}
       </button>
     </div>
   </div>

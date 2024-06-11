@@ -10,6 +10,7 @@ import { EditPostModalComponent } from './edit-post-modal/edit-post-modal.compon
 import { register } from 'swiper/element';
 import Swiper from 'swiper';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -52,7 +53,8 @@ export class PostComponent implements OnInit {
     public dialog: MatDialog,
     private postService: PostService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
   }
 
@@ -83,7 +85,10 @@ export class PostComponent implements OnInit {
   openLikesDialog(post: any): void {
     this.dialog.open(LikePostModalComponent, {
       width: '500px',
-      data: { likes: post.likes }
+      data: {
+        likes: post.likes,
+        userId: this.userId
+      }
     });
   }
 
@@ -93,7 +98,8 @@ export class PostComponent implements OnInit {
       data: {
         post: post,
         userId: this.userId
-      }
+      },
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe({
@@ -183,7 +189,8 @@ export class PostComponent implements OnInit {
         post: this.post,
         user: this.userService.userInfo,
         profileImageUrl: this.userService.userInfo.profileImageUrl
-      }
+      },
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -214,6 +221,10 @@ export class PostComponent implements OnInit {
 
   slideChange(swiper: any) {
     console.log(swiper)
+  }
+
+  openUserProfile(userId: string): void {
+    this.router.navigate(['/user-profile', userId]);
   }
 
 }
