@@ -14,7 +14,7 @@
   <div class="my-3 border-b border-gray-200"></div>
 
   <!-- Likes List -->
-  <div class="flex flex-col space-y-2 overflow-y-auto" style="max-height: 300px;">
+  <div class="flex flex-col space-y-2 overflow-y-auto" style="max-height: 300px;" *ngIf="userList.length > 0">
     <div *ngFor="let user of userList" class="flex items-center justify-between">
       <!-- User Info and Avatar -->
       <div class="flex items-center space-x-3" (click)="openUserProfile(user.id)">
@@ -26,5 +26,10 @@
       <!-- Follow Button -->
       <button class="px-3 py-1 text-sm font-semibold text-white bg-red-500 rounded-md" (click)="unfollowUser(user.id)" *ngIf="isFollowing">Unfollow</button>
     </div>
+  </div>
+
+  <div class="no-data-container d-flex flex-column align-items-center justify-center" *ngIf="userList.length == 0">
+    <img src="./assets/img/no-data.svg"class="mb-3" alt="no data">
+    <p class="text-gray-600">No {{isFollowing ? 'users follow' : 'followers'}}</p>
   </div>
 </div>

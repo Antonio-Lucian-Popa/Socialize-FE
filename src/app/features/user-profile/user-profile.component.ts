@@ -124,27 +124,23 @@ export class UserProfileComponent implements OnInit {
   }
 
   openFollowersDialog(): void {
-    if (this.user.followers.length > 0) {
-      const dialogRef = this.dialog.open(UserListDialogComponent, {
-        data: {
-          isFollowing: false,
-          userId: this.userId
-        },
-        width: '500px'
-      });
-    }
+    const dialogRef = this.dialog.open(UserListDialogComponent, {
+      data: {
+        isFollowing: false,
+        userId: this.userId
+      },
+      width: '500px'
+    });
   }
 
   openFollowingDialog(): void {
-    if (this.user.following.length > 0) {
-      const dialogRef = this.dialog.open(UserListDialogComponent, {
-        data: {
-          isFollowing: true,
-          userId: this.userId
-        },
-        width: '500px'
-      });
-    }
+    const dialogRef = this.dialog.open(UserListDialogComponent, {
+      data: {
+        isFollowing: true,
+        userId: this.userId
+      },
+      width: '500px'
+    });
   }
 
   ngOnDestroy(): void {
