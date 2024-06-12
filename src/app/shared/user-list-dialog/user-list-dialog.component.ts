@@ -48,6 +48,12 @@ export class UserListDialogComponent implements OnInit {
     this.closeDialog();
   }
 
+  unfollowUser(userId: string): void {
+    this.userService.unfollowUser(this.userId, userId).subscribe(() => {
+      this.userList = this.userList.filter(user => user.id !== userId);
+    });
+  }
+
 
   closeDialog(): void {
     this.dialogRef.close();

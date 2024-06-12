@@ -83,12 +83,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   follow(): void {
-    if(this.myUserId && this.userId) {
+    if (this.myUserId && this.userId) {
       this.userService.followUser(this.myUserId, this.userId).subscribe({
         next: (data) => {
           console.log('Followed user:', data);
           this.isUserFollowing = true;
-          if(this.userId) this.loadUserInfo(this.userId);
+          if (this.userId) this.loadUserInfo(this.userId);
         },
         error: (error) => {
           console.error('Error following user:', error);
@@ -99,12 +99,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   unfollow(): void {
-    if(this.myUserId && this.userId) {
+    if (this.myUserId && this.userId) {
       this.userService.unfollowUser(this.myUserId, this.userId).subscribe({
         next: (data) => {
           console.log('Followed user:', data);
           this.isUserFollowing = false;
-          if(this.userId) this.loadUserInfo(this.userId);
+          if (this.userId) this.loadUserInfo(this.userId);
         },
         error: (error) => {
           console.error('Error following user:', error);
@@ -124,23 +124,27 @@ export class UserProfileComponent implements OnInit {
   }
 
   openFollowersDialog(): void {
-    const dialogRef = this.dialog.open(UserListDialogComponent, {
-      data: {
-        isFollowing: false,
-        userId: this.userId
-      },
-      width: '500px'
-    });
+    if (this.user.followers.length > 0) {
+      const dialogRef = this.dialog.open(UserListDialogComponent, {
+        data: {
+          isFollowing: false,
+          userId: this.userId
+        },
+        width: '500px'
+      });
+    }
   }
 
   openFollowingDialog(): void {
-    const dialogRef = this.dialog.open(UserListDialogComponent, {
-      data: {
-        isFollowing: true,
-        userId: this.userId
-      },
-      width: '500px'
-    });
+    if (this.user.following.length > 0) {
+      const dialogRef = this.dialog.open(UserListDialogComponent, {
+        data: {
+          isFollowing: true,
+          userId: this.userId
+        },
+        width: '500px'
+      });
+    }
   }
 
   ngOnDestroy(): void {

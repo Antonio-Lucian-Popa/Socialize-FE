@@ -1,4 +1,4 @@
-<div class="likes-dialog p-4 max-w-md mx-auto relative">
+<div class="likes-dialog max-w-md mx-auto relative">
   <div class="flex justify-between items-center">
     <!-- Dialog Title -->
     <div class="text-lg font-semibold text-gray-900">
@@ -11,7 +11,7 @@
   </div>
 
   <!-- Line Divider -->
-  <div class="my-4 border-b border-gray-200"></div>
+  <div class="my-3 border-b border-gray-200"></div>
 
   <!-- Likes List -->
   <div class="flex flex-col space-y-2 overflow-y-auto" style="max-height: 300px;">
@@ -23,6 +23,8 @@
           {{ user.firstName }} {{ user.lastName }}
         </div>
       </div>
+      <!-- Follow Button -->
+      <button class="px-3 py-1 text-sm font-semibold text-white bg-red-500 rounded-md" (click)="unfollowUser(user.id)" *ngIf="isFollowing">Unfollow</button>
     </div>
   </div>
 </div>
