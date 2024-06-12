@@ -1,4 +1,4 @@
-<div class="create-post-container d-flex flex-row align-items-center mt-5" (click)="openCreatePostModal()" *ngIf="user">
+<div class="create-post-container d-flex flex-row align-items-center mt-5" (click)="openCreatePostModal()" *ngIf="user; else loading">
    <!-- User Avatar -->
    <img [src]="userProfileImage" [alt]="user.firstName" class="user-avatar">
   <!-- Post Form -->
@@ -8,13 +8,15 @@
   </form>
 </div>
 
-
-<div class="create-post-container skeleton d-flex flex-row align-items-center mt-5" *ngIf="!user">
-  <!-- User Avatar Skeleton -->
-  <div class="skeleton user-avatar"></div>
-  <!-- Post Form Skeleton -->
-  <div class="skeleton-form d-flex align-items-center justify-between w-100 ml-3">
-    <div class="skeleton post-textarea"></div>
-    <div class="skeleton submit-post-btn"></div>
+<ng-template #loading>
+  <div class="create-post-container skeleton d-flex flex-row align-items-center mt-5">
+    <!-- User Avatar Skeleton -->
+    <div class="skeleton user-avatar animate-pulse"></div>
+    <!-- Post Form Skeleton -->
+    <div class="skeleton-form d-flex align-items-center justify-between w-100 ml-3">
+      <div class="skeleton post-textarea animate-pulse"></div>
+      <div class="skeleton submit-post-btn animate-pulse"></div>
+    </div>
   </div>
-</div>
+
+</ng-template>

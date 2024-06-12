@@ -1,13 +1,60 @@
-<div class="container-story d-flex">
+<div class="container-story d-flex" *ngIf="stories; else loading">
   <div class="my-story d-flex flex-column align-items-center mr-2" (click)="onMyStoryClick()">
     <div class="d-flex justify-content-center w-100">
       <img [src]="myProfileImageUrl" class="avatar" alt="My Story" />
-    <div class="container-pencil">
-      <i class="fa-solid fa-pen"></i>
-    </div>
+      <div class="container-pencil">
+        <i class="fa-solid fa-pen"></i>
+      </div>
     </div>
     <span>Your story</span>
   </div>
   <div #storyContainer></div>
 </div>
 
+<ng-template #loading>
+  <!-- Skeleton loader for story list -->
+  <div class="container-story w-9/12 p-4 bg-white rounded-lg animate-pulse">
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div class="my-story inline-block text-center relative mr-2">
+      <div class="relative inline-block">
+        <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+      </div>
+    </div>
+    <div #storyContainer></div>
+  </div>
+
+</ng-template>

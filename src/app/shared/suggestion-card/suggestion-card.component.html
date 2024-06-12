@@ -1,4 +1,4 @@
-<div class="suggested-card bg-white rounded-lg p-4 w-80">
+<div class="suggested-card bg-white rounded-lg p-4 w-80" *ngIf="suggestedUsers; else loading">
   <div class="header flex justify-between items-center mb-4">
     <h3 class="text-lg font-semibold suggest-label">Suggested For You</h3>
     <button class="see-all-btn text-sm" *ngIf="isSeeAllVisible">See all</button>
@@ -11,3 +11,27 @@
     </div>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="bg-white rounded-lg p-4 w-80">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold bg-gray-300 h-6 w-32 animate-pulse"></h3>
+    </div>
+    <div class="suggestions">
+      <!-- Repeat this for each suggestion -->
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
+        <div class="w-3/4 h-6 bg-gray-300 rounded-md animate-pulse"></div>
+      </div>
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
+        <div class="w-3/4 h-6 bg-gray-300 rounded-md animate-pulse"></div>
+      </div>
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
+        <div class="w-3/4 h-6 bg-gray-300 rounded-md animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

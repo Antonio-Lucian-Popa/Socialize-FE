@@ -30,7 +30,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
   @Input()
   userId!: string;
 
-  stories: Story[] = [];
+  stories!: Story[];
   newStories: Story[] = [];
   seenStories: Story[] = [];
 

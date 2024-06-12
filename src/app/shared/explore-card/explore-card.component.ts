@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ExploreCardComponent implements OnInit {
 
-  exploreImages = [
+  exploreImages: any[] = [
     {
       id: 1,
       description: 'Explore the world',

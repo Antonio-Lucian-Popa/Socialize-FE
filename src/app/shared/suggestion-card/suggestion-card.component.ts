@@ -13,7 +13,7 @@ export class SuggestionCardComponent implements OnInit {
 
   @Input() isSeeAllVisible: boolean = true;
 
-  suggestedUsers: User[] = [];
+  suggestedUsers!: User[];
 
   constructor(private userService: UserService, private authService: AuthService) { }
 

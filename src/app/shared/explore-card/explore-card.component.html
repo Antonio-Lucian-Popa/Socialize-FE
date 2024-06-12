@@ -12,12 +12,21 @@
     </div>
   </div>
   <div class="px-4 pb-4">
-    <div class="grid grid-cols-2 gap-2" *ngIf="exploreImages">
+    <div class="grid grid-cols-2 gap-2" *ngIf="exploreImages && exploreImages.length > 0; else loading">
       <!-- Use 'object-cover' to ensure images maintain their aspect ratio and cover the container -->
       <div class="bg-gray-300 h-20 rounded-lg overflow-hidden" *ngFor="let image of exploreImages">
         <img class="w-full h-full object-cover" [src]="image.image" [alt]="image.description">
       </div>
     </div>
+
+    <ng-template #loading>
+      <div class="grid grid-cols-2 gap-2">
+        <div class="bg-gray-300 h-20 rounded-lg animate-pulse"></div>
+        <div class="bg-gray-300 h-20 rounded-lg animate-pulse"></div>
+        <div class="bg-gray-300 h-20 rounded-lg animate-pulse"></div>
+        <div class="bg-gray-300 h-20 rounded-lg animate-pulse"></div>
+      </div>
+    </ng-template>
 
   </div>
 </div>
