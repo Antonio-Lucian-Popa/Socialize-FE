@@ -30,6 +30,8 @@ export class UserProfileComponent implements OnInit {
 
   isMyProfile = false; // TODO: Set this to false if the user is not the logged in user
 
+  images: string[] = [];
+
   constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog, private postService: PostService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class UserProfileComponent implements OnInit {
         this.myUserId = userId;
         if (this.userId) {
           this.loadUserInfo(this.userId);
+          this.loadUserImages();
         }
       });
     });
@@ -141,6 +144,19 @@ export class UserProfileComponent implements OnInit {
       },
       width: '500px'
     });
+  }
+
+  loadUserImages(): void {
+    if(this.userId) {
+      this.postService.getUserPostImages(this.userId).subscribe({
+        next: (data) => {
+          this.images = data;
+        },
+        error: (error) => {
+          console.error('Error fetching user images:', error);
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {

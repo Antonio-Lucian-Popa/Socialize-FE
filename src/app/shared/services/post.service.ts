@@ -99,6 +99,10 @@ export class PostService {
     return progress.asObservable();
   }
 
+  getUserPostImages(userId: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.URL_LINK}/posts/user/${userId}/images`);
+  }
+
   /**
    *
    * @param id post id that needs to be deleted
