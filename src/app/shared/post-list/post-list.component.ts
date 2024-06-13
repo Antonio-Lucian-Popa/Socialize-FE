@@ -37,6 +37,10 @@ export class PostListComponent implements OnInit, OnChanges {
     this.userService.userAddedOrRemovedOnFollowList.subscribe((response) => {
       this.loadPosts();
     });
+
+    this.postService.postLiked.subscribe((post: any) => {
+      this.loadPosts();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -69,6 +73,7 @@ export class PostListComponent implements OnInit, OnChanges {
       next: ([progress, image]) => {
         progress.user.profileImage = image; // Set the image to the progress.user.profileImage
         this.posts.unshift(progress); // Add the post to the beginning of the posts array
+        this.postService.isFileUploaded.next(true); // Emit the file uploaded event
       },
       error: () => {
         console.error('Error occurred during the requests');

@@ -50,6 +50,11 @@ export class UserProfileComponent implements OnInit {
 
     this.postService.postDeleted.subscribe((postId: string) => {
       this.user.totalPosts--;
+      this.loadUserImages();
+    });
+
+    this.postService.isFileUploaded.subscribe((post: any) => {
+      this.loadUserImages();
     });
   }
 

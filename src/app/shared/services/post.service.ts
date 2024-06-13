@@ -14,6 +14,8 @@ export class PostService {
   @Output() postCreated = new EventEmitter<any>();
   @Output() postEdited = new EventEmitter<any>();
   @Output() postDeleted = new EventEmitter<string>();
+  @Output() isFileUploaded = new EventEmitter<boolean>();
+  @Output() postLiked = new EventEmitter<any>();
 
    //URL_LINK = "http://localhost:8081/api/v1/posts";
  // URL_LINK = 'https://socialize-be.go.ro:2347/api/v1/posts';

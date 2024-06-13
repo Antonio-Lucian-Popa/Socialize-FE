@@ -64,7 +64,7 @@ export class PostInputComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       // Handle the post creation result
-      this.postCreated.emit(result);
+    //  this.postCreated.emit(result);
     });
   }
 

@@ -242,6 +242,7 @@ export class ImageViewDialogComponent implements OnInit {
       next: (response) => {
         // Handle successful like action, e.g., update UI accordingly
         this.popularImagePost.likes = response.likes;
+        this.postService.postLiked.emit(response);
       },
       error: (error) => {
         console.error('Error liking the post', error);
@@ -256,6 +257,7 @@ export class ImageViewDialogComponent implements OnInit {
         console.log('Post liked successfully', response);
         // Handle successful like action, e.g., update UI accordingly
         this.popularImagePost.likes = response.likes;
+        this.postService.postLiked.emit(response);
       },
       error: (error) => {
         console.error('Error liking the post', error);
