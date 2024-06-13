@@ -1,3 +1,6 @@
+@import 'src/assets/styles/variables.scss';
+
+
 .contenitor-modal {
   overflow: hidden!important;
 }
@@ -76,4 +79,13 @@
 
 .comments {
   padding-left: 1rem;
+}
+
+
+.post-liked {
+  color: $bright-coral;
+}
+
+.post-unliked {
+  color: $medium-gray;
 }

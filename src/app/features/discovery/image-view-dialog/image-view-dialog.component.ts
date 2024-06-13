@@ -105,6 +105,7 @@ export class ImageViewDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('Post ID:', this.postId);
     if (this.postId) {
       this.loadData();
     }

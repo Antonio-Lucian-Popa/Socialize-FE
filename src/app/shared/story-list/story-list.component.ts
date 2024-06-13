@@ -80,23 +80,25 @@ export class StoryListComponent implements OnInit, AfterViewInit {
 
   initZuckStories() {
     const storyElement = this.storyContainer.nativeElement;  // Direct access to the DOM element
-    const zuckStories = this.groupStoriesByUser(this.stories);
-    console.log('Zuck stories:', zuckStories);
+    if (this.stories) {
+      const zuckStories = this.groupStoriesByUser(this.stories);
+      console.log('Zuck stories:', zuckStories);
 
-    if (zuckStories.length > 0) {
-      this.zuckInstance = Zuck(storyElement, { // Initialize Zuck instance
-        backNative: true,
-        autoFullScreen: false,
-        skin: 'snapgram',
-        avatars: true,
-        list: false,
-        cubeEffect: true,
-        localStorage: false,
-        stories: zuckStories
-      });
-      console.log('Zuck instance:', this.zuckInstance)
-    } else {
-      console.warn('No stories to display');
+      if (zuckStories.length > 0) {
+        this.zuckInstance = Zuck(storyElement, { // Initialize Zuck instance
+          backNative: true,
+          autoFullScreen: false,
+          skin: 'snapgram',
+          avatars: true,
+          list: false,
+          cubeEffect: true,
+          localStorage: false,
+          stories: zuckStories
+        });
+        console.log('Zuck instance:', this.zuckInstance)
+      } else {
+        console.warn('No stories to display');
+      }
     }
   }
 
@@ -180,7 +182,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
 
     let existingStory = null;
     const storyExist = this.zuckInstance && this.zuckInstance.data && this.zuckInstance.data.stories;
-    if(storyExist) {
+    if (storyExist) {
       existingStory = this.zuckInstance.data.stories.find((s: any) => s.id === story.user.id);
     }
 

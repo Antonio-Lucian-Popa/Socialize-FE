@@ -8,6 +8,7 @@ import { UserInformation } from 'src/app/shared/interfaces/user-profile-data';
 import { PostService } from 'src/app/shared/services/post.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { UserListDialogComponent } from 'src/app/shared/user-list-dialog/user-list-dialog.component';
+import { ImageViewDialogComponent } from '../discovery/image-view-dialog/image-view-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,7 +31,7 @@ export class UserProfileComponent implements OnInit {
 
   isMyProfile = false; // TODO: Set this to false if the user is not the logged in user
 
-  images: string[] = [];
+  postImages: any[] = []; // TODO: sa adaug interfata PostImageDto
 
   constructor(private route: ActivatedRoute, private userService: UserService, public dialog: MatDialog, private postService: PostService, private authService: AuthService) { }
 
@@ -150,13 +151,29 @@ export class UserProfileComponent implements OnInit {
     if(this.userId) {
       this.postService.getUserPostImages(this.userId).subscribe({
         next: (data) => {
-          this.images = data;
+          this.postImages = data;
         },
         error: (error) => {
           console.error('Error fetching user images:', error);
         }
       });
     }
+  }
+
+  openImageDialog(postId: string): void {
+    console.log('openImageDialog', postId)
+    const dialogRef = this.dialog.open(ImageViewDialogComponent, {
+      width: '80%',
+      height: '95vh',
+      data: {
+        postId: postId,
+        userId: this.myUserId
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   ngOnDestroy(): void {

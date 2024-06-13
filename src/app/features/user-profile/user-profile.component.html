@@ -77,16 +77,16 @@
     <div class="bg-white rounded-lg p-4 shadow-md w-80">
       <div class="header flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold suggest-label mb-0">User Images</h3>
-        <button class="see-all-btn text-sm" *ngIf="images.length > 4">See all</button>
+        <button class="see-all-btn text-sm" *ngIf="postImages.length > 4">See all</button>
       </div>
-      <div class="grid grid-cols-2 gap-2" *ngIf="images.length > 0">
+      <div class="grid grid-cols-2 gap-2" *ngIf="postImages.length > 0">
         <!-- Exemplu de fotografie -->
         <div class="relative">
-          <img [src]="image" *ngFor="let image of images" alt="User Photo" class="w-full h-24 object-cover rounded-lg">
+          <img [src]="postImage.imageUrl" *ngFor="let postImage of postImages" (click)="openImageDialog(postImage.postId)" alt="User Photo" class="w-full h-24 object-cover rounded-lg">
         </div>
       </div>
 
-      <div class="no-data-container d-flex flex-column align-items-center justify-center" *ngIf="images.length == 0">
+      <div class="no-data-container d-flex flex-column align-items-center justify-center" *ngIf="postImages.length == 0">
         <img src="./assets/img/no-data.svg"class="mb-3" alt="no data">
         <p class="text-gray-600">No images</p>
       </div>
