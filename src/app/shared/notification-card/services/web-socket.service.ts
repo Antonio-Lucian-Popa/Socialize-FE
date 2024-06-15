@@ -49,4 +49,8 @@ export class WebSocketService {
     const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
     return this.http.get<any>(`${this.URL_LINK}/notifications/findNotifications/${userId}`, { params });
   }
+
+  markAsRead(notificationId: string): Observable<void> {
+    return this.http.put<void>(`${this.URL_LINK}/notifications/${notificationId}/read`, {});
+  }
 }

@@ -7,7 +7,7 @@
 
   <div class="notifications-list pt-3">
     <!-- Repeat for each notification -->
-    <div class="notification flex items-center justify-between mb-3" *ngFor="let notification of notifications">
+    <div class="notification flex items-center justify-between mb-3 add-pointer" *ngFor="let notification of notifications" (click)="markAsRead(notification.id)">
       <div class="flex items-center">
         <img [src]="notification.profileImageUrl" alt="User Avatar" class="user-avatar mr-3">
         <div>

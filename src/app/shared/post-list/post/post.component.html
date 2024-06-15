@@ -12,16 +12,16 @@
       </div>
       <!-- <div class="text-xs text-gray-500 ml-auto">New York City, NY</div> -->
       <div class="ml-auto text-sm text-gray-600">
-        <i class="fa-solid fa-ellipsis-vertical option-btn" [matMenuTriggerFor]="menu"
+        <i class="fa-solid fa-ellipsis-vertical option-btn add-pointer" [matMenuTriggerFor]="menu"
           *ngIf="checkIfPostIsOfCurrentUser()"></i>
 
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="deletePost(post.id)">
+          <button mat-menu-item (click)="deletePost(post.id)" class="add-pointer">
             <i class="fa-solid fa-trash mr-2"></i>
             Remove
           </button>
-          <button mat-menu-item (click)="editPost()">
-            <i class="fa-solid fa-pen-to-square"></i>
+          <button mat-menu-item (click)="editPost()" class="add-pointer">
+            <i class="fa-solid fa-pen-to-square mr-2"></i>
             Edit
           </button>
           <!-- <button mat-menu-item>Item 2</button> -->

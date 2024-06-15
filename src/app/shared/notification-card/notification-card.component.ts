@@ -18,7 +18,7 @@ export class NotificationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUserId().then(userId => {
-      if(userId) {
+      if (userId) {
         this.webSocketService.getNotifications(userId, 0, 5).subscribe((notifications: any) => {
           this.notifications = notifications.content;
         });
@@ -27,6 +27,21 @@ export class NotificationCardComponent implements OnInit {
 
     this.webSocketService.newNotifications.subscribe((notification: any) => {
       this.notifications.unshift(notification);
+    });
+  }
+
+  markAsRead(notificationId: string): void {
+    this.webSocketService.markAsRead(notificationId).subscribe({
+      next: (res) => {
+        // Update the notification in the local array
+        const notification = this.notifications.find(n => n.id === notificationId);
+        if (notification) {
+          notification.read = true;
+        }
+      },
+      error: (err) => {
+        console.error('Error marking notification as read:', err);
+      }
     });
   }
 

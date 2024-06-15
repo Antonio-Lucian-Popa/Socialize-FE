@@ -21,7 +21,7 @@ interface GroupedStories {
 })
 export class StoryListComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('storyContainer')
+  @ViewChild('storyContainer', { static: false })
   storyContainer!: ElementRef;
 
   @ViewChild('fileInput', { static: false })
@@ -30,7 +30,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
   @Input()
   userId!: string;
 
-  stories!: Story[];
+  stories: Story[] = [];
   newStories: Story[] = [];
   seenStories: Story[] = [];
 
@@ -55,15 +55,16 @@ export class StoryListComponent implements OnInit, AfterViewInit {
 
   loadUserProfile(): void {
     this.userService.getUserProfileInfo(this.userId).subscribe(userInfo => {
-      console.log(userInfo)
-      this.myUserName = userInfo.firstName + ' ' + userInfo.lastName;
+      console.log(userInfo);
+      this.myUserId = userInfo.id;
+      this.myUserName = `${userInfo.firstName} ${userInfo.lastName}`;
       this.myProfileImageUrl = userInfo.profileImageUrl;
       this.loadStories();
     });
   }
 
   ngAfterViewInit(): void {
-    this.initZuckStories(); // Initialize Zuck stories
+    this.initZuckInstance();
   }
 
   loadStories(): void {
@@ -74,36 +75,26 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       this.stories = [...newStories, ...seenStories];
       this.myStoryExists = this.stories.some(story => story.user.id === this.userId);
       console.log('Stories:', this.stories);
-      this.initZuckStories(); // Reinitialize Zuck stories
+      this.updateZuckStories();
     });
   }
 
-  initZuckStories() {
-    const storyElement = this.storyContainer.nativeElement;  // Direct access to the DOM element
-    if (this.stories) {
-      const zuckStories = this.groupStoriesByUser(this.stories);
-      console.log('Zuck stories:', zuckStories);
-
-      if (zuckStories.length > 0) {
-        this.zuckInstance = Zuck(storyElement, { // Initialize Zuck instance
-          backNative: true,
-          autoFullScreen: false,
-          skin: 'snapgram',
-          avatars: true,
-          list: false,
-          cubeEffect: true,
-          localStorage: false,
-          stories: zuckStories
-        });
-        console.log('Zuck instance:', this.zuckInstance)
-      } else {
-        console.warn('No stories to display');
-      }
-    }
+  initZuckInstance() {
+    const storyElement = this.storyContainer.nativeElement;
+    this.zuckInstance = Zuck(storyElement, {
+      backNative: true,
+      autoFullScreen: false,
+      skin: 'snapgram',
+      avatars: true,
+      list: false,
+      cubeEffect: true,
+      localStorage: false,
+      stories: []
+    });
   }
 
   onMyStoryClick() {
-    this.openUploadDialog(); // Open upload dialog
+    this.openUploadDialog();
   }
 
   groupStoriesByUser(stories: Story[]): StoriesTimeline {
@@ -113,17 +104,18 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       console.log('Processing story:', story);
 
       if (story.user && story.user.id) {
-        if (!acc[story.user.id]) {
-          acc[story.user.id] = {
-            id: story.user.id,
+        const userId = 'user-' + story.user.id; // Ensure unique ID for each user
+        if (!acc[userId]) {
+          acc[userId] = {
+            id: userId,
             photo: story.user.profileImageUrl,
             name: story.user.firstName,
             items: []
           };
-          console.log('Created new group for user:', acc[story.user.id]);
+          console.log('Created new group for user:', acc[userId]);
         }
 
-        const storyItems = acc[story.user.id].items;
+        const storyItems = acc[userId].items;
         const storyItemExists = storyItems!.some(item => item.id === 'item-' + story.id);
         if (!storyItemExists) { // Ensure no duplicates
           storyItems!.push({
@@ -137,7 +129,7 @@ export class StoryListComponent implements OnInit, AfterViewInit {
             seen: story.viewed,
             time: new Date(story.createdAt).getTime() / 1000
           });
-          console.log('Added item to group:', acc[story.user.id]);
+          console.log('Added item to group:', acc[userId]);
         }
       } else {
         console.log('Skipped story due to missing user or user ID:', story);
@@ -151,6 +143,31 @@ export class StoryListComponent implements OnInit, AfterViewInit {
     return result;
   }
 
+  updateZuckStories() {
+    if (!this.zuckInstance) {
+      console.error('Zuck instance is not initialized.');
+      return;
+    }
+
+    const zuckStories = this.groupStoriesByUser(this.stories);
+    console.log('Updating Zuck stories:', zuckStories);
+
+    if(this.zuckInstance.data.stories && this.zuckInstance.data.stories.length > 0) {
+      // Remove existing stories to avoid duplication
+      this.zuckInstance.data.stories.forEach((story: any) => {
+        this.zuckInstance.remove(story.id);
+      });
+    }
+
+    // Add stories
+    zuckStories.forEach(story => {
+      if (story.id) {
+        this.zuckInstance.add(story);
+        this.storyMap.set(story.id, story);
+      }
+    });
+  }
+
   openUploadDialog() {
     const dialogRef = this.dialog.open(StoryUploadModalComponent, {
       width: '400px'
@@ -160,15 +177,14 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       if (result) {
         console.log(result);
         this.storyService.uploadStory(result, this.userId).subscribe(story => {
-          this.addOrUpdateStory(story); // Add or update story
-          console.log('Story uploaded:', story);
+          this.addOrUpdateStory(story);
         });
       }
     });
   }
 
   addOrUpdateStory(story: Story) {
-    const storyItem = {
+    const newItem = {
       id: 'item-' + story.id,
       type: story.value.endsWith('.mp4') ? 'video' : 'photo',
       length: 5,
@@ -180,23 +196,38 @@ export class StoryListComponent implements OnInit, AfterViewInit {
       time: new Date(story.createdAt).getTime() / 1000
     };
 
-    let existingStory = null;
-    const storyExist = this.zuckInstance && this.zuckInstance.data && this.zuckInstance.data.stories;
-    if (storyExist) {
-      existingStory = this.zuckInstance.data.stories.find((s: any) => s.id === story.user.id);
-    }
+    const userId = 'user-' + story.user.id;
+    const existingStory = this.storyMap.get(userId);
 
-
-    if (existingStory) {
-      this.zuckInstance.addItem(story.user.id, storyItem); // Add item to existing story
+    if (existingStory && existingStory.items) {
+      this.zuckInstance.addItem(userId, newItem);
+      existingStory.items.push(newItem);
     } else {
-      this.zuckInstance.add({ // Add new story
-        id: story.user.id,
+      const newTimelineItem: TimelineItem = {
+        id: userId,
         photo: story.user.profileImageUrl,
         name: story.user.firstName,
-        items: [storyItem]
-      });
+        items: [newItem]
+      };
+      this.zuckInstance.add(newTimelineItem);
+      this.storyMap.set(userId, newTimelineItem);
     }
+
+    this.stories.push(story); // Add the new story to the beginning of all stories
+    this.myStoryExists = true;
+    this.updateZuckStories();
   }
 
+  markStoryAsViewed(storyId: string) {
+    console.log('Marking story as viewed:', storyId);
+    const story = this.stories.find(story => story.id === storyId);
+    if (story) {
+      this.storyService.markStoryAsViewed(story.id, this.myUserId).subscribe(() => {
+        story.viewed = true;
+        this.updateZuckStories();
+      });
+    } else {
+      console.error('Story not found:', storyId);
+    }
+  }
 }

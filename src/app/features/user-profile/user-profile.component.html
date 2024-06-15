@@ -81,8 +81,8 @@
       </div>
       <div class="grid grid-cols-2 gap-2" *ngIf="postImages.length > 0">
         <!-- Exemplu de fotografie -->
-        <div class="relative">
-          <img [src]="postImage.imageUrl" *ngFor="let postImage of postImages" (click)="openImageDialog(postImage.postId)" alt="User Photo" class="w-full h-24 object-cover rounded-lg add-cursor">
+        <div class="relative" *ngFor="let postImage of postImages">
+          <img [src]="postImage.imageUrl" (click)="openImageDialog(postImage.postId)" alt="User Photo" class="w-full h-24 object-cover rounded-lg add-cursor">
         </div>
       </div>
 
