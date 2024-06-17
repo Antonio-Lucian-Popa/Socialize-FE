@@ -89,6 +89,7 @@ export class SettingsComponent implements OnInit {
     // show change password form dialog
     const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
       width: '500px', // o la dimensione desiderata
+      data: { userId: this.userId }
       // passa qui altri dati se necessario
     });
 

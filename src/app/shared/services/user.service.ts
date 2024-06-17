@@ -108,6 +108,15 @@ export class UserService {
     return this.http.get<User[]>(`${this.URL_LINK}/users/${userId}/followers`);
   }
 
+  changePassword(userId: string, oldPassword: string, newPassword: string): Observable<any> {
+    const payload = {
+      userId: userId,
+      oldPassword: oldPassword,
+      newPassword: newPassword
+     };
+    return this.http.post(`${this.URL_LINK}/users/change-password`, payload);
+  }
+
   private convertBlobToBase64(blob: Blob): Observable<string> {
     const reader = new FileReader();
     const base64Observable = new Observable<string>((observer) => {
