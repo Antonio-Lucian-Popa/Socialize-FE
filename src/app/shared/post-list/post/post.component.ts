@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LikePostModalComponent } from '../../like-post-modal/like-post-modal.component';
 import { CommentPostModalComponent } from '../../comment-post-modal/comment-post-modal.component';
@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { Router } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -23,6 +24,8 @@ export class PostComponent implements OnInit {
   @ViewChild('swiperRef')
   swiperRef: ElementRef | undefined;
   swiper?: Swiper;
+
+  @Output() refreshUserImages = new EventEmitter<any>();
 
   ngAfterViewInit(): void {
     register();
@@ -194,6 +197,7 @@ export class PostComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      this.refreshUserImages.emit();
       console.log('The dialog was closed', result);
       if (Array.isArray(result)) {
         // Use _.remove to mutate the original array, removing items that match the condition

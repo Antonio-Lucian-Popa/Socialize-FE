@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { Subscription, finalize, forkJoin } from 'rxjs';
 import { UserService } from '../services/user.service';
@@ -14,6 +14,8 @@ export class PostListComponent implements OnInit, OnChanges {
   @Input() userId!: string;
   @Input() isMyPosts = false;
   @Input() includeFollowers: boolean = false;
+
+  @Output() refreshUserImages = new EventEmitter<any>();
 
   posts: PostDto[] = [];
 

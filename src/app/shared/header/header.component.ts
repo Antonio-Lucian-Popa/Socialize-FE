@@ -24,7 +24,6 @@ export class HeaderComponent implements OnInit {
 
   userId!: string;
   userInfo: any;
-  userProfileImage!: string;
 
   isMenuOpened = false;
 
@@ -62,7 +61,7 @@ export class HeaderComponent implements OnInit {
 
     this.userService.userUpdatedInformation.subscribe((res: User) => {
       this.userInfo = res;
-      this.userProfileImage = res.profileImageUrl;
+     // this.userInfo.profileImageUrl = res.profileImageUrl;
     });
     this.webSocketService.newNotifications.subscribe((notification: any) => {
       this.isNewNotifications = true;
@@ -80,7 +79,6 @@ export class HeaderComponent implements OnInit {
       this.userService.getUserProfileInfo(userId).subscribe({
         next: (userProfile) => {
           this.userInfo = userProfile;
-          this.userProfileImage = userProfile.profileImageUrl;
         },
         error: (error) => {
           console.error('Error fetching user profile data:', error);

@@ -70,7 +70,7 @@
 
   <div class="center">
     <app-post-input class="d-flex align-items-center justify-content-center" *ngIf="isMyProfile" (postCreated)="checkPostCreated($event)"></app-post-input>
-    <app-post-list [userId]="user.id" [isMyPosts]="true"></app-post-list>
+    <app-post-list [userId]="user.id" [isMyPosts]="true" (refreshUserImages)="loadUserImages()"></app-post-list>
   </div>
   <div class="right">
     <!-- <app-who-follow-card></app-who-follow-card> -->
