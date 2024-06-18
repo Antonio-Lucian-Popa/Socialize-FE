@@ -105,7 +105,6 @@ export class ImageViewDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Post ID:', this.postId);
     if (this.postId) {
       this.loadData();
     }
@@ -117,7 +116,6 @@ export class ImageViewDialogComponent implements OnInit {
       comments: this.commentService.findCommentsByPostId(this.postId)
     }).subscribe({
       next: (results) => {
-        console.log('Data fetched successfully', results);
         this.popularImagePost = results.post;
         this.isPostLiked = this.popularImagePost.likes.some((like) => like.id === this.userId);
         this.comments = results.comments;
@@ -142,12 +140,8 @@ export class ImageViewDialogComponent implements OnInit {
     // Implement logic to handle comment submission.
     // Ensure to check whether it's a direct comment or a reply, and handle accordingly.
     if (this.replyingTo) {
-      // Handle reply logic
-      console.log(this.commentForm.get('commentText')!.value);
       this.createComment(this.replyingTo);
     } else {
-      // Handle direct comment logic
-      console.log(this.commentForm.get('commentText')!.value);
       this.createComment();
     }
     this.commentForm.reset();
@@ -155,7 +149,6 @@ export class ImageViewDialogComponent implements OnInit {
   }
 
   createComment(parentId?: string): void {
-    console.log("Replying to: ", parentId)
     let actualCommentText = this.commentForm.get('commentText')!.value!.replace(this.replyPrefix, '');
     this.commentService.createComment({
       parentId: parentId ? parentId : null,
@@ -164,7 +157,6 @@ export class ImageViewDialogComponent implements OnInit {
       value: actualCommentText ? actualCommentText : this.commentForm.get('commentText')!.value,
     }).subscribe({
       next: (response) => {
-        console.log('Comment created successfully', response);
         // Handle successful comment creation, e.g., update UI accordingly
         // this.comments.push(response);
         response.subComments = []; // Initialize subComments for new comments
@@ -176,7 +168,6 @@ export class ImageViewDialogComponent implements OnInit {
         this.isChangesSaved = true;
       },
       error: (error) => {
-        console.error('Error creating comment', error);
         // Handle error case
         this.isChangesSaved = false;
       },
@@ -254,7 +245,6 @@ export class ImageViewDialogComponent implements OnInit {
   unlikePost(postId: string) {
     this.postService.unlikePost(postId, this.userId).subscribe({
       next: (response) => {
-        console.log('Post liked successfully', response);
         // Handle successful like action, e.g., update UI accordingly
         this.popularImagePost.likes = response.likes;
         this.postService.postLiked.emit(response);

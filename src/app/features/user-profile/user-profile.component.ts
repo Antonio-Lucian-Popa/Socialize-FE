@@ -95,12 +95,10 @@ export class UserProfileComponent implements OnInit {
     if (this.myUserId && this.userId) {
       this.userService.followUser(this.myUserId, this.userId).subscribe({
         next: (data) => {
-          console.log('Followed user:', data);
           this.isUserFollowing = true;
           if (this.userId) this.loadUserInfo(this.userId);
         },
         error: (error) => {
-          console.error('Error following user:', error);
           this.isUserFollowing = false;
         }
       });
@@ -111,7 +109,6 @@ export class UserProfileComponent implements OnInit {
     if (this.myUserId && this.userId) {
       this.userService.unfollowUser(this.myUserId, this.userId).subscribe({
         next: (data) => {
-          console.log('Followed user:', data);
           this.isUserFollowing = false;
           if (this.userId) this.loadUserInfo(this.userId);
         },
@@ -124,7 +121,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   checkPostCreated(event: any): void {
-    console.log('Post created:', event);
     this.user.totalPosts++;
   }
 
@@ -166,7 +162,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   openImageDialog(postId: string): void {
-    console.log('openImageDialog', postId)
     const dialogRef = this.dialog.open(ImageViewDialogComponent, {
       width: '80%',
       height: '95vh',
@@ -174,10 +169,6 @@ export class UserProfileComponent implements OnInit {
         postId: postId,
         userId: this.myUserId
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

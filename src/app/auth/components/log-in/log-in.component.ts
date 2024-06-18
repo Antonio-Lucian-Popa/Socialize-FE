@@ -41,7 +41,12 @@ export class LogInComponent implements OnInit {
         this.authService.login(payload).pipe(
           catchError((loginError) => {
             // Show alert error or handle error
-            this.errorMessage = loginError.error.message;
+            if(loginError.error) {
+              this.errorMessage = loginError.error.message;
+            } else {
+              this.errorMessage = "You don't have access";
+            }
+
             return throwError(loginError);
           }),
           mergeMap(() => {

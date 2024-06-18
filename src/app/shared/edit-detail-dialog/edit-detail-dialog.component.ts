@@ -58,7 +58,6 @@ export class EditDetailDialogComponent implements OnInit {
       this.chips.push(chipValue);
       this.editUserDetailsForm.get("interests")!.reset(); // Clear the input field
     }
-    console.log(this.editUserDetailsForm.value)
   }
 
   removeChip(chip: string): void {
@@ -79,7 +78,6 @@ export class EditDetailDialogComponent implements OnInit {
       formData.append('request', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
 
       this.userService.updateProfile(this.userId, formData).subscribe((response) => {
-        console.log('Profile updated successfully', response);
         if(response) {
          // this.userService.userUpdatedInformation.emit(response);
           this.closeDialog(response);

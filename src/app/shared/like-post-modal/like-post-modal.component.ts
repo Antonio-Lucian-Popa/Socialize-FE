@@ -23,7 +23,6 @@ export class LikePostModalComponent implements OnInit {
       this.likes = data.likes;
       this.displayedLikes = data.likes;
       this.userId = data.userId;
-      console.log(this.likes)
     }
 
   ngOnInit(): void {

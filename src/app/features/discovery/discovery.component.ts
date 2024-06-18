@@ -45,7 +45,6 @@ export class DiscoveryComponent implements OnInit {
         this.loading = false; // Reset loading state
       },
       error: (error) => {
-        console.error('Failed to fetch images', error);
         this.loading = false; // Ensure loading is reset on error
       }
     });
@@ -67,7 +66,6 @@ export class DiscoveryComponent implements OnInit {
   }
 
   openImageDialog(postId: string): void {
-    console.log('openImageDialog', postId);
     const dialogRef = this.dialog.open(ImageViewDialogComponent, {
       width: '80%',
       height: '95vh',
@@ -75,10 +73,6 @@ export class DiscoveryComponent implements OnInit {
         postId,
         userId: this.myUserId
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

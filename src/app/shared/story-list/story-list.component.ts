@@ -152,12 +152,11 @@ export class StoryListComponent implements OnInit, AfterViewInit {
     const zuckStories = this.groupStoriesByUser(this.stories);
     console.log('Updating Zuck stories:', zuckStories);
 
-    if(this.zuckInstance.data.stories && this.zuckInstance.data.stories.length > 0) {
-      // Remove existing stories to avoid duplication
-      this.zuckInstance.data.stories.forEach((story: any) => {
-        this.zuckInstance.remove(story.id);
-      });
-    }
+    // Remove existing stories to avoid duplication
+    const existingStories = this.zuckInstance.data.stories || [];
+    existingStories.forEach((story: any) => {
+      this.zuckInstance.remove(story.id);
+    });
 
     // Add stories
     zuckStories.forEach(story => {
@@ -215,8 +214,8 @@ export class StoryListComponent implements OnInit, AfterViewInit {
 
     this.stories.push(story); // Add the new story to the beginning of all stories
     this.myStoryExists = true;
-    this.updateZuckStories();
   }
+
 
   markStoryAsViewed(storyId: string) {
     console.log('Marking story as viewed:', storyId);

@@ -53,7 +53,6 @@ export class SettingsComponent implements OnInit {
       this.chips.push(chipValue);
       this.userProfile.get("interests")!.reset(); // Clear the input field
     }
-    console.log(this.userProfile.value)
   }
 
   removeChip(chip: string): void {
@@ -93,11 +92,6 @@ export class SettingsComponent implements OnInit {
       // passa qui altri dati se necessario
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // gestisci qui il risultato se necessario
-    });
-
   }
 
   onAvatarChange(event: Event) {
@@ -133,7 +127,6 @@ export class SettingsComponent implements OnInit {
         formData.append('file', blob, `file.${this.getFileExtension(blob.type)}`);
       }
       this.userService.updateProfile(this.userId, formData).subscribe((response) => {
-        console.log('Profile updated successfully', response);
         if(response) {
           this.userService.userUpdatedInformation.emit(response);
         }

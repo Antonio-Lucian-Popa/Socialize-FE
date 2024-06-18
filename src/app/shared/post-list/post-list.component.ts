@@ -84,7 +84,6 @@ export class PostListComponent implements OnInit, OnChanges {
   editPost(postData: any): void {
     this.postService.editPostById(postData.postId, postData.userId, postData.payload, postData.images).subscribe({
       next: (response) => {
-        console.log('Post updated successfully', response);
         // Handle successful delete action, e.g., update UI accordingly
         this.postService.postEdited.next(response);
       },
@@ -98,7 +97,6 @@ export class PostListComponent implements OnInit, OnChanges {
   loadPosts(page: number = 0, size: number = 10): void {
     this.postService.findAllPostsByUserId(this.userId, page, size, this.includeFollowers).subscribe({
       next: (response) => {
-        console.log(response)
         this.posts = response.content;
         this.page = response.pageable.pageNumber;
         this.size = response.pageable.pageSize;

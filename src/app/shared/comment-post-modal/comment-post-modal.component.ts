@@ -30,14 +30,12 @@ export class CommentPostModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any, private commentService: CommentService) {
     this.post = data.post;
     this.userId = data.userId;
-    console.log(this.post)
   }
 
   ngOnInit(): void {
     // TODO: Fetch comments from API when user opens the modal using postId
     this.commentService.findCommentsByPostId(this.post.id).subscribe({
       next: (response) => {
-        console.log('Comments fetched successfully', response);
         // Handle successful fetch action, e.g., update UI accordingly
         this.comments = response;
       },
@@ -69,11 +67,9 @@ export class CommentPostModalComponent implements OnInit {
     // Ensure to check whether it's a direct comment or a reply, and handle accordingly.
     if (this.replyingTo) {
       // Handle reply logic
-      console.log(this.commentForm.get('commentText')!.value);
       this.createComment(this.replyingTo);
     } else {
       // Handle direct comment logic
-      console.log(this.commentForm.get('commentText')!.value);
       this.createComment();
     }
     this.commentForm.reset();
@@ -89,7 +85,6 @@ export class CommentPostModalComponent implements OnInit {
       value: actualCommentText ? actualCommentText : this.commentForm.get('commentText')!.value,
     }).subscribe({
       next: (response) => {
-        console.log('Comment created successfully', response);
         // Handle successful comment creation, e.g., update UI accordingly
        // this.comments.push(response);
        response.subComments = []; // Initialize subComments for new comments
@@ -101,7 +96,6 @@ export class CommentPostModalComponent implements OnInit {
        this.isChangesSaved = true;
       },
       error: (error) => {
-        console.error('Error creating comment', error);
         this.isChangesSaved = false;
         // Handle error case
       },
@@ -120,7 +114,6 @@ export class CommentPostModalComponent implements OnInit {
             } else if (comments[i].subComments && comments[i].subComments.length > 0) {
                 // If the comment has subComments, recurse into them
                 const isRemoved = removeCommentRecursive(comments[i].subComments, id);
-                console.log(isRemoved)
                 if (isRemoved) {
                     // If the comment was removed in a nested subComments, no need to continue
                     this.isChangesSaved = true;
