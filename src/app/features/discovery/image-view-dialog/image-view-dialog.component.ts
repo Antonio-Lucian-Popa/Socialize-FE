@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { PostDto } from 'src/app/shared/interfaces/post-dto';
 import { CommentService } from 'src/app/shared/services/comment.service';
@@ -98,7 +99,8 @@ export class ImageViewDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ImageViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private postService: PostService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private router: Router
   ) {
     this.postId = data.postId;
     this.userId = data.userId;
@@ -254,6 +256,11 @@ export class ImageViewDialogComponent implements OnInit {
         // Handle error case
       },
     });
+  }
+
+  openUserProfile(userId: string): void {
+    this.router.navigate(['/user-profile', userId]);
+    this.onClose();
   }
 
   onClose(): void {

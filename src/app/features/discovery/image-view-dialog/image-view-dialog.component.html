@@ -15,11 +15,11 @@
     <div class="col-md-4 d-flex flex-column">
       <div class="flex-grow-1 overflow-auto">
         <div class="user-description">
-          <div class="d-flex align-items-center mb-3">
+          <div class="d-flex align-items-center mb-3" (click)="openUserProfile(popularImagePost.user.id)">
             <img [src]="popularImagePost.user.profileImage" [alt]="popularImagePost.user.firstName"
-              class="w-10 h-10 rounded-full object-cover mr-2" />
+              class="w-10 h-10 rounded-full object-cover mr-2 add-cursor" />
             <div class="d-flex flex-column">
-              <span class="mb-0 pb-0">{{ popularImagePost.user.firstName }} {{ popularImagePost.user.lastName }}</span>
+              <span class="mb-0 pb-0 add-cursor">{{ popularImagePost.user.firstName }} {{ popularImagePost.user.lastName }}</span>
               <p class="post-date">{{ popularImagePost.createdAt | timeAgo }}</p>
             </div>
           </div>
@@ -38,7 +38,7 @@
         <div class="comments mt-3" *ngIf="comments.length > 0">
           <div *ngFor="let comment of comments" class="pt-2">
             <app-comment-item [comment]="comment" [depth]="0" (reply)="prepareReply($event)"
-              (deleteCommentId)="removeComment($event)"></app-comment-item>
+              (deleteCommentId)="removeComment($event)" (closeModal)="onClose()"></app-comment-item>
           </div>
         </div>
         <div class="no-data-container d-flex flex-column align-items-center justify-center"

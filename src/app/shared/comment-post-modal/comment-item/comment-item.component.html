@@ -2,9 +2,9 @@
 <div>
   <div class="flex items-start space-x-3 mb-2">
     <img [src]="comment.userDto.profileImageUrl" alt="{{ comment.userDto.firstName }}'s Avatar"
-      class="w-8 h-8 rounded-full object-cover">
+      class="w-8 h-8 rounded-full object-cover add-cursor" (click)="openUserProfile(comment.userDto.id)">
     <div class="flex-1 d-flex flex-column align-items-start">
-      <span class="font-semibold text-sm mb-0">{{ comment.userDto.firstName }} {{ comment.userDto.lastName }}</span>
+      <span class="font-semibold text-sm mb-0 add-cursor" (click)="openUserProfile(comment.userDto.id)">{{ comment.userDto.firstName }} {{ comment.userDto.lastName }}</span>
       <span class="created-at-label">{{comment.createdAt | timeAgo}}</span>
       <p class="text-sm mb-0 mt-1" *ngIf="!isEditPanelOpen">{{ comment.value }}</p>
       <form class="d-flex flex-column" [formGroup]="editCommentForm" (ngSubmit)="updateComment()" *ngIf="isEditPanelOpen">
@@ -36,6 +36,6 @@
   </div>
   <!-- Modifica qui: Passa un valore fisso per depth ai subcommenti per evitare ulteriore indentazione -->
   <div *ngFor="let subcomment of comment.subComments" [ngClass]="{'ml-6': depth === 0, 'ml-0': depth > 0}">
-    <app-comment-item [comment]="subcomment" [depth]="depth + 1" (reply)="onReply($event)" (deleteCommentId)="onDeleteComment($event)"></app-comment-item>
+    <app-comment-item [comment]="subcomment" [depth]="depth + 1" (reply)="onReply($event)" (deleteCommentId)="onDeleteComment($event)" (closeModal)="closeModal.emit(true)"></app-comment-item>
   </div>
 </div>

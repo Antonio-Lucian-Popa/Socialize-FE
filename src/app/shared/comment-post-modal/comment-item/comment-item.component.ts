@@ -3,6 +3,7 @@ import { CommentService } from '../../services/comment.service';
 import { UserService } from '../../services/user.service';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comment-item',
@@ -15,6 +16,7 @@ export class CommentItemComponent implements OnInit {
   @Input() depth: number = 0; // Aggiungi questo
   @Output() reply = new EventEmitter<any>();
   @Output() deleteCommentId = new EventEmitter<string>();
+  @Output() closeModal = new EventEmitter<boolean>();
 
   userId!: string;
 
@@ -24,7 +26,7 @@ export class CommentItemComponent implements OnInit {
 
   isEditPanelOpen = false;
 
-  constructor(private commentService: CommentService, private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private commentService: CommentService, private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.getUserId().then((userId) => {
@@ -89,6 +91,11 @@ export class CommentItemComponent implements OnInit {
         // Handle error case
       },
     });
+  }
+
+  openUserProfile(userId: string): void {
+    this.router.navigate(['/user-profile', userId]);
+    this.closeModal.emit(true);
   }
 
 
