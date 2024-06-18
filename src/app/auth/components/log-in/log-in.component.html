@@ -49,9 +49,7 @@
             <!-- <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button> -->
           </div>
 
-          <a href="#" class="forgot-pass-msg mt-2">Forgot password?</a>
-
-          <span class="roboto-medium errorMessage text-center mt-2" *ngIf="errorMessage">{{errorMessage}}</span>
+          <span class="roboto-medium errorMessage text-center mt-2" *ngIf="!!errorMessage">{{errorMessage}}</span>
         </form>
 
 

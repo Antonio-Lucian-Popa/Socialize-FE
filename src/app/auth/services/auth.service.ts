@@ -27,10 +27,6 @@ export class AuthService {
     return this.http.post<Token>(`${this.URL_LINK}/auth/authenticate`, payload).pipe(
       tap(response => {
         localStorage.setItem('jwt', response.access_token); // Store JWT token
-      }),
-      catchError(error => {
-        console.error('Login failed:', error);
-        return of(null); // Return null in case of error
       })
     );
   }

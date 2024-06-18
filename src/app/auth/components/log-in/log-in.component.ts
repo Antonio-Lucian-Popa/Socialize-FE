@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { from, mergeMap, throwError } from 'rxjs';
+import { catchError, from, mergeMap, throwError } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -24,39 +24,51 @@ export class LogInComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private userService: UserService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
   }
 
   submit(): void {
-    if(this.form.valid) {
+    if (this.form.valid) {
       const { email, password } = this.form.value;
       // made a login request
-      if(email && password) {
+      if (email && password) {
         const payload = {
           email, password
         }
 
         this.authService.login(payload).pipe(
+          catchError((loginError) => {
+            // Show alert error or handle error
+            this.errorMessage = loginError.error.message;
+            return throwError(loginError);
+          }),
           mergeMap(() => {
             // After successful login, get the user ID
-            return from(this.authService.getUserId());
+            return from(this.authService.getUserId()).pipe(
+              catchError((userIdError) => {
+                this.errorMessage = userIdError.error.message;
+                return throwError(userIdError);
+              })
+            );
           }),
           mergeMap((userId: string | null) => {
             if (userId) {
-              // Use the user ID to make another request, replace this with your actual method
-              return this.userService.getUserProfileInfo(userId);
+              return this.userService.getUserProfileInfo(userId).pipe(
+                catchError((userProfileError) => {
+                  this.errorMessage = userProfileError.error.message;
+                  return throwError(userProfileError);
+                })
+              );
             } else {
               // Handle the case where user ID is null
-              console.error('User ID is null');
               return throwError('User ID is null');
             }
           })
         ).subscribe({
           next: (res) => {
             // Handle the response from the second request
-            console.log('User profile:', res);
             if (!res.userNew) {
               this.router.navigate(['/']);
             } else {
@@ -64,12 +76,10 @@ export class LogInComponent implements OnInit {
             }
           },
           error: (err) => {
-            // Handle the error from the second request
-            console.error('Request failed:', err.error.message);
-            // Show alert error or handle error
-            this.errorMessage = err.error.message
+            this.errorMessage = err.error.message;
           }
         });
+
       }
     }
   }
