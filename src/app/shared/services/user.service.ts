@@ -12,6 +12,7 @@ export class UserService {
 
   @Output() userUpdatedInformation = new EventEmitter<UserProfileData>();
   @Output() userAddedOrRemovedOnFollowList = new EventEmitter<any>();
+  @Output() userRemoved = new EventEmitter<any>();
 
   //userProfileImage!: string;
   userInfo!: User;

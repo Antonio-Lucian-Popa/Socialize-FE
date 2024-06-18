@@ -51,6 +51,14 @@ export class StoryListComponent implements OnInit, AfterViewInit {
         this.loadUserProfile();
       }
     });
+
+    this.userService.userUpdatedInformation.subscribe((res: User) => {
+      this.myProfileImageUrl = res.profileImageUrl;
+    });
+
+    if (!!this.myProfileImageUrl || (!!this.myProfileImageUrl) && (!!this.userService.userInfo && !!this.userService.userInfo.profileImageUrl)) {
+      this.myProfileImageUrl = this.userService.userInfo.profileImageUrl;
+    }
   }
 
   loadUserProfile(): void {

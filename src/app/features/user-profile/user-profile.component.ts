@@ -56,6 +56,23 @@ export class UserProfileComponent implements OnInit {
     this.postService.isFileUploaded.subscribe((post: any) => {
       this.loadUserImages();
     });
+
+    this.userService.userRemoved.subscribe((userIdToRemove: string) => {
+      const isFollowing = this.user.following.find(following => following.id === userIdToRemove);
+      const isFollower = this.user.followers.find(follower => follower.id === userIdToRemove);
+      if(isFollowing) {
+        const index = this.user.following.findIndex(follower => follower.id === userIdToRemove);
+        if (index !== -1) {
+          this.user.following.splice(index, 1);
+        }
+      } else if(isFollower) {
+        const index = this.user.followers.findIndex(following => following.id === userIdToRemove);
+        if (index !== -1) {
+          this.user.following.splice(index, 1);
+        }
+      }
+
+    });
   }
 
   loadUserInfo(userId: string): void {
@@ -128,28 +145,28 @@ export class UserProfileComponent implements OnInit {
     window.history.back();
   }
 
-  openFollowersDialog(): void {
+  openFollowersDialog(userId: string): void {
     const dialogRef = this.dialog.open(UserListDialogComponent, {
       data: {
         isFollowing: false,
-        userId: this.userId
+        userId: userId
       },
       width: '500px'
     });
   }
 
-  openFollowingDialog(): void {
+  openFollowingDialog(userId: string): void {
     const dialogRef = this.dialog.open(UserListDialogComponent, {
       data: {
         isFollowing: true,
-        userId: this.userId
+        userId: userId
       },
       width: '500px'
     });
   }
 
   loadUserImages(): void {
-    if(this.userId) {
+    if (this.userId) {
       this.postService.getUserPostImages(this.userId).subscribe({
         next: (data) => {
           this.postImages = data;

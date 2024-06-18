@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- Follow Button -->
-      <button class="px-3 py-1 text-sm font-semibold text-white bg-red-500 rounded-md" (click)="unfollowUser(user.id)" *ngIf="isFollowing">Unfollow</button>
+      <button class="px-3 py-1 text-sm font-semibold text-white bg-red-500 rounded-md" (click)="unfollowUser(user.id)" *ngIf="isFollowing && isMyProfile">Unfollow</button>
     </div>
   </div>
 

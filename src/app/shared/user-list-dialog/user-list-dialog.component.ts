@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../services/user.service';
 import { User } from '../interfaces/user-profile-data';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-user-list-dialog',
@@ -15,8 +16,10 @@ export class UserListDialogComponent implements OnInit {
   isFollowing = true;
   userId!: string;
 
+  isMyProfile: boolean = false;
+
   constructor(public dialogRef: MatDialogRef<UserListDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService, private router: Router) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService, private router: Router, private authService: AuthService) {
     this.isFollowing = data.isFollowing;
     this.userId = data.userId;
   }
@@ -41,6 +44,12 @@ export class UserListDialogComponent implements OnInit {
         }
       });
     }
+
+    this.authService.getUserId().then(userId => {
+      if (userId) {
+        this.isMyProfile = userId === this.userId;
+      }
+    });
   }
 
   openUserProfile(userId: string): void {
@@ -51,6 +60,7 @@ export class UserListDialogComponent implements OnInit {
   unfollowUser(userId: string): void {
     this.userService.unfollowUser(this.userId, userId).subscribe(() => {
       this.userList = this.userList.filter(user => user.id !== userId);
+      this.userService.userRemoved.emit(userId);
     });
   }
 
